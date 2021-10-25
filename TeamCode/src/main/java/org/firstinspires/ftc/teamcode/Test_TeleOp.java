@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+@TeleOp(name="TeleOp Test", group="TeleOp")
 public class Test_TeleOp extends OpMode {
     DcMotor left;
     DcMotor right;
