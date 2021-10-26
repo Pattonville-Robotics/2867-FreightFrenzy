@@ -18,15 +18,19 @@ public class Test_TeleOp extends OpMode {
     double maxSpeed = 1.0;
 
     public void loop() {
-        right.setPower(-(gamepad1.right_stick_y));
-        left.setPower(gamepad1.left_stick_y);
         telemetry.clearAll();
 
-        double leftSpd = gamepad1.left_stick_y;
-        double rightSpd = gamepad1.right_stick_y;
+        double leftInput = gamepad1.left_stick_y;
+        double rightInput = gamepad1.right_stick_y;
 
-        telemetry.addData("left:", maxSpeed * Math.abs(leftSpd) * leftSpd);
-        telemetry.addData("right:", maxSpeed * Math.abs(rightSpd) * rightSpd);
+        double leftSpd = maxSpeed * Math.abs(leftInput) * leftInput;
+        double rightSpd = maxSpeed * Math.abs(rightInput) * rightInput;
+
+        telemetry.addData("left:", leftSpd);
+        telemetry.addData("right:", rightSpd);
+
+        left.setPower(leftSpd);
+        right.setPower(-(rightSpd));
         telemetry.update();
     }
 }
