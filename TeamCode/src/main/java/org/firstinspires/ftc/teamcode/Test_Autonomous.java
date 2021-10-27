@@ -17,29 +17,30 @@ public class Test_Autonomous extends LinearOpMode {
 
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
+    CompassSensor       compass;
 
     @Override
+
     public void runOpMode() throws InterruptedException {
         // Declare any local / helper variables here
-
         // Our initialization code should go here
         leftDrive = hardwareMap.get(DcMotor.class, "left");
         rightDrive = hardwareMap.get(DcMotor.class, "right");
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        compass = hardwareMap.get(CompassSensor.class, "compass");
+        compass.setMode(CompassSensor.CompassMode.CALIBRATION_MODE);
 
         long start = System.currentTimeMillis();
-        for (int i = 0; i<4; i++) {
-            leftDrive.setPower(-0.5);
-            rightDrive.setPower(0.5);
+        leftDrive.setPower(-0.5);
+        rightDrive.setPower(0.5);
 
-            sleep(3000);
-
-            leftDrive.setPower(.7);
-            rightDrive.setPower(.7);
-
-            sleep(3300);
-        }
+        sleep(3000);
+        telemetry.addData("Direction", compass.getDirection());
+        telemetry.update();
+        leftDrive.setPower(.7);
+        rightDrive.setPower(.7);
     }
 }
+
