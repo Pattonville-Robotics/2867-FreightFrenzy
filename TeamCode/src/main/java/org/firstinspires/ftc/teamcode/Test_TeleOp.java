@@ -16,7 +16,7 @@ public class Test_TeleOp extends OpMode {
         left = hardwareMap.dcMotor.get("left");
         right = hardwareMap.dcMotor.get("right");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-
+        // IMU, used for orientation
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;

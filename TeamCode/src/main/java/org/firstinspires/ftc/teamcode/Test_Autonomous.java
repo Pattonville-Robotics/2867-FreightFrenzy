@@ -24,7 +24,6 @@ public class Test_Autonomous extends LinearOpMode {
     private BNO055IMU imu;
 
     @Override
-
     public void runOpMode() throws InterruptedException {
         // Declare any local / helper variables here
         // Our initialization code should go here
@@ -32,7 +31,7 @@ public class Test_Autonomous extends LinearOpMode {
         rightDrive = hardwareMap.get(DcMotor.class, "right");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
-
+        // IMU, used for orientation
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -40,7 +39,6 @@ public class Test_Autonomous extends LinearOpMode {
         parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         imu.initialize(parameters);
-
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
