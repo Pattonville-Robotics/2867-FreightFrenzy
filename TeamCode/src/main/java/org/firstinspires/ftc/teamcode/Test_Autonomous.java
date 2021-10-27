@@ -8,6 +8,9 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.CompassSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="Autonomous Test", group="Autonomous")
 public class Test_Autonomous extends LinearOpMode {
