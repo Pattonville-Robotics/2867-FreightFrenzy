@@ -43,7 +43,8 @@ public class SimplePoints extends LinearOpMode {
 //        parameters.loggingTag          = "IMU";
 //        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 //        imu.initialize(parameters);
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 3, 1);
+        waitForStart();
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 100, 1);
         /*
         // Wait for the game to start (driver presses PLAY)
         waitForStart();

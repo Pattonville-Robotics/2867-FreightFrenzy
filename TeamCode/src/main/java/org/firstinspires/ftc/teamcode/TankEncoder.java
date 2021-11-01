@@ -26,8 +26,9 @@ public class TankEncoder {
 
     public TankEncoder(DcMotor leftDriveMotor, DcMotor rightDriveMotor, LinearOpMode linearOpMode){
         ROBOTPARAMETERS = new RobotParameters.Builder()
-                .wheelRadius(2.5)
-                .wheelBaseRadius(10)
+                .wheelRadius(2.45)
+                .wheelBaseRadius(5)
+                .rightDriveMotorDirection(DcMotorSimple.Direction.REVERSE)
                 .build();
 
         this.leftDriveMotor = leftDriveMotor;
@@ -128,12 +129,12 @@ public class TankEncoder {
 
         switch (direction) {
             case FORWARD: {
-                targetPositionLeft = deltaPosition;
+                targetPositionLeft = -deltaPosition;
                 targetPositionRight = deltaPosition;
                 break;
             }
             case REVERSE: {
-                targetPositionLeft = -deltaPosition;
+                targetPositionLeft = deltaPosition;
                 targetPositionRight = -deltaPosition;
                 break;
             }
@@ -142,13 +143,14 @@ public class TankEncoder {
         }
 
         //Log.e(TAG, "Setting motor modes");
+        setMotorTargets(targetPositionLeft, targetPositionRight);
+
         setMotorsRunToPosition();
 
         //Log.e(TAG, "Setting motor power high");
         move(DcMotorSimple.Direction.FORWARD, power); // To keep power in [0.0, 1.0]. Encoders control direction
 
         //Log.e(TAG, "Setting target position");
-        setMotorTargets(targetPositionLeft, targetPositionRight);
 
 
         //int oldLeftPosition = leftDriveMotor.getCurrentPosition();
