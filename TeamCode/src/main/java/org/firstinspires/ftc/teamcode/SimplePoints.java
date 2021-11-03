@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.CompassSensor;
+import com.qualcomm.robotcore.util.Dimmer;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.SensorBNO055IMU;
@@ -31,6 +32,8 @@ public class SimplePoints extends LinearOpMode {
         // Our initialization code should go here
         leftDrive = hardwareMap.get(DcMotor.class, "left");
         rightDrive = hardwareMap.get(DcMotor.class, "right");
+
+
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
@@ -40,13 +43,13 @@ public class SimplePoints extends LinearOpMode {
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         imu.initialize(parameters);
 
+
         encoder = new TankEncoder(leftDrive, rightDrive, imu, this);
 
-//         IMU, used for orientation
-
         waitForStart();
-
-        encoder.rotateDegrees(rotationalDirection.COUNTERCLOCKWISE, 90, 0.6);
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 30, 0.6);
+        encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 90, 0.6);
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 30, 0.6);
     }
 }
 

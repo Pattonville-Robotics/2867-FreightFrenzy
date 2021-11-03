@@ -137,6 +137,7 @@ public class TankEncoder {
             Thread.yield();
         }
         stop();
+        restoreMotorModes();
         sleep(100);
     }
     public boolean motorsBusy(){
@@ -154,7 +155,7 @@ public class TankEncoder {
 
         resetMotorEncoders();
 
-        int deltaPosition = (int) Math.round(degreesToInches(inches));
+        int deltaPosition = (int) Math.round(inchesToTicks(inches));
 
         switch (direction) {
             case FORWARD: {
