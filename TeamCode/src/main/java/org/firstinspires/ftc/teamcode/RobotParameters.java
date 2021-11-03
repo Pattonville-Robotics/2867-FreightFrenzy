@@ -3,9 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class RobotParameters {
-    public static final int TICKS_PER_REVOLUTION = 1440;
+    public static final int TICKS_CONSTANT = 28;
 
-    private final double wheelBaseRadius, wheelRadius, driveGearRatio;
+    private final double wheelBaseRadius, wheelRadius, driveGearRatio, gearBoxRatio;
     private final boolean gyroEnabled, encodersEnabled;
     private final DcMotorSimple.Direction leftDriveMotorDirection, rightDriveMotorDirection;
 
@@ -14,16 +14,17 @@ public class RobotParameters {
      */
     private final double wheelCircumference, wheelBaseCircumference, adjustedTicksPerRevolution;
 
-    private RobotParameters(double wheelBaseRadius, double wheelRadius, double driveGearRatio, boolean gyroEnabled, boolean encodersEnabled, DcMotorSimple.Direction leftDriveMotorDirection, DcMotorSimple.Direction rightDriveMotorDirection) {
+    private RobotParameters(double wheelBaseRadius, double wheelRadius, double driveGearRatio, double gearBoxRatio, boolean gyroEnabled, boolean encodersEnabled, DcMotorSimple.Direction leftDriveMotorDirection, DcMotorSimple.Direction rightDriveMotorDirection) {
         this.wheelBaseRadius = wheelBaseRadius;
         this.wheelRadius = wheelRadius;
         this.driveGearRatio = driveGearRatio;
         this.gyroEnabled = gyroEnabled;
         this.encodersEnabled = encodersEnabled;
+        this.gearBoxRatio = gearBoxRatio;
 
         this.wheelCircumference = wheelRadius * 2 * Math.PI;
         this.wheelBaseCircumference = wheelBaseRadius * 2 * Math.PI;
-        this.adjustedTicksPerRevolution = TICKS_PER_REVOLUTION / driveGearRatio;
+        this.adjustedTicksPerRevolution = TICKS_CONSTANT * gearBoxRatio / driveGearRatio;
         this.leftDriveMotorDirection = leftDriveMotorDirection;
         this.rightDriveMotorDirection = rightDriveMotorDirection;
     }
@@ -52,6 +53,10 @@ public class RobotParameters {
         return driveGearRatio;
     }
 
+    public double getGearBoxRatio() {
+        return gearBoxRatio;
+    }
+
     public boolean isGyroEnabled() {
         return gyroEnabled;
     }
@@ -72,6 +77,7 @@ public class RobotParameters {
         private double wheelBaseRadius;
         private double wheelRadius;
         private double driveGearRatio = 1;
+        private double gearBoxRatio = 60;
         private boolean gyroEnabled = false;
         private boolean encodersEnabled = false;
         private DcMotorSimple.Direction leftDriveMotorDirection = DcMotorSimple.Direction.FORWARD;
@@ -84,7 +90,10 @@ public class RobotParameters {
             this.wheelBaseRadius = wheelBaseRadius;
             return this;
         }
-
+        public org.firstinspires.ftc.teamcode.RobotParameters.Builder gearBoxRatio(double gearBoxRatio) {
+            this.gearBoxRatio = gearBoxRatio;
+            return this;
+        }
         public org.firstinspires.ftc.teamcode.RobotParameters.Builder wheelRadius(double wheelRadius) {
             this.wheelRadius = wheelRadius;
             return this;
@@ -120,7 +129,7 @@ public class RobotParameters {
                 throw new IllegalArgumentException("wheelBaseRadius must be > 0");
             if (wheelRadius <= 0)
                 throw new IllegalArgumentException("wheelRadius must be > 0");
-            return new org.firstinspires.ftc.teamcode.RobotParameters(wheelBaseRadius, wheelRadius, driveGearRatio, gyroEnabled, encodersEnabled, leftDriveMotorDirection, rightDriveMotorDirection);
+            return new org.firstinspires.ftc.teamcode.RobotParameters(wheelBaseRadius, wheelRadius, driveGearRatio, gearBoxRatio, gyroEnabled, encodersEnabled, leftDriveMotorDirection, rightDriveMotorDirection);
         }
     }
 }

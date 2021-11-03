@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import android.util.Log;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -10,30 +11,33 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class TankEncoder {
 
 
-    public static final int TARGET_REACHED_THRESHOLD = 16;
+    public static final int TARGET_REACHED_THRESHOLD = 5;
+    public static final int DEGREE_OF_ERROR = 5;
 
     private static final String TAG = "TankEncoder";
 
     private DcMotor.RunMode leftDriveSavedMotorMode, rightDriveSavedMotorMode;
 
     private final RobotParameters ROBOTPARAMETERS;
-
+    private final BNO055IMU imu;
     private final DcMotor leftDriveMotor, rightDriveMotor;
 
     private LinearOpMode linearOpMode;
 
 
 
-    public TankEncoder(DcMotor leftDriveMotor, DcMotor rightDriveMotor, LinearOpMode linearOpMode){
+    public TankEncoder(DcMotor leftDriveMotor, DcMotor rightDriveMotor, BNO055IMU imu, LinearOpMode linearOpMode){
         ROBOTPARAMETERS = new RobotParameters.Builder()
-                .wheelRadius(2.45)
+                .wheelRadius(2.55)
                 .wheelBaseRadius(5)
+                .gearBoxRatio(60)
                 .rightDriveMotorDirection(DcMotorSimple.Direction.REVERSE)
                 .build();
 
         this.leftDriveMotor = leftDriveMotor;
         this.rightDriveMotor = rightDriveMotor;
         this.linearOpMode = linearOpMode;
+        this.imu = imu;
     }
 
 
@@ -114,6 +118,31 @@ public class TankEncoder {
         leftDriveMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDriveMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
+
+    public void rotateDegrees(rotationalDirection direction, double degrees, double power){
+        double startAngle = imu.getAngularOrientation().firstAngle;
+
+        double intendedAngle;
+        if(direction == rotationalDirection.CLOCKWISE) {
+            intendedAngle = startAngle - degrees;
+            moveFreely(power, power);
+        }else{
+            intendedAngle = startAngle + degrees;
+            moveFreely(-power, -power);
+        }
+        while(
+                !(Math.abs(imu.getAngularOrientation().firstAngle-intendedAngle)<DEGREE_OF_ERROR)&&
+                (linearOpMode.opModeIsActive())
+        ){
+            Thread.yield();
+        }
+        stop();
+        sleep(100);
+    }
+    public boolean motorsBusy(){
+        return (leftDriveMotor.isBusy() || rightDriveMotor.isBusy());
+    }
+
     public void moveInches(DcMotorSimple.Direction direction, double inches, double power) {
         //Move Specified Inches Using Motor Encoders
 
@@ -125,7 +154,7 @@ public class TankEncoder {
 
         resetMotorEncoders();
 
-        int deltaPosition = (int) Math.round(inchesToTicks(inches));
+        int deltaPosition = (int) Math.round(degreesToInches(inches));
 
         switch (direction) {
             case FORWARD: {

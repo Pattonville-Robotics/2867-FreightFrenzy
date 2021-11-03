@@ -32,36 +32,21 @@ public class SimplePoints extends LinearOpMode {
         leftDrive = hardwareMap.get(DcMotor.class, "left");
         rightDrive = hardwareMap.get(DcMotor.class, "right");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        imu.initialize(parameters);
 
-        encoder = new TankEncoder(leftDrive, rightDrive, this);
+        encoder = new TankEncoder(leftDrive, rightDrive, imu, this);
 
-//        // IMU, used for orientation
-//        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-//        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-//        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-//        parameters.loggingEnabled      = true;
-//        parameters.loggingTag          = "IMU";
-//        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-//        imu.initialize(parameters);
+//         IMU, used for orientation
+
         waitForStart();
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 100, 1);
-        /*
-        // Wait for the game to start (driver presses PLAY)
-        waitForStart();
-//        telemetry.addData("Orientation: ", imu.getAngularOrientation().firstAngle);
-//        telemetry.update();
 
-        long start = System.currentTimeMillis();
-        leftDrive.setPower(-0.5);
-        rightDrive.setPower(0.5);
-
-        //leftDrive.
-
-        sleep(3000);
-        leftDrive.setPower(.7);
-        rightDrive.setPower(.7);
-
-         */
+        encoder.rotateDegrees(rotationalDirection.COUNTERCLOCKWISE, 90, 0.6);
     }
 }
 
