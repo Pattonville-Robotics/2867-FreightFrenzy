@@ -8,13 +8,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
-public class TankEncoder {
+public class TwoWheelEncoder {
 
 
     public static final int TARGET_REACHED_THRESHOLD = 5;
     public static final int DEGREE_OF_ERROR = 5;
 
-    private static final String TAG = "TankEncoder";
+    private static final String TAG = "TwoWheelEncoder";
 
     private DcMotor.RunMode leftDriveSavedMotorMode, rightDriveSavedMotorMode;
 
@@ -26,7 +26,7 @@ public class TankEncoder {
 
 
 
-    public TankEncoder(DcMotor leftDriveMotor, DcMotor rightDriveMotor, BNO055IMU imu, LinearOpMode linearOpMode){
+    public TwoWheelEncoder(DcMotor leftDriveMotor, DcMotor rightDriveMotor, BNO055IMU imu, LinearOpMode linearOpMode){
         ROBOTPARAMETERS = new RobotParameters.Builder()
                 .wheelRadius(2.55)
                 .wheelBaseRadius(5)

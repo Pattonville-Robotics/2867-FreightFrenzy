@@ -6,17 +6,8 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.hardware.CompassSensor;
-import com.qualcomm.robotcore.util.Dimmer;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcontroller.external.samples.SensorBNO055IMU;
 
 @Autonomous(name="SimplePoints", group="Autonomous")
 public class SimplePoints extends LinearOpMode {
@@ -24,7 +15,7 @@ public class SimplePoints extends LinearOpMode {
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
     private BNO055IMU imu;
-    private TankEncoder encoder;
+    private TwoWheelEncoder encoder;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -44,7 +35,7 @@ public class SimplePoints extends LinearOpMode {
         imu.initialize(parameters);
 
 
-        encoder = new TankEncoder(leftDrive, rightDrive, imu, this);
+        encoder = new TwoWheelEncoder(leftDrive, rightDrive, imu, this);
 
         waitForStart();
         encoder.moveInches(DcMotorSimple.Direction.FORWARD, 30, 0.6);
