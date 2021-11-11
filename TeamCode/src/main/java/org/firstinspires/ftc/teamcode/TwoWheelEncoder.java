@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.util.Log;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -11,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class TwoWheelEncoder {
 
 
-    public static final int TARGET_REACHED_THRESHOLD = 5;
+    public static final int TARGET_REACHED_THRESHOLD = 10;
     public static final int DEGREE_OF_ERROR = 5;
 
     private static final String TAG = "TwoWheelEncoder";
@@ -22,18 +21,12 @@ public class TwoWheelEncoder {
     private final BNO055IMU imu;
     private final DcMotor leftDriveMotor, rightDriveMotor;
 
-    private LinearOpMode linearOpMode;
+    private final LinearOpMode linearOpMode;
 
 
 
-    public TwoWheelEncoder(DcMotor leftDriveMotor, DcMotor rightDriveMotor, BNO055IMU imu, LinearOpMode linearOpMode){
-        ROBOTPARAMETERS = new RobotParameters.Builder()
-                .wheelRadius(2.55)
-                .wheelBaseRadius(5)
-                .gearBoxRatio(60)
-                .rightDriveMotorDirection(DcMotorSimple.Direction.REVERSE)
-                .build();
-
+    public TwoWheelEncoder(DcMotor leftDriveMotor, DcMotor rightDriveMotor, BNO055IMU imu, RobotParameters robotParameters, LinearOpMode linearOpMode){
+        this.ROBOTPARAMETERS = robotParameters;
         this.leftDriveMotor = leftDriveMotor;
         this.rightDriveMotor = rightDriveMotor;
         this.linearOpMode = linearOpMode;
@@ -48,10 +41,10 @@ public class TwoWheelEncoder {
      * @return the number of encoder ticks to achieve that
      */
     public double inchesToTicks(double inches) {
-        return ROBOTPARAMETERS.getAdjustedTicksPerRevolution() * inches / ROBOTPARAMETERS.getWheelCircumference();
+        return this.ROBOTPARAMETERS.getAdjustedTicksPerRevolution() * inches / this.ROBOTPARAMETERS.getWheelCircumference();
     }
     public double inchesToTicksInverse(int ticks) {
-        return ticks * ROBOTPARAMETERS.getWheelCircumference() / ROBOTPARAMETERS.getAdjustedTicksPerRevolution();
+        return ticks * this.ROBOTPARAMETERS.getWheelCircumference() / this.ROBOTPARAMETERS.getAdjustedTicksPerRevolution();
     }
 
 
@@ -64,11 +57,11 @@ public class TwoWheelEncoder {
      * @return the number of inches each wheel has to travel
      */
     public double degreesToInches(double degrees) {
-        return ROBOTPARAMETERS.getWheelBaseCircumference() * degrees / 360;
+        return this.ROBOTPARAMETERS.getWheelBaseCircumference() * degrees / 360;
     }
 
     public double degreesToInchesInverse(double inches) {
-        return 360 * inches / ROBOTPARAMETERS.getWheelBaseCircumference();
+        return 360 * inches / this.ROBOTPARAMETERS.getWheelBaseCircumference();
     }
 
 
@@ -123,6 +116,7 @@ public class TwoWheelEncoder {
         double startAngle = imu.getAngularOrientation().firstAngle;
 
         double intendedAngle;
+
         if(direction == rotationalDirection.CLOCKWISE) {
             intendedAngle = startAngle - degrees;
             moveFreely(power, power);
@@ -130,6 +124,7 @@ public class TwoWheelEncoder {
             intendedAngle = startAngle + degrees;
             moveFreely(-power, -power);
         }
+
         while(
                 !(Math.abs(imu.getAngularOrientation().firstAngle-intendedAngle)<DEGREE_OF_ERROR)&&
                 (linearOpMode.opModeIsActive())

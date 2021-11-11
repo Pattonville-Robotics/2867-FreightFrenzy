@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
+
 
 @Autonomous(name="SimplePoints", group="Autonomous")
 public class SimplePoints extends LinearOpMode {
@@ -35,12 +37,12 @@ public class SimplePoints extends LinearOpMode {
         imu.initialize(parameters);
 
 
-        encoder = new TwoWheelEncoder(leftDrive, rightDrive, imu, this);
+        encoder = new TwoWheelEncoder(leftDrive, rightDrive, imu, CommonParameters.FREIGHT_ROBOT, this);
 
         waitForStart();
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 30, 0.6);
-        encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 90, 0.6);
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 30, 0.6);
+        encoder.moveInches(Direction.FORWARD, 50, 0.6);
+        encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 180, 0.6);
+        encoder.moveInches(Direction.FORWARD, 50, 0.6);
     }
 }
 
