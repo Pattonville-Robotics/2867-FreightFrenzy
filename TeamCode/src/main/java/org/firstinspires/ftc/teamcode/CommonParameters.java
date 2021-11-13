@@ -13,6 +13,7 @@ public class CommonParameters {
             .wheelRadius(1.7)
             .wheelBaseRadius(5.5)
             .gearBoxRatio(40)
+            .leftDriveMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightDriveMotorDirection(DcMotorSimple.Direction.FORWARD)
             .build();
 }

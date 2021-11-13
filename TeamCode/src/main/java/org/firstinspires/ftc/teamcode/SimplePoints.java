@@ -39,10 +39,15 @@ public class SimplePoints extends LinearOpMode {
 
         encoder = new TwoWheelEncoder(leftDrive, rightDrive, imu, CommonParameters.FREIGHT_ROBOT, this);
 
+
+
         waitForStart();
-        encoder.moveInches(Direction.FORWARD, 50, 0.6);
-        encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 180, 0.6);
-        encoder.moveInches(Direction.FORWARD, 50, 0.6);
+        telemetry.addData("Orientation: ", imu.getAngularOrientation());
+        telemetry.update();
+        //encoder.moveInches(Direction.FORWARD, 1, 0.5);
+        encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 270, 0.5);
+
     }
+
 }
 

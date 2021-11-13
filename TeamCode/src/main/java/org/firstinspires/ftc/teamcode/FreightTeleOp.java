@@ -31,8 +31,8 @@ public class FreightTeleOp extends OpMode {
     public void loop() {
         telemetry.clearAll();
 
-        double leftInput = gamepad1.left_stick_y;
-        double rightInput = gamepad1.right_stick_x;
+        double leftInput = gamepad1.right_stick_x;
+        double rightInput = -gamepad1.left_stick_y;
 
         double leftSpd = leftInput + rightInput;
         double rightSpd = leftInput - rightInput;

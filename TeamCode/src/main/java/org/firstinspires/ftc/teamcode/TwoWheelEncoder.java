@@ -6,12 +6,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import java.util.ArrayList;
+
 
 public class TwoWheelEncoder {
 
 
     public static final int TARGET_REACHED_THRESHOLD = 10;
-    public static final int DEGREE_OF_ERROR = 5;
+    public static final int DEGREE_OF_ERROR = 50;
 
     private static final String TAG = "TwoWheelEncoder";
 
@@ -22,7 +24,6 @@ public class TwoWheelEncoder {
     private final DcMotor leftDriveMotor, rightDriveMotor;
 
     private final LinearOpMode linearOpMode;
-
 
 
     public TwoWheelEncoder(DcMotor leftDriveMotor, DcMotor rightDriveMotor, BNO055IMU imu, RobotParameters robotParameters, LinearOpMode linearOpMode){
@@ -46,7 +47,16 @@ public class TwoWheelEncoder {
     public double inchesToTicksInverse(int ticks) {
         return ticks * this.ROBOTPARAMETERS.getWheelCircumference() / this.ROBOTPARAMETERS.getAdjustedTicksPerRevolution();
     }
-
+    public rotationalDirection getRotationalInverse(rotationalDirection start){
+        switch (start) {
+            case CLOCKWISE:
+                return rotationalDirection.COUNTERCLOCKWISE;
+            case COUNTERCLOCKWISE:
+                return rotationalDirection.CLOCKWISE;
+            default:
+                return rotationalDirection.CLOCKWISE;
+        }
+    }
 
 
 
@@ -69,7 +79,6 @@ public class TwoWheelEncoder {
         leftDriveMotor.setPower(leftPower);
         rightDriveMotor.setPower(rightPower);
     }
-
     public void move(DcMotorSimple.Direction direction, double power) {
         double motorPower;
 
@@ -111,39 +120,81 @@ public class TwoWheelEncoder {
         leftDriveMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDriveMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-
+    /**
+    * Rotates the robot a set amount of degrees in the specified direction.
+     * Only functional for powers <= 0.5.
+    *
+    * @param direction the direction to turn in. Uses rotationalDirection instead of DcSimpleMotor.Direction.
+    * @param degrees the number of degrees to turn the robot.
+     * @param power the power to turn the wheels at. Keep it below 0.6.
+     */
     public void rotateDegrees(rotationalDirection direction, double degrees, double power){
         double startAngle = imu.getAngularOrientation().firstAngle;
-
-        double intendedAngle;
+        rotationalMeasure intendedAngle;
 
         if(direction == rotationalDirection.CLOCKWISE) {
-            intendedAngle = startAngle - degrees;
+            intendedAngle = new rotationalMeasure(startAngle - degrees);
             moveFreely(power, power);
         }else{
-            intendedAngle = startAngle + degrees;
+            intendedAngle = new rotationalMeasure(startAngle + degrees);
             moveFreely(-power, -power);
         }
 
         while(
-                !(Math.abs(imu.getAngularOrientation().firstAngle-intendedAngle)<DEGREE_OF_ERROR)&&
+                !(Math.abs(imu.getAngularOrientation().firstAngle-intendedAngle.get())<(DEGREE_OF_ERROR*power))&&
                 (linearOpMode.opModeIsActive())
         ){
             Thread.yield();
+            linearOpMode.telemetry.update();
         }
         stop();
-        restoreMotorModes();
         sleep(100);
     }
     public boolean motorsBusy(){
         return (leftDriveMotor.isBusy() || rightDriveMotor.isBusy());
     }
-
+    public int[] getTargetPositions(DcMotorSimple.Direction direction, int ticks){
+        int targetPositionLeft;
+        int targetPositionRight;
+        switch (direction) {
+            case FORWARD: {
+                if(ROBOTPARAMETERS.getLeftDriveMotorDirection() == DcMotorSimple.Direction.FORWARD) {
+                    targetPositionLeft = -ticks;
+                }else{
+                    targetPositionLeft = ticks;
+                }
+                if(ROBOTPARAMETERS.getRightDriveMotorDirection() == DcMotorSimple.Direction.REVERSE) {
+                    targetPositionRight = ticks;
+                }else{
+                    targetPositionRight = -ticks;
+                }
+                break;
+            }
+            case REVERSE: {
+                if(ROBOTPARAMETERS.getLeftDriveMotorDirection() == DcMotorSimple.Direction.FORWARD) {
+                    targetPositionLeft = ticks;
+                }else{
+                    targetPositionLeft = -ticks;
+                }
+                if(ROBOTPARAMETERS.getRightDriveMotorDirection() == DcMotorSimple.Direction.REVERSE) {
+                    targetPositionRight = -ticks;
+                }else{
+                    targetPositionRight = ticks;
+                }
+                break;
+            }
+            default: {
+                throw new IllegalArgumentException("Direction must be Direction.FORWARDS or Direction.BACKWARDS!");
+            }
+        }
+        int[] result = new int[2];
+        result[0] = targetPositionLeft;
+        result[1] = targetPositionRight;
+        return result;
+    }
     public void moveInches(DcMotorSimple.Direction direction, double inches, double power) {
         //Move Specified Inches Using Motor Encoders
 
-        int targetPositionLeft;
-        int targetPositionRight;
 
         //Log.e(TAG, "Getting motor modes");
         storeMotorModes();
@@ -151,24 +202,11 @@ public class TwoWheelEncoder {
         resetMotorEncoders();
 
         int deltaPosition = (int) Math.round(inchesToTicks(inches));
+        int[] positions = getTargetPositions(direction, deltaPosition);
 
-        switch (direction) {
-            case FORWARD: {
-                targetPositionLeft = -deltaPosition;
-                targetPositionRight = deltaPosition;
-                break;
-            }
-            case REVERSE: {
-                targetPositionLeft = deltaPosition;
-                targetPositionRight = -deltaPosition;
-                break;
-            }
-            default:
-                throw new IllegalArgumentException("Direction must be Direction.FORWARDS or Direction.BACKWARDS!");
-        }
 
         //Log.e(TAG, "Setting motor modes");
-        setMotorTargets(targetPositionLeft, targetPositionRight);
+        setMotorTargets(positions[0], positions[1]);
 
         setMotorsRunToPosition();
 
@@ -181,7 +219,7 @@ public class TwoWheelEncoder {
         //int oldLeftPosition = leftDriveMotor.getCurrentPosition();
         //int oldRightPosition = rightDriveMotor.getCurrentPosition();
 
-        while ((leftDriveMotor.isBusy() || rightDriveMotor.isBusy()) || !reachedTarget(leftDriveMotor.getCurrentPosition(), targetPositionLeft, rightDriveMotor.getCurrentPosition(), targetPositionRight) && !linearOpMode.isStopRequested() && linearOpMode.opModeIsActive()) {
+        while ((leftDriveMotor.isBusy() || rightDriveMotor.isBusy()) || !reachedTarget(leftDriveMotor.getCurrentPosition(), positions[0], rightDriveMotor.getCurrentPosition(), positions[1]) && !linearOpMode.isStopRequested() && linearOpMode.opModeIsActive()) {
             Thread.yield();
             //distance.setValue("DistanceL: " + leftDriveMotor.getCurrentPosition() + " DistanceR: " + rightDriveMotor.getCurrentPosition());
             linearOpMode.telemetry.update();
