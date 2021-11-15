@@ -7,14 +7,18 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
+
+import org.firstinspires.ftc.teamcode.dependencies.Arm;
+import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
+import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
+import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
 
 @Autonomous(name="SimplePoints", group="Autonomous")
 public class SimplePoints extends LinearOpMode {
 
     private DcMotor leftDrive = null;
+    //private Arm arm;
     private DcMotor rightDrive = null;
     private BNO055IMU imu;
     private TwoWheelEncoder encoder;
@@ -25,7 +29,7 @@ public class SimplePoints extends LinearOpMode {
         // Our initialization code should go here
         leftDrive = hardwareMap.get(DcMotor.class, "left");
         rightDrive = hardwareMap.get(DcMotor.class, "right");
-
+        //arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(DcMotor.class, "hand"));
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();

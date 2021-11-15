@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.dependencies;
 
 public class rotationalMeasure {
     double degrees;

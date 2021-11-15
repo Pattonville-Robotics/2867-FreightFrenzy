@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.dependencies;
 
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -86,50 +86,50 @@ public class RobotParameters {
         public Builder() {
         }
 
-        public org.firstinspires.ftc.teamcode.RobotParameters.Builder wheelBaseRadius(double wheelBaseRadius) {
+        public RobotParameters.Builder wheelBaseRadius(double wheelBaseRadius) {
             this.wheelBaseRadius = wheelBaseRadius;
             return this;
         }
-        public org.firstinspires.ftc.teamcode.RobotParameters.Builder gearBoxRatio(double gearBoxRatio) {
+        public RobotParameters.Builder gearBoxRatio(double gearBoxRatio) {
             this.gearBoxRatio = gearBoxRatio;
             return this;
         }
-        public org.firstinspires.ftc.teamcode.RobotParameters.Builder wheelRadius(double wheelRadius) {
+        public RobotParameters.Builder wheelRadius(double wheelRadius) {
             this.wheelRadius = wheelRadius;
             return this;
         }
 
-        public org.firstinspires.ftc.teamcode.RobotParameters.Builder driveGearRatio(double driveGearRatio) {
+        public RobotParameters.Builder driveGearRatio(double driveGearRatio) {
             this.driveGearRatio = driveGearRatio;
             return this;
         }
 
-        public org.firstinspires.ftc.teamcode.RobotParameters.Builder gyroEnabled(boolean gyroEnabled) {
+        public RobotParameters.Builder gyroEnabled(boolean gyroEnabled) {
             this.gyroEnabled = gyroEnabled;
             return this;
         }
 
-        public org.firstinspires.ftc.teamcode.RobotParameters.Builder encodersEnabled(boolean encodersEnabled) {
+        public RobotParameters.Builder encodersEnabled(boolean encodersEnabled) {
             this.encodersEnabled = encodersEnabled;
             return this;
         }
 
-        public org.firstinspires.ftc.teamcode.RobotParameters.Builder leftDriveMotorDirection(DcMotorSimple.Direction leftDriveMotorDirection) {
+        public RobotParameters.Builder leftDriveMotorDirection(DcMotorSimple.Direction leftDriveMotorDirection) {
             this.leftDriveMotorDirection = leftDriveMotorDirection;
             return this;
         }
 
-        public org.firstinspires.ftc.teamcode.RobotParameters.Builder rightDriveMotorDirection(DcMotorSimple.Direction rightDriveMotorDirection) {
+        public RobotParameters.Builder rightDriveMotorDirection(DcMotorSimple.Direction rightDriveMotorDirection) {
             this.rightDriveMotorDirection = rightDriveMotorDirection;
             return this;
         }
 
-        public org.firstinspires.ftc.teamcode.RobotParameters build() {
+        public RobotParameters build() {
             if (wheelBaseRadius <= 0)
                 throw new IllegalArgumentException("wheelBaseRadius must be > 0");
             if (wheelRadius <= 0)
                 throw new IllegalArgumentException("wheelRadius must be > 0");
-            return new org.firstinspires.ftc.teamcode.RobotParameters(wheelBaseRadius, wheelRadius, driveGearRatio, gearBoxRatio, gyroEnabled, encodersEnabled, leftDriveMotorDirection, rightDriveMotorDirection);
+            return new RobotParameters(wheelBaseRadius, wheelRadius, driveGearRatio, gearBoxRatio, gyroEnabled, encodersEnabled, leftDriveMotorDirection, rightDriveMotorDirection);
         }
     }
 }

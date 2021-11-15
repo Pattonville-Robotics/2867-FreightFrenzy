@@ -36,7 +36,12 @@ public class FreightTeleOp extends OpMode {
 
         double leftSpd = leftInput + rightInput;
         double rightSpd = leftInput - rightInput;
-        left.setPower(leftSpd*0.5);
-        right.setPower(rightSpd*0.5);
+        if((Math.abs(leftSpd)==1)&&(Math.abs(rightSpd)==1)) {
+            left.setPower(leftSpd);
+            right.setPower(rightSpd);
+        }else{
+            left.setPower(leftSpd * 0.5);
+            right.setPower(rightSpd * 0.5);
+        }
     }
 }
