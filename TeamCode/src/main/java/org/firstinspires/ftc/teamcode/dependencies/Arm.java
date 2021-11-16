@@ -1,21 +1,24 @@
 package org.firstinspires.ftc.teamcode.dependencies;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 public class Arm {
-    private final DcMotor armMotor, handMotor;
+    private final DcMotor armMotor;
+    private final Servo handServo;
+    private final static double MAX_SERVO_POSITION = Servo.MAX_POSITION;
     public enum armPosition{
         ONE, TWO, THREE, NEUTRAL
     }
 
-    public Arm(DcMotor armMotor, DcMotor handMotor) {
+    public Arm(DcMotor armMotor, Servo handServo) {
         this.armMotor = armMotor;
-        this.handMotor = handMotor;
+        this.handServo = handServo;
         if (armMotor.getMode() != DcMotor.RunMode.RUN_TO_POSITION){
             armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
+        handServo.setPosition(MAX_SERVO_POSITION);
     }
     /*
     public void moveToPosition(armPosition pos, double power){
@@ -52,22 +55,23 @@ public class Arm {
         while(armMotor.isBusy()&&(Math.abs(armMotor.getTargetPosition()-armMotor.getCurrentPosition())>10)){
             Thread.yield();
         }
-        armMotor.setPower(0);
+        //armMotor.setPower(0);
     }
+
     public void startIntake(){
-        this.handMotor.setPower(0.2);
+        this.handServo.setPosition(0);
     }
     public void startOuttake(){
-        this.handMotor.setPower(-0.2);
+        this.handServo.setPosition(MAX_SERVO_POSITION);
     }
-    public void stop(){
-        this.handMotor.setPower(0);
+    public void stopArm(){
+        this.armMotor.setPower(0);
     }
 
     public DcMotor getArmMotor() {
         return this.armMotor;
     }
-    public DcMotor getHandMotor(){
-        return this.handMotor;
+    public Servo getHandServo(){
+        return this.handServo;
     }
 }
