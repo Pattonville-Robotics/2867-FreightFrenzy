@@ -5,11 +5,16 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
+import org.firstinspires.ftc.teamcode.dependencies.Arm;
+import org.firstinspires.ftc.teamcode.dependencies.Arm.armPosition;
+
 @TeleOp(name="Freight TeleOp", group="TeleOp")
 
 public class FreightTeleOp extends OpMode {
     DcMotor left;
     DcMotor right;
+    Arm arm;
     BNO055IMU imu;
 
     public void init() {
@@ -42,6 +47,17 @@ public class FreightTeleOp extends OpMode {
         }else{
             left.setPower(leftSpd * 0.5);
             right.setPower(rightSpd * 0.5);
+        }
+
+
+        if(gamepad1.a){
+            arm.moveToPosition(armPosition.NEUTRAL, 0.3);
+        }else if(gamepad1.b){
+            arm.moveToPosition(armPosition.ONE, 0.3);
+        }else if(gamepad1.x){
+            arm.moveToPosition(armPosition.TWO, 0.3);
+        }else if(gamepad1.cross){
+            arm.moveToPosition(armPosition.THREE, 0.3);
         }
     }
 }
