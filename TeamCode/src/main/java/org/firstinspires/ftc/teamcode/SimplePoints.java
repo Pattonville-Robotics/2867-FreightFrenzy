@@ -6,9 +6,12 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
+import org.firstinspires.ftc.teamcode.dependencies.Arm.armPosition;
+import org.firstinspires.ftc.teamcode.dependencies.ColorSensor;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
@@ -18,7 +21,8 @@ import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 public class SimplePoints extends LinearOpMode {
 
     private DcMotor leftDrive = null;
-    //private Arm arm;
+    private Arm arm;
+    private ColorSensor colorSensor;
     private DcMotor rightDrive = null;
     private BNO055IMU imu;
     private TwoWheelEncoder encoder;
@@ -29,8 +33,8 @@ public class SimplePoints extends LinearOpMode {
         // Our initialization code should go here
         leftDrive = hardwareMap.get(DcMotor.class, "left");
         rightDrive = hardwareMap.get(DcMotor.class, "right");
-        //arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(DcMotor.class, "hand"));
-
+        arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
+        colorSensor = new ColorSensor("Webcam", hardwareMap, this);
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
@@ -43,13 +47,14 @@ public class SimplePoints extends LinearOpMode {
 
         encoder = new TwoWheelEncoder(leftDrive, rightDrive, imu, CommonParameters.FREIGHT_ROBOT, this);
 
-
-
         waitForStart();
-        telemetry.addData("Orientation: ", imu.getAngularOrientation());
-        telemetry.update();
-        //encoder.moveInches(Direction.FORWARD, 1, 0.5);
-        encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 270, 0.5);
+        //code go here
+        //encoder.moveInches(Direction.FORWARD, 10, 0.5);
+        while(this.opModeIsActive()){
+            telemetry.clearAll();
+            telemetry.addData("Red: ", colorSensor.isRedPresent());
+            telemetry.update();
+        }
 
     }
 

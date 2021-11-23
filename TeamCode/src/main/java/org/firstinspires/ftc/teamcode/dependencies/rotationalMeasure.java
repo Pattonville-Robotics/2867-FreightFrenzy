@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.dependencies;
 
 public class rotationalMeasure {
-    double degrees;
+    private double degrees;
     public rotationalMeasure(double degrees){
         this.degrees = degrees;
         this.add(0);

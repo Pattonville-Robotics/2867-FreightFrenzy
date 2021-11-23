@@ -15,24 +15,25 @@ public class Arm {
     public Arm(DcMotor armMotor, CRServo handServo) {
         this.armMotor = armMotor;
         this.handServo = handServo;
+        this.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         if (armMotor.getMode() != DcMotor.RunMode.RUN_TO_POSITION){
-            armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             armMotor.setTargetPosition(0);
+            armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
     }
 
     public void moveToPosition(armPosition pos, double power){
         switch (pos){
             case ONE:{
-                moveToPosition(63, power);
+                moveToPosition(-63, power);
                 break;
             }
             case TWO:{
-                moveToPosition(122, power);
+                moveToPosition(-122, power);
                 break;
             }
             case THREE:{
-                moveToPosition(190, power);
+                moveToPosition(-190, power);
                 break;
             }
             case NEUTRAL:{
@@ -44,11 +45,11 @@ public class Arm {
 
     public void moveToPosition(int ticks, double power){
         if (armMotor.getMode() != DcMotor.RunMode.RUN_TO_POSITION){
-            armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             armMotor.setTargetPosition(0);
+            armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
-        armMotor.setPower(power);
         armMotor.setTargetPosition(ticks);
+        armMotor.setPower(power);
         /*
         while(armMotor.isBusy()&&(Math.abs(armMotor.getTargetPosition()-armMotor.getCurrentPosition())>10)){
             Thread.yield();
