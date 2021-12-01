@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-//AutoCameraPoints - Justin's horrible attempt at camera detection
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -14,21 +12,17 @@ import org.firstinspires.ftc.teamcode.dependencies.ColorSensor;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 
-
-@Autonomous(name="AutoCameraPoints", group="Autonomous")
-public class AutoCameraPoints extends LinearOpMode {
-
+@Autonomous(name="TestCamera", group="Autonomous")
+public class TestCamera extends LinearOpMode {
+    private ColorSensor colorSensor;
     private DcMotor leftDrive = null;
     private Arm arm;
-    private ColorSensor colorSensor;
     private DcMotor rightDrive = null;
     private BNO055IMU imu;
     private TwoWheelEncoder encoder;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        // Declare any local / helper variables here
-        // Our initialization code should go here
         leftDrive = hardwareMap.get(DcMotor.class, "left");
         rightDrive = hardwareMap.get(DcMotor.class, "right");
         arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
@@ -45,27 +39,14 @@ public class AutoCameraPoints extends LinearOpMode {
 
         encoder = new TwoWheelEncoder(leftDrive, rightDrive, imu, CommonParameters.FREIGHT_ROBOT, this);
 
+        colorSensor = new ColorSensor("Webcam", hardwareMap, this);
         waitForStart();
-        //code go here
-        //encoder.moveInches(Direction.FORWARD, 10, 0.5);
-        if(colorSensor.isRegionYellow(0)){ //square left
-            //run bottom code
+        while(opModeIsActive()){
+            telemetry.clearAll();
+            telemetry.addData("Region Left: ", colorSensor.getColorAtRegion(0));
+            telemetry.addData("Region Middle: ", colorSensor.getColorAtRegion(1));
+            telemetry.addData("Region Right: ", colorSensor.getColorAtRegion(2));
+            telemetry.update();
         }
-        else if(colorSensor.isRegionYellow(1)) { //square center
-            //run middle code
-        }
-        else{ //this means it must be square right
-            //run top code
-        }
-
-
-//        while(this.opModeIsActive()){
-//            telemetry.clearAll();
-//            telemetry.addData("Red: ", colorSensor.isRedPresent());
-//            telemetry.update();
-//        }
-
     }
-
 }
-

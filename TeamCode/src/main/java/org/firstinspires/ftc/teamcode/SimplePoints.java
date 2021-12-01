@@ -10,11 +10,9 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
-import org.firstinspires.ftc.teamcode.dependencies.Arm.armPosition;
 import org.firstinspires.ftc.teamcode.dependencies.ColorSensor;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
-import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
 
 @Autonomous(name="SimplePoints", group="Autonomous")
@@ -52,7 +50,7 @@ public class SimplePoints extends LinearOpMode {
         //encoder.moveInches(Direction.FORWARD, 10, 0.5);
         while(this.opModeIsActive()){
             telemetry.clearAll();
-            telemetry.addData("Red: ", colorSensor.isRedPresent());
+            telemetry.addData("Red: ", colorSensor.isRegionRed(0));
             telemetry.update();
         }
 

@@ -15,7 +15,7 @@ public class TwoWheelEncoder {
 
 
     public static final int TARGET_REACHED_THRESHOLD = 10;
-    public static final int DEGREE_OF_ERROR = 50;
+    public static final int DEGREE_OF_ERROR = 40;
 
     private static final String TAG = "TwoWheelEncoder";
 
@@ -137,11 +137,10 @@ public class TwoWheelEncoder {
         if(direction == rotationalDirection.CLOCKWISE) {
             intendedAngle = new rotationalMeasure(startAngle - degrees);
             moveFreely(power, power);
-        }else{
+        }else {
             intendedAngle = new rotationalMeasure(startAngle + degrees);
             moveFreely(-power, -power);
         }
-
         while(
                 !(Math.abs(imu.getAngularOrientation().firstAngle-intendedAngle.get())<(DEGREE_OF_ERROR*power))&&
                 (linearOpMode.opModeIsActive())
