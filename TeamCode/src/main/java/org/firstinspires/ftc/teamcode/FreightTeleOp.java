@@ -43,6 +43,7 @@ public class FreightTeleOp extends OpMode {
         double leftInput = gamepad1.right_stick_x;
         double rightInput = gamepad1.left_stick_y;
 
+
         double leftSpd = leftInput + rightInput;
         double rightSpd = leftInput - rightInput;
         if((Math.abs(leftSpd)==1)&&(Math.abs(rightSpd)==1)) {
@@ -54,18 +55,28 @@ public class FreightTeleOp extends OpMode {
         }
 
         if(gamepad1.a){
-            arm.moveToPosition(armPosition.NEUTRAL, 0.5);
+            arm.moveToPosition(armPosition.NEUTRAL, 0.7);
         }else if(gamepad1.x){
-            arm.moveToPosition(armPosition.ONE, 0.5);
+            arm.moveToPosition(armPosition.ONE, 0.7);
         }else if(gamepad1.y){
-            arm.moveToPosition(armPosition.TWO, 0.5);
+            arm.moveToPosition(armPosition.TWO, 0.7);
         }else if(gamepad1.b){
-            arm.moveToPosition(armPosition.THREE, 0.5);
+            arm.moveToPosition(armPosition.THREE, 0.7);
+        }
+
+        if(gamepad1.left_trigger>0){
+            arm.startIntake();
+        }else if(gamepad1.right_trigger>0){
+            arm.startOuttake();
+        }else{
+            arm.stopHand();
         }
         telemetry.addData("A: ", gamepad1.a);
         telemetry.addData("B: ", gamepad1.b);
         telemetry.addData("X: ", gamepad1.x);
         telemetry.addData("Y: ", gamepad1.y);
+        telemetry.addData("left_trigger: ", gamepad1.left_trigger);
+        telemetry.addData("right_trigger: ", gamepad1.right_trigger);
         telemetry.addData("encoderPos: ", arm.getArmMotor().getCurrentPosition());
         telemetry.update();
     }

@@ -161,27 +161,27 @@ public class TwoWheelEncoder {
         switch (direction) {
             case FORWARD: {
                 if(ROBOTPARAMETERS.getLeftDriveMotorDirection() == DcMotorSimple.Direction.FORWARD) {
-                    targetPositionLeft = -ticks;
-                }else{
                     targetPositionLeft = ticks;
+                }else{
+                    targetPositionLeft = -ticks;
                 }
                 if(ROBOTPARAMETERS.getRightDriveMotorDirection() == DcMotorSimple.Direction.REVERSE) {
-                    targetPositionRight = ticks;
-                }else{
                     targetPositionRight = -ticks;
+                }else{
+                    targetPositionRight = ticks;
                 }
                 break;
             }
             case REVERSE: {
                 if(ROBOTPARAMETERS.getLeftDriveMotorDirection() == DcMotorSimple.Direction.FORWARD) {
-                    targetPositionLeft = ticks;
-                }else{
                     targetPositionLeft = -ticks;
+                }else{
+                    targetPositionLeft = ticks;
                 }
                 if(ROBOTPARAMETERS.getRightDriveMotorDirection() == DcMotorSimple.Direction.REVERSE) {
-                    targetPositionRight = -ticks;
-                }else{
                     targetPositionRight = ticks;
+                }else{
+                    targetPositionRight = -ticks;
                 }
                 break;
             }
