@@ -7,62 +7,66 @@ import org.firstinspires.ftc.teamcode.dependencies.CameraColorSensor.Color_Enum;
 import org.opencv.core.Point;
 
 public class ColorSensor {
-    CameraColorSensor camera;
-    final Point[] DEFAULT_POINTS = {new Point(58, 110), new Point(130, 110), new Point(253, 110)};
+    CameraColorSensor camSensor;
+    final Point[] DEFAULT_POINTS = {new Point(109, 98), new Point(181, 98), new Point(253, 98)};
     final int DEFAULT_WIDTH = 60;
     final int DEFAULT_HEIGHT = 60;
     public ColorSensor(String cameraName, HardwareMap hardwareMap, LinearOpMode linearOpMode){
-        camera = new CameraColorSensor(cameraName, hardwareMap, linearOpMode);
-        camera.UsingWebcam = false;
-        camera.RegionTopLeft = DEFAULT_POINTS;
-        camera.RegionWidth = DEFAULT_WIDTH;
-        camera.RegionHeight = DEFAULT_HEIGHT;
+        camSensor = new CameraColorSensor(cameraName, hardwareMap, linearOpMode);
+        camSensor.UsingWebcam = true;
+        camSensor.RegionTopLeft[0] = DEFAULT_POINTS[0];
+        camSensor.RegionTopLeft[1] = DEFAULT_POINTS[1];
+        camSensor.RegionTopLeft[2] = DEFAULT_POINTS[2];
+        camSensor.RegionWidth = DEFAULT_WIDTH;
+        camSensor.RegionHeight = DEFAULT_HEIGHT;
     }
     public ColorSensor(String cameraName, HardwareMap hardwareMap, LinearOpMode linearOpMode, int width, int height, Point region1, Point region2, Point region3){
-        camera = new CameraColorSensor(cameraName, hardwareMap, linearOpMode);
-        camera.UsingWebcam = false;
-        camera.RegionTopLeft[0] = region1;
-        camera.RegionTopLeft[1] = region2;
-        camera.RegionTopLeft[2] = region3;
-        camera.RegionWidth = width;
-        camera.RegionHeight = height;
+        camSensor = new CameraColorSensor(cameraName, hardwareMap, linearOpMode);
+        camSensor.UsingWebcam = true;
+        camSensor.RegionTopLeft[0] = region1;
+        camSensor.RegionTopLeft[1] = region2;
+        camSensor.RegionTopLeft[2] = region3;
+        camSensor.RegionWidth = width;
+        camSensor.RegionHeight = height;
     }
     public ColorSensor(String cameraName, HardwareMap hardwareMap, LinearOpMode linearOpMode, Point region1, Point region2, Point region3){
-        camera = new CameraColorSensor(cameraName, hardwareMap, linearOpMode);
-        camera.UsingWebcam = false;
-        camera.RegionTopLeft[0] = region1;
-        camera.RegionTopLeft[1] = region2;
-        camera.RegionTopLeft[2] = region3;
-        camera.RegionWidth = DEFAULT_WIDTH;
-        camera.RegionHeight = DEFAULT_HEIGHT;
+        camSensor = new CameraColorSensor(cameraName, hardwareMap, linearOpMode);
+        camSensor.UsingWebcam = true;
+        camSensor.RegionTopLeft[0] = region1;
+        camSensor.RegionTopLeft[1] = region2;
+        camSensor.RegionTopLeft[2] = region3;
+        camSensor.RegionWidth = DEFAULT_WIDTH;
+        camSensor.RegionHeight = DEFAULT_HEIGHT;
     }
     public ColorSensor(String cameraName, HardwareMap hardwareMap, LinearOpMode linearOpMode, int width, int height){
-        camera = new CameraColorSensor(cameraName, hardwareMap, linearOpMode);
-        camera.UsingWebcam = false;
-        camera.RegionTopLeft = DEFAULT_POINTS;
-        camera.RegionWidth = width;
-        camera.RegionHeight = height;
+        camSensor = new CameraColorSensor(cameraName, hardwareMap, linearOpMode);
+        camSensor.UsingWebcam = true;
+        camSensor.RegionTopLeft[0] = DEFAULT_POINTS[0];
+        camSensor.RegionTopLeft[1] = DEFAULT_POINTS[1];
+        camSensor.RegionTopLeft[2] = DEFAULT_POINTS[2];
+        camSensor.RegionWidth = width;
+        camSensor.RegionHeight = height;
     }
     public Color_Enum getColorAtRegion(int regionNumber){
         Color_Enum color;
-        if (camera.isRegionGreen(regionNumber)) color = Color_Enum.Color_Green;
-        else if (camera.isRegionYellow(regionNumber)) color = Color_Enum.Color_Yellow;
-        else if (camera.isRegionRed(regionNumber)) color = Color_Enum.Color_Red;
-        else if (camera.isRegionBlue(regionNumber)) color = Color_Enum.Color_Blue;
+        if (camSensor.isRegionGreen(regionNumber)) color = Color_Enum.Color_Green;
+        else if (camSensor.isRegionYellow(regionNumber)) color = Color_Enum.Color_Yellow;
+        else if (camSensor.isRegionRed(regionNumber)) color = Color_Enum.Color_Red;
+        else if (camSensor.isRegionBlue(regionNumber)) color = Color_Enum.Color_Blue;
         else color = Color_Enum.Color_None;
         return color;
     }
     public boolean isRegionRed(int regionNumber){
-        return camera.isRegionRed(regionNumber);
+        return camSensor.isRegionRed(regionNumber);
     }
     public boolean isRegionBlue(int regionNumber){
-        return camera.isRegionBlue(regionNumber);
+        return camSensor.isRegionBlue(regionNumber);
     }
     public boolean isRegionGreen(int regionNumber){
-        return camera.isRegionRed(regionNumber);
+        return camSensor.isRegionRed(regionNumber);
     }
     public boolean isRegionYellow(int regionNumber){
-        return camera.isRegionRed(regionNumber);
+        return camSensor.isRegionRed(regionNumber);
     }
 
 }

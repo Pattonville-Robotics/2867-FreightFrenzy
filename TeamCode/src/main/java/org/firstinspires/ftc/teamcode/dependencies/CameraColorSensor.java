@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Objects;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -58,11 +60,13 @@ public class CameraColorSensor {
     HardwareMap hardwareMap;
     Telemetry telemetry;
 
+
+
     // these can be configured at compile time
     final static int NumRegions = 3;
 
     // these can be configured at run time
-    public static boolean UsingWebcam = false;  // default to phone internal camera
+    public static boolean UsingWebcam = true;  // default to phone internal camera
     public static int SquareSize = 5;           // pixel size of edge of squares for checking
     public static Point[] RegionTopLeft = new Point[NumRegions];
     public static int RegionWidth = 60;
@@ -130,22 +134,22 @@ public class CameraColorSensor {
 
     public boolean isRegionBlue(int region) {
         List<EnumMap<Color_Enum, ColorData>> colorData = getColorData();
-        return (colorData.get(region).get(Color_Enum.Color_Blue).color == Color_Enum.Color_Blue);
+        return (colorData.size() > 0 && Objects.requireNonNull(colorData.get(region).get(Color_Enum.Color_Blue)).color == Color_Enum.Color_Blue);
     }
 
     public boolean isRegionRed(int region) {
         List<EnumMap<Color_Enum, ColorData>> colorData = getColorData();
-        return (colorData.get(region).get(Color_Enum.Color_Red).color == Color_Enum.Color_Red);
+        return (colorData.size() > 0 && Objects.requireNonNull(colorData.get(region).get(Color_Enum.Color_Red)).color == Color_Enum.Color_Red);
     }
 
     public boolean isRegionYellow(int region) {
         List<EnumMap<Color_Enum, ColorData>> colorData = getColorData();
-        return (colorData.get(region).get(Color_Enum.Color_Yellow).color == Color_Enum.Color_Yellow);
+        return (colorData.size() > 0 && Objects.requireNonNull(colorData.get(region).get(Color_Enum.Color_Yellow)).color == Color_Enum.Color_Yellow);
     }
 
     public boolean isRegionGreen(int region) {
         List<EnumMap<Color_Enum, ColorData>> colorData = getColorData();
-        return (colorData.get(region).get(Color_Enum.Color_Green).color == Color_Enum.Color_Green);
+        return (colorData.size() > 0 && Objects.requireNonNull(colorData.get(region).get(Color_Enum.Color_Green)).color == Color_Enum.Color_Green);
     }
 
     // this class is used for drawing boxes on the screen
@@ -225,6 +229,7 @@ public class CameraColorSensor {
     // this class is the main openCV camera class
     public static class DeterminationPipeline extends OpenCvPipeline
     {
+        EnumMap<Color_Enum, Scalar> colorScalars = new EnumMap<Color_Enum, Scalar>(Color_Enum.class);
         /*
          * Points which actually define the sample region rectangles, derived from above values
          *
@@ -252,7 +257,13 @@ public class CameraColorSensor {
 
         private List<TelemetryData> telemetryData = new ArrayList<TelemetryData>();
         private SynchronizedTelemetryList synchronizedTelemetryData = new SynchronizedTelemetryList();
-
+        public DeterminationPipeline(){
+            colorScalars.put(Color_Enum.Color_None, new Scalar(0, 0, 0));
+            colorScalars.put(Color_Enum.Color_Blue, new Scalar(0, 0, 255));
+            colorScalars.put(Color_Enum.Color_Green, new Scalar(0, 255, 0));
+            colorScalars.put(Color_Enum.Color_Red, new Scalar(255, 0, 0));
+            colorScalars.put(Color_Enum.Color_Yellow, new Scalar(255, 255, 0));
+        }
         /*
          * This function takes the RGB frame and converts to HSV
          */
@@ -463,17 +474,17 @@ telemetryData.add (new TelemetryData("Yellow score", colorData.score));
                 
                 if (region_colorData.get(region).get(Color_Enum.Color_Green).score > 0) {
 telemetryData.add (new TelemetryData("Green score", region_colorData.get(region).get(Color_Enum.Color_Green).score));
-                    color = debugData.colors.get(Color_Enum.Color_Green);
+                    color = colorScalars.get(Color_Enum.Color_Green);
                 }
                 else if (region_colorData.get(region).get(Color_Enum.Color_Yellow).color == Color_Enum.Color_Yellow) {
 telemetryData.add (new TelemetryData("Yellow score", region_colorData.get(region).get(Color_Enum.Color_Yellow).score));
-                    color = debugData.colors.get(Color_Enum.Color_Yellow);
+                    color = colorScalars.get(Color_Enum.Color_Yellow);
                 }
                 else if (region_colorData.get(region).get(Color_Enum.Color_Red).score > 0) {
-                    color = debugData.colors.get(Color_Enum.Color_Red);
+                    color = colorScalars.get(Color_Enum.Color_Red);
                 }
                 else if (region_colorData.get(region).get(Color_Enum.Color_Blue).score > 0) {
-                    color = debugData.colors.get(Color_Enum.Color_Blue);
+                    color = colorScalars.get(Color_Enum.Color_Blue);
                 }
 
                 Point regionBottomRight = new Point(RegionTopLeft[region].x + RegionWidth,

@@ -15,7 +15,7 @@ public class CameraTester extends LinearOpMode {
         CameraColorSensor colorSensor = new CameraColorSensor ("Webcam", hardwareMap, this);
         
         // set up configuration parameters
-        colorSensor.UsingWebcam = false;
+        colorSensor.UsingWebcam = true;
         colorSensor.RegionTopLeft[0] = new Point(109, 98);
         colorSensor.RegionTopLeft[1] = new Point(181, 98);
         colorSensor.RegionTopLeft[2] = new Point(253, 98);
