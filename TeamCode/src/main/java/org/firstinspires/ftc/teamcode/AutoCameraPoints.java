@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-//AutoCameraPoints - Justin's horrible attempt at camera detection
+//AutoCameraPoints - Justin's horrible attempt at camera detection in autonomous
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -49,13 +49,19 @@ public class AutoCameraPoints extends LinearOpMode {
         //code go here
         //encoder.moveInches(Direction.FORWARD, 10, 0.5);
         if(colorSensor.isRegionYellow(0)){ //square left
-            //run bottom code
+            //insert code to go to thing and pick it up
+            arm.moveToPosition(Arm.armPosition.ONE, 0.7);
+            //insert code to release
         }
         else if(colorSensor.isRegionYellow(1)) { //square center
-            //run middle code
+            //insert code to go to thing and pick it up
+            arm.moveToPosition(Arm.armPosition.TWO, 0.7);
+            //insert code to release
         }
         else{ //this means it must be square right
-            //run top code
+            //insert code to go to thing and pick it up
+            arm.moveToPosition(Arm.armPosition.THREE, 0.7);
+            //insert code to release
         }
 
 
