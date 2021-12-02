@@ -19,8 +19,8 @@ import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
 
-@Autonomous(name="AutoLastResortChargeStraightAheadForPoints", group="Autonomous")
-public class AutoLastResortChargeStraightAheadForPoints extends LinearOpMode {
+@Autonomous(name="LastResort", group="Autonomous")
+public class LastResort extends LinearOpMode {
 
     private DcMotor leftDrive = null;
     private Arm arm;
