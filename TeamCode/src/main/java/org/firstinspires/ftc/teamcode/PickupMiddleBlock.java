@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
 
-@Autonomous(name="LastResort", group="Autonomous")
+@Autonomous(name="PickupMiddleBlock", group="Autonomous")
 public class PickupMiddleBlock extends LinearOpMode {
 
     private DcMotor leftDrive = null;

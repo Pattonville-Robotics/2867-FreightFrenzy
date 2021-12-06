@@ -11,11 +11,8 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 
         import org.firstinspires.ftc.teamcode.dependencies.Arm;
         import org.firstinspires.ftc.teamcode.dependencies.ColorSensor;
-//import org.firstinspires.ftc.teamcode.dependencies.ColorSensorOld;
-import org.firstinspires.ftc.teamcode.dependencies.ColorSensor;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
         import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
-import org.opencv.core.Point;
 
 
 @Autonomous
@@ -56,11 +53,15 @@ public class ColorSensorTester extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()){
             telemetry.clearAll();
-
-            telemetry.addData("Region Left: ", colorSensor.getColorAtRegion(0));
-            telemetry.addData("Region Middle: ", colorSensor.getColorAtRegion(1));
-            telemetry.addData("Region Right: ", colorSensor.getColorAtRegion(2));
-
+            try {
+                telemetry.addData("Reegion Left: ", colorSensor.getColorAtRegion(0));
+                telemetry.addData("Region Middle: ", colorSensor.getColorAtRegion(1));
+                telemetry.addData("Region Right: ", colorSensor.getColorAtRegion(2));
+            }catch(NullPointerException e){
+                telemetry.addData("Reegion Left: ", "Camera Inactive");
+                telemetry.addData("Region Middle: ", "Camera Inactive");
+                telemetry.addData("Region Right: ", "Camera Inactive");
+            }
             //telemetry.addData("Region Left: ", colorSensor.isRedPresent());
             telemetry.update();
         }
