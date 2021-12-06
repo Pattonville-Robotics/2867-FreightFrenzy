@@ -50,12 +50,10 @@ public class PickupMiddleBlock extends LinearOpMode {
 
         encoder = new TwoWheelEncoder(leftDrive, rightDrive, imu, CommonParameters.FREIGHT_ROBOT, this);
 
-        // Charge forward while spinning the hand
         waitForStart();
-        arm.startIntake();
+
+        // Charge forward while spinning the hand
         encoder.moveInches(25, 0.7);
-        wait(1000);
-        arm.stopHand();
 
         // Move the arm up
         arm.moveToPosition(Arm.armPosition.TWO, 0.7);
@@ -67,7 +65,7 @@ public class PickupMiddleBlock extends LinearOpMode {
 
         // Spit out the block
         arm.startOuttake();
-        wait(2500);
+        wait(2000);
         arm.stopHand();
 
         //(Attempt to) move to the garage
@@ -78,9 +76,6 @@ public class PickupMiddleBlock extends LinearOpMode {
         encoder.moveInches(27, 0.7);
         encoder.rotateDegrees(rotationalDirection.COUNTERCLOCKWISE, 21, 0.5);
         encoder.moveInches(38, 0.7);
-
-
-
     }
 
 }

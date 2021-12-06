@@ -39,7 +39,6 @@ public class FreightTeleOp extends OpMode {
         parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         imu.initialize(parameters);
-
     }
 
     double maxSpeed = 1.0;
