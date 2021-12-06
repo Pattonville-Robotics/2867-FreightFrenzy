@@ -1,5 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+// hey guys justin here i just added the
+// very based spinny code ("DcMotor spinny;")
+// -justin, creator of the very based spinny code
+//                     (December 6th, 2:48 PM)
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -15,12 +20,14 @@ import org.firstinspires.ftc.teamcode.dependencies.Arm.armPosition;
 public class FreightTeleOp extends OpMode {
     DcMotor left;
     DcMotor right;
+    DcMotor spinny;
     Arm arm;
     BNO055IMU imu;
 
     public void init() {
         left = hardwareMap.dcMotor.get("left");
         right = hardwareMap.dcMotor.get("right");
+        spinny = hardwareMap.dcMotor.get("spinny");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
 
@@ -52,6 +59,13 @@ public class FreightTeleOp extends OpMode {
         }else{
             left.setPower(leftSpd * 0.5);
             right.setPower(rightSpd * 0.5);
+        }
+
+        if(gamepad1.dpad_up){
+            spinny.setPower(1);
+        }
+        else{
+            spinny.setPower(0);
         }
 
         if(gamepad1.a){
