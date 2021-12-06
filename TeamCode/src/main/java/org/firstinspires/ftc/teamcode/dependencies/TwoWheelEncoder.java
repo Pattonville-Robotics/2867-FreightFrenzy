@@ -233,6 +233,15 @@ public class TwoWheelEncoder {
 
         sleep(100);
     }
+
+    public void moveInches(double inches, double power){
+        moveInches(DcMotorSimple.Direction.FORWARD, inches, power);
+    }
+
+    public void moveInches(double inches){
+        moveInches(DcMotorSimple.Direction.FORWARD, inches, 1.0);
+    }
+
     public void stop() {
         moveFreely(0, 0);
     }
