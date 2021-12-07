@@ -52,12 +52,7 @@ public class LastResort extends LinearOpMode {
 
         waitForStart();
         //code go here
-        //encoder.rotateDegrees(rotationalDirection.CLOCKWISE,90,0.4);
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 95, 0.15); //needs adjusting/testing, untested
-//        while(this.opModeIsActive()){
-//            telemetry.clearAll();
-//            telemetry.addData("Red: ", colorSensor.isRedPresent());
-//            telemetry.update();
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 95, 0.15);
 //        }
 
     }
