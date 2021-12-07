@@ -224,14 +224,18 @@ public class TwoWheelEncoder {
 
         //int oldLeftPosition = leftDriveMotor.getCurrentPosition();
         //int oldRightPosition = rightDriveMotor.getCurrentPosition();
-
+        while((leftDriveMotor.isBusy()||rightDriveMotor.isBusy()) && linearOpMode.opModeIsActive()){
+            Thread.yield();
+        }
+        /*
         while ((leftDriveMotor.isBusy() || rightDriveMotor.isBusy()) || !reachedTarget(leftDriveMotor.getCurrentPosition(), positions[0], rightDriveMotor.getCurrentPosition(), positions[1]) && !linearOpMode.isStopRequested() && linearOpMode.opModeIsActive()) {
             Thread.yield();
             //distance.setValue("DistanceL: " + leftDriveMotor.getCurrentPosition() + " DistanceR: " + rightDriveMotor.getCurrentPosition());
             linearOpMode.telemetry.update();
         }
+         */
         //Log.e(TAG, "Setting motor power low");
-        stop();
+        //stop();
 
         //Log.e(TAG, "Restoring motor mode");
         restoreMotorModes();
