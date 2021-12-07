@@ -1,0 +1,26 @@
+12/6/21:
+
+null pointer exception: Scalar - I think it is caused by starting before the camera has processed the first frame. It can be tested by
+pressing Init and Start quickly and getting the error. Then press Init, wait a few seconds, then Start and no error.
+
+To wait for first frame to be processed:
+in CameraColorSensor.java: add this function right after the constructor:
+
+    public boolean isCameraInitialized() {
+        boolean returnValue = false;
+        List<EnumMap<Color_Enum, ColorData>> colorData = getColorData();
+
+        // after the first frame is processed, each region will have data
+        if (colorData.size() >= NumRegions) {
+            returnValue = true;
+        }
+
+        return (returnValue);
+    }
+
+Then in the opMode, add this before waitForStart:
+
+        while (!colorSensor.isCameraInitialized()) {
+            sleep(100);
+        }
+
