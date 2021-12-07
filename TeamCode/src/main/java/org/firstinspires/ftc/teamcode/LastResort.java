@@ -36,7 +36,6 @@ public class LastResort extends LinearOpMode {
         leftDrive = hardwareMap.get(DcMotor.class, "left");
         rightDrive = hardwareMap.get(DcMotor.class, "right");
         arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
-        colorSensor = new ColorSensor("Webcam", hardwareMap, this);
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -52,14 +51,7 @@ public class LastResort extends LinearOpMode {
 
         waitForStart();
         //code go here
-        //encoder.rotateDegrees(rotationalDirection.CLOCKWISE,90,0.4);
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 95, 0.15); //needs adjusting/testing, untested
-//        while(this.opModeIsActive()){
-//            telemetry.clearAll();
-//            telemetry.addData("Red: ", colorSensor.isRedPresent());
-//            telemetry.update();
-//        }
-
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 95, 0.2);
     }
 
 }

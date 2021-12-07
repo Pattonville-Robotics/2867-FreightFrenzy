@@ -151,6 +151,11 @@ public class TwoWheelEncoder {
         stop();
         sleep(100);
     }
+
+    public void rotateDegrees(rotationalDirection direction, double degrees){
+        rotateDegrees(direction, degrees, 0.7);
+    }
+
     public boolean motorsBusy(){
         return (leftDriveMotor.isBusy() || rightDriveMotor.isBusy());
     }
