@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
-//Incomplete final autonomous
-// - jack
+// This contains the same code as FreightAuto (12/7/21) but uses the saem autonomous structure as
+// the other ones we've made without the wacky freightauto run() stuff.
+// If the new freightAuto stuff doesn't work the
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;

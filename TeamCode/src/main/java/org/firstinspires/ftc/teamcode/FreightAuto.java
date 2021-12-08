@@ -24,18 +24,15 @@ import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
 public class FreightAuto {
-    private DcMotor leftDrive;
-    private DcMotor rightDrive;
-    private Arm arm;
-    private ColorSensor colorSensor;
-    private BNO055IMU imu;
+    private static DcMotor leftDrive;
+    private static DcMotor rightDrive;
+    private static Arm arm;
+    private static ColorSensor colorSensor;
+    private static BNO055IMU imu;
 
-    private TwoWheelEncoder encoder;
+    private static TwoWheelEncoder encoder;
 
-    private final AllianceSide allianceSide;
-    private final AlliancePosition alliancePosition;
-
-    public FreightAuto(LinearOpMode linearOp, AllianceSide side, AlliancePosition position){
+    public static void run(LinearOpMode linearOp, AllianceSide allianceSide, AlliancePosition alliancePosition){
         // Declare any local / helper variables here
         // Our initialization code should go here
         HardwareMap hardwareMap = linearOp.hardwareMap;
@@ -55,11 +52,7 @@ public class FreightAuto {
 
         encoder = new TwoWheelEncoder(leftDrive, rightDrive, imu, CommonParameters.FREIGHT_ROBOT, linearOp);
 
-        allianceSide = side;
-        alliancePosition = position;
-    }
-
-    public void run() throws InterruptedException {
+        linearOp.waitForStart();
 
         //Insert camera code here
         // for now, assume the duck is in the middle
@@ -86,7 +79,7 @@ public class FreightAuto {
 
         // Spit out the block
         arm.startOuttake();
-        wait(2000);
+        linearOp.sleep(2000);
         arm.stopHand();
 
         // Back up and lower the arm

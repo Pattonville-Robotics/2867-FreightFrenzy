@@ -9,10 +9,7 @@ import org.firstinspires.ftc.teamcode.dependencies.AllianceSide;
 public class FreightAuto_RedRight extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        FreightAuto freightAuto = new FreightAuto(this, AllianceSide.RED, AlliancePosition.RIGHT);
-
-        waitForStart();
-        freightAuto.run();
+        FreightAuto.run(this, AllianceSide.RED, AlliancePosition.RIGHT);
     }
 }
 
