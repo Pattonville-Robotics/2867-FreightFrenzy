@@ -24,24 +24,16 @@ import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
 public class FreightAuto {
-    private static DcMotor leftDrive;
-    private static DcMotor rightDrive;
-    private static Arm arm;
-    private static ColorSensor colorSensor;
-    private static BNO055IMU imu;
-
-    private static TwoWheelEncoder encoder;
-
     public static void run(LinearOpMode linearOp, AllianceSide allianceSide, AlliancePosition alliancePosition){
         // Declare any local / helper variables here
         // Our initialization code should go here
         HardwareMap hardwareMap = linearOp.hardwareMap;
-        leftDrive = hardwareMap.get(DcMotor.class, "left");
-        rightDrive = hardwareMap.get(DcMotor.class, "right");
-        arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
-        colorSensor = new ColorSensor("Webcam", hardwareMap, linearOp);
+        DcMotor leftDrive = hardwareMap.get(DcMotor.class, "left");
+        DcMotor rightDrive = hardwareMap.get(DcMotor.class, "right");
+        Arm arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
+        ColorSensor colorSensor = new ColorSensor("Webcam", hardwareMap, linearOp);
 
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -50,7 +42,7 @@ public class FreightAuto {
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         imu.initialize(parameters);
 
-        encoder = new TwoWheelEncoder(leftDrive, rightDrive, imu, CommonParameters.FREIGHT_ROBOT, linearOp);
+        TwoWheelEncoder encoder = new TwoWheelEncoder(leftDrive, rightDrive, imu, CommonParameters.FREIGHT_ROBOT, linearOp);
 
         linearOp.waitForStart();
 
