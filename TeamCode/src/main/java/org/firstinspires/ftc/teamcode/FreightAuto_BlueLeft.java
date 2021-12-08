@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.dependencies.AlliancePosition;
 import org.firstinspires.ftc.teamcode.dependencies.AllianceSide;
 
-@Autonomous(name="FreightAuto_RedLeft", group="Autonomous")
+@Autonomous(name="FreightAuto_BlueLeft", group="Autonomous")
 public class FreightAuto_BlueLeft extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
