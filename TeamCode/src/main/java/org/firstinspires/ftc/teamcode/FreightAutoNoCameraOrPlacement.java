@@ -39,7 +39,7 @@ public class FreightAutoNoCameraOrPlacement extends LinearOpMode {
         leftDrive = hardwareMap.get(DcMotor.class, "left");
         rightDrive = hardwareMap.get(DcMotor.class, "right");
         arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
-        colorSensor = new ColorSensor("Webcam", hardwareMap, this);
+
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -74,13 +74,13 @@ public class FreightAutoNoCameraOrPlacement extends LinearOpMode {
             awayFromHub = rotationalDirection.CLOCKWISE;
         }
         encoder.rotateDegrees(towardsHub, 90);
-        encoder.moveInches(15);
+        encoder.moveInches(20);
         encoder.rotateDegrees(awayFromHub, 90);
         encoder.moveInches(17);
 
         // Spit out the block
         arm.startOuttake();
-        wait(2000);
+        sleep(2000);
         arm.stopHand();
 
         // Move into the depot
@@ -95,10 +95,10 @@ public class FreightAutoNoCameraOrPlacement extends LinearOpMode {
             towardsDepot = rotationalDirection.COUNTERCLOCKWISE;
             awayFromDepot = rotationalDirection.CLOCKWISE;
         }
-        encoder.rotateDegrees(towardsDepot, 96);
+        encoder.rotateDegrees(towardsDepot, 90);
         encoder.moveInches(23);
         encoder.rotateDegrees(awayFromDepot, 6);
-        encoder.moveInches(26);
+        encoder.moveInches(31);
 
 
     }

@@ -61,10 +61,10 @@ public class FreightTeleOp extends OpMode {
         }
 
         if(gamepad1.dpad_up){
-            spinny.setPower(0.25);
+            spinny.setPower(0.15);
         }
         else if(gamepad1.dpad_down){
-            spinny.setPower(-0.25);
+            spinny.setPower(-0.15);
         }
         else{
             spinny.setPower(0);

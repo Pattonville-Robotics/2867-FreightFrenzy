@@ -153,7 +153,7 @@ public class TwoWheelEncoder {
     }
 
     public void rotateDegrees(rotationalDirection direction, double degrees){
-        rotateDegrees(direction, degrees, 0.7);
+        rotateDegrees(direction, degrees, 0.4);
     }
 
     public boolean motorsBusy(){
@@ -212,7 +212,7 @@ public class TwoWheelEncoder {
 
 
         //Log.e(TAG, "Setting motor modes");
-        setMotorTargets(positions[0], positions[1]);
+        setMotorTargets(positions[0]+leftDriveMotor.getCurrentPosition(), positions[1]+rightDriveMotor.getCurrentPosition());
 
         setMotorsRunToPosition();
 
@@ -224,18 +224,20 @@ public class TwoWheelEncoder {
 
         //int oldLeftPosition = leftDriveMotor.getCurrentPosition();
         //int oldRightPosition = rightDriveMotor.getCurrentPosition();
+
         while((leftDriveMotor.isBusy()||rightDriveMotor.isBusy()) && linearOpMode.opModeIsActive()){
             Thread.yield();
         }
+
         /*
         while ((leftDriveMotor.isBusy() || rightDriveMotor.isBusy()) || !reachedTarget(leftDriveMotor.getCurrentPosition(), positions[0], rightDriveMotor.getCurrentPosition(), positions[1]) && !linearOpMode.isStopRequested() && linearOpMode.opModeIsActive()) {
             Thread.yield();
             //distance.setValue("DistanceL: " + leftDriveMotor.getCurrentPosition() + " DistanceR: " + rightDriveMotor.getCurrentPosition());
             linearOpMode.telemetry.update();
         }
-         */
+        */
         //Log.e(TAG, "Setting motor power low");
-        //stop();
+        stop();
 
         //Log.e(TAG, "Restoring motor mode");
         restoreMotorModes();
