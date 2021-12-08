@@ -1,3 +1,8 @@
+12/7/21:
+
+LastResort.java is probably crashing (null pointer) because it instantiates a colorSensor. It can be deleted since it is not
+used in this opmode.
+
 12/6/21:
 
 null pointer exception: Scalar - I think it is caused by starting before the camera has processed the first frame. It can be tested by
