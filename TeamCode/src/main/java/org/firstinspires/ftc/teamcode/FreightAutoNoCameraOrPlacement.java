@@ -20,8 +20,8 @@ import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
-@Autonomous(name="FreightAutonomous", group="Autonomous")
-public class FreightAutonomous extends LinearOpMode {
+@Autonomous(name="FreightAutoNoCameraOrPlacement", group="Autonomous")
+public class FreightAutoNoCameraOrPlacement extends LinearOpMode {
     private DcMotor leftDrive = null;
     private Arm arm;
     private ColorSensor colorSensor;
