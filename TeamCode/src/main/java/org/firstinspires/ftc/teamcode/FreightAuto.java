@@ -18,6 +18,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.dependencies.AlliancePosition;
 import org.firstinspires.ftc.teamcode.dependencies.AllianceSide;
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
+import org.firstinspires.ftc.teamcode.dependencies.Arm.armPosition;
 import org.firstinspires.ftc.teamcode.dependencies.ColorSensor;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
@@ -48,7 +49,14 @@ public class FreightAuto {
 
         //Insert camera code here
         // for now, assume the duck is in the middle
-        Arm.armPosition armPos = Arm.armPosition.TWO;
+        armPosition armPos;
+        if (colorSensor.isRegionGreen(0)){
+            armPos = armPosition.ONE;
+        } else if (colorSensor.isRegionGreen(1)) {
+            armPos = armPosition.TWO;
+        } else {
+            armPos = armPosition.THREE;
+        }
 
         // Move the arm to the appropriate height
         arm.moveToPosition(armPos, 0.7);
