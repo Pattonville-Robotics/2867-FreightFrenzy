@@ -85,7 +85,6 @@ public class FreightAutoNoCameraOrPlacement extends LinearOpMode {
 
         // Move into the depot
         encoder.moveInches(DcMotorSimple.Direction.REVERSE, 17, 0.7);
-
         rotationalDirection towardsDepot;
         rotationalDirection awayFromDepot;
         if (allianceSide == AllianceSide.RED){

@@ -52,7 +52,7 @@ public class LastResort extends LinearOpMode {
 
         waitForStart();
         //code go here
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 95, 0.7);
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 40, 0.7);
 //        }
 
     }
