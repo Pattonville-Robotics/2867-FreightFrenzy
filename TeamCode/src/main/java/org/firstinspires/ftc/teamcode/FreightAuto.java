@@ -32,7 +32,7 @@ public class FreightAuto {
         DcMotor leftDrive = hardwareMap.get(DcMotor.class, "left");
         DcMotor rightDrive = hardwareMap.get(DcMotor.class, "right");
         Arm arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
-        ColorSensor colorSensor = new ColorSensor("Webcam", hardwareMap, linearOp);
+//        ColorSensor colorSensor = new ColorSensor("Webcam", hardwareMap, linearOp);
 
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -49,18 +49,11 @@ public class FreightAuto {
 
         //Insert camera code here
         // for now, assume the duck is in the middle
-        armPosition armPos;
-        if (colorSensor.isRegionGreen(0)){
-            armPos = armPosition.ONE;
-        } else if (colorSensor.isRegionGreen(1)) {
-            armPos = armPosition.TWO;
-        } else {
-            armPos = armPosition.THREE;
-        }
+        Arm.armPosition armPos = Arm.armPosition.TWO;
 
         // Move the arm to the appropriate height
         arm.moveToPosition(armPos, 0.7);
-        encoder.moveInches(4);
+        encoder.moveInches(6);
 
         // Move to the hub (This will run while the arm is moving to save time)
         rotationalDirection towardsHub;
@@ -72,20 +65,18 @@ public class FreightAuto {
             towardsHub = rotationalDirection.COUNTERCLOCKWISE;
             awayFromHub = rotationalDirection.CLOCKWISE;
         }
-        encoder.rotateDegrees(towardsHub, 90);
-        encoder.moveInches(15);
-        encoder.rotateDegrees(awayFromHub, 90);
-        encoder.moveInches(17);
+        encoder.rotateDegrees(towardsHub, 90, 0.35);
+        encoder.moveInches(23);
+        encoder.rotateDegrees(awayFromHub, 90, 0.35);
+        encoder.moveInches(19);
 
         // Spit out the block
         arm.startOuttake();
-        linearOp.sleep(2000);
+        linearOp.sleep(4000);
         arm.stopHand();
 
-        // Back up and lower the arm
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 17, 0.7);
-
-        arm.moveToPosition(Arm.armPosition.NEUTRAL, 0.7);
+        // Move into the depot
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 21, 0.7);
         rotationalDirection towardsDepot;
         rotationalDirection awayFromDepot;
         if (allianceSide == AllianceSide.RED){
@@ -97,8 +88,9 @@ public class FreightAuto {
         }
         encoder.rotateDegrees(towardsDepot, 96);
         encoder.moveInches(23);
-        encoder.rotateDegrees(awayFromDepot, 6);
-        encoder.moveInches(26);
+        encoder.rotateDegrees(awayFromDepot, 6, 0.25);
+        encoder.moveInches(31);
+
     }
 
 }

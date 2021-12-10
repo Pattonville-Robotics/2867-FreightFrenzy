@@ -30,7 +30,7 @@ public class FreightAutoNoCameraOrPlacement extends LinearOpMode {
     private TwoWheelEncoder encoder;
 
     private AllianceSide allianceSide = AllianceSide.RED;
-    private AlliancePosition alliancePosition = AlliancePosition.LEFT;
+    private AlliancePosition alliancePosition = AlliancePosition.RIGHT;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -61,7 +61,7 @@ public class FreightAutoNoCameraOrPlacement extends LinearOpMode {
 
         // Move the arm to the appropriate height
         arm.moveToPosition(armPos, 0.7);
-        encoder.moveInches(4);
+        encoder.moveInches(6);
 
         // Move to the hub (This will run while the arm is moving to save time)
         rotationalDirection towardsHub;
@@ -73,18 +73,18 @@ public class FreightAutoNoCameraOrPlacement extends LinearOpMode {
             towardsHub = rotationalDirection.COUNTERCLOCKWISE;
             awayFromHub = rotationalDirection.CLOCKWISE;
         }
-        encoder.rotateDegrees(towardsHub, 90);
-        encoder.moveInches(20);
-        encoder.rotateDegrees(awayFromHub, 90);
-        encoder.moveInches(17);
+        encoder.rotateDegrees(towardsHub, 90, 0.35);
+        encoder.moveInches(23);
+        encoder.rotateDegrees(awayFromHub, 90, 0.35);
+        encoder.moveInches(19);
 
         // Spit out the block
         arm.startOuttake();
-        sleep(2000);
+        sleep(4000);
         arm.stopHand();
 
         // Move into the depot
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 17, 0.7);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 21, 0.7);
         rotationalDirection towardsDepot;
         rotationalDirection awayFromDepot;
         if (allianceSide == AllianceSide.RED){
@@ -94,9 +94,9 @@ public class FreightAutoNoCameraOrPlacement extends LinearOpMode {
             towardsDepot = rotationalDirection.COUNTERCLOCKWISE;
             awayFromDepot = rotationalDirection.CLOCKWISE;
         }
-        encoder.rotateDegrees(towardsDepot, 90);
+        encoder.rotateDegrees(towardsDepot, 96);
         encoder.moveInches(23);
-        encoder.rotateDegrees(awayFromDepot, 6);
+        encoder.rotateDegrees(awayFromDepot, 6, 0.25);
         encoder.moveInches(31);
 
 

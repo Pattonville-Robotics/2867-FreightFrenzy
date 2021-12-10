@@ -52,13 +52,18 @@ public class FreightTeleOp extends OpMode {
 
         double leftSpd = leftInput + rightInput;
         double rightSpd = leftInput - rightInput;
-        if((Math.abs(leftSpd)==1)&&(Math.abs(rightSpd)==1)) {
-            left.setPower(leftSpd);
-            right.setPower(rightSpd);
-        }else{
-            left.setPower(leftSpd * 0.5);
-            right.setPower(rightSpd * 0.5);
-        }
+        // Normal motor speed
+//        if((Math.abs(leftSpd)==1)&&(Math.abs(rightSpd)==1)) {
+//            left.setPower(leftSpd);
+//            right.setPower(rightSpd);
+//        }else{
+//            left.setPower(leftSpd * 0.5);
+//            right.setPower(rightSpd * 0.5);
+//        }
+
+        // Quadratic motor speed
+        left.setPower(leftSpd*Math.abs(leftSpd));
+        right.setPower(rightSpd*Math.abs(rightSpd));
 
         if(gamepad1.dpad_up){
             spinny.setPower(0.15);

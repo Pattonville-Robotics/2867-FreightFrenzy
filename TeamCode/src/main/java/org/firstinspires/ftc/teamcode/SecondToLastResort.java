@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-//USE THIS IF THE CAMERA STUFF DOESN'T WORK/
-//ROBOT CHARGES STRAIGHT AHEAD LEEEEEEROYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY JENKINSSSSSSSSSS
-//-Justin
+// Drives forward and drops the block, thats it.
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -13,14 +11,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
-import org.firstinspires.ftc.teamcode.dependencies.ColorSensor;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
-import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
 
-@Autonomous(name="LastResort", group="Autonomous")
-public class LastResort extends LinearOpMode {
+@Autonomous(name="SecondToLastResort", group="Autonomous")
+public class SecondToLastResort extends LinearOpMode {
 
     private DcMotor leftDrive = null;
     private Arm arm;
@@ -52,8 +48,12 @@ public class LastResort extends LinearOpMode {
 
         waitForStart();
         //code go here
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 34, 0.7);
-//        }
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 23, 0.7);
+        arm.moveToPosition(Arm.armPosition.TWO, 0.7);
+
+        arm.startOuttake();
+        sleep(4000);
+        arm.stopHand();
 
     }
 
