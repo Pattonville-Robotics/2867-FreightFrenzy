@@ -13,10 +13,11 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
+import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
 
-@Autonomous(name="SecondToLastResort", group="Autonomous")
-public class SecondToLastResort extends LinearOpMode {
+@Autonomous(name="ThirdToLastResortRed", group="Autonomous")
+public class ThirdToLastResortRed extends LinearOpMode {
 
     private DcMotor leftDrive = null;
     private Arm arm;
@@ -49,12 +50,18 @@ public class SecondToLastResort extends LinearOpMode {
         waitForStart();
         //code go here
         arm.moveToPosition(Arm.armPosition.TWO, 0.7);
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 23, 0.7);
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 24, 0.7);
 
         arm.startOuttake();
         sleep(4000);
         arm.stopHand();
 
+        // Move back to start and turn 95 deg
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 24, 0.7);
+        arm.moveToPosition(Arm.armPosition.NEUTRAL, 0.7);
+        encoder.rotateDegrees(rotationalDirection.COUNTERCLOCKWISE, 81.5);
+        encoder.moveInches(35);
+        encoder.rotateDegrees(rotationalDirection.COUNTERCLOCKWISE, 47);
     }
 
 }

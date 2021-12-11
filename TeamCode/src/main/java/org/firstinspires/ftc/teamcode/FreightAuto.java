@@ -47,6 +47,9 @@ public class FreightAuto {
 
         linearOp.waitForStart();
 
+        // Sleep
+        linearOp.sleep(10000);
+
         //Insert camera code here
         // for now, assume the duck is in the middle
         Arm.armPosition armPos = Arm.armPosition.TWO;
@@ -57,18 +60,13 @@ public class FreightAuto {
 
         // Move to the hub (This will run while the arm is moving to save time)
         rotationalDirection towardsHub;
-        rotationalDirection awayFromHub;
         if (alliancePosition == AlliancePosition.LEFT){
             towardsHub = rotationalDirection.CLOCKWISE;
-            awayFromHub = rotationalDirection.COUNTERCLOCKWISE;
         } else {
             towardsHub = rotationalDirection.COUNTERCLOCKWISE;
-            awayFromHub = rotationalDirection.CLOCKWISE;
         }
-        encoder.rotateDegrees(towardsHub, 90, 0.35);
-        encoder.moveInches(23);
-        encoder.rotateDegrees(awayFromHub, 90, 0.35);
-        encoder.moveInches(19);
+        encoder.rotateDegrees(towardsHub, 39, 0.3);
+        encoder.moveInches(24);
 
         // Spit out the block
         arm.startOuttake();
@@ -76,7 +74,7 @@ public class FreightAuto {
         arm.stopHand();
 
         // Move into the depot
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 21, 0.7);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 24, 0.7);
         rotationalDirection towardsDepot;
         rotationalDirection awayFromDepot;
         if (allianceSide == AllianceSide.RED){
@@ -86,10 +84,22 @@ public class FreightAuto {
             towardsDepot = rotationalDirection.COUNTERCLOCKWISE;
             awayFromDepot = rotationalDirection.CLOCKWISE;
         }
-        encoder.rotateDegrees(towardsDepot, 96);
-        encoder.moveInches(23);
-        encoder.rotateDegrees(awayFromDepot, 6, 0.25);
-        encoder.moveInches(31);
+
+        int rotationTowardsDepot;
+        int distanceFromDepot;
+        if (allianceSide == AllianceSide.RED && alliancePosition == AlliancePosition.RIGHT
+        ||allianceSide == AllianceSide.BLUE && alliancePosition == AlliancePosition.LEFT ){
+            rotationTowardsDepot = 136;
+            distanceFromDepot = 10;
+        } else {
+            rotationTowardsDepot = 62;
+            distanceFromDepot = 47;
+        }
+
+        encoder.rotateDegrees(towardsDepot, rotationTowardsDepot);
+        encoder.moveInches(distanceFromDepot);
+        encoder.rotateDegrees(awayFromDepot, 6);
+        encoder.moveInches(30);
 
     }
 
