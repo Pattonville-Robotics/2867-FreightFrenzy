@@ -45,7 +45,7 @@ public class FreightTeleOp extends OpMode {
 
     public void loop() {
         telemetry.clearAll();
-
+        maxSpeed = 1.0;
         double leftInput = gamepad1.right_stick_x;
         double rightInput = gamepad1.left_stick_y;
 
@@ -61,9 +61,20 @@ public class FreightTeleOp extends OpMode {
 //            right.setPower(rightSpd * 0.5);
 //        }
 
+        if(gamepad1.right_bumper){
+            maxSpeed=0.5;
+        }
         // Quadratic motor speed
-        left.setPower(leftSpd*Math.abs(leftSpd));
-        right.setPower(rightSpd*Math.abs(rightSpd));
+        /*
+
+        // Speed cap
+        left.setPower(Math.min(leftSpd * Math.abs(leftSpd), maxSpeed));
+        right.setPower(Math.min(rightSpd * Math.abs(rightSpd), maxSpeed));
+
+         */
+        // direct scale
+        left.setPower(leftSpd * Math.abs(leftSpd)*maxSpeed);
+        right.setPower(rightSpd * Math.abs(rightSpd)*maxSpeed);
 
         if(gamepad1.dpad_up){
             spinny.setPower(0.15);
@@ -84,6 +95,7 @@ public class FreightTeleOp extends OpMode {
         }else if(gamepad1.b){
             arm.moveToPosition(armPosition.THREE, 0.7);
         }
+
 
         if(gamepad1.left_trigger>0){
             arm.startIntake();

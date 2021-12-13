@@ -19,12 +19,11 @@ import org.firstinspires.ftc.teamcode.dependencies.AlliancePosition;
 import org.firstinspires.ftc.teamcode.dependencies.AllianceSide;
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
 import org.firstinspires.ftc.teamcode.dependencies.Arm.armPosition;
-import org.firstinspires.ftc.teamcode.dependencies.ColorSensor;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
-public class FreightAuto {
+public class FreightAutoOld {
     public static void run(LinearOpMode linearOp, AllianceSide allianceSide, AlliancePosition alliancePosition){
         // Declare any local / helper variables here
         // Our initialization code should go here
@@ -47,9 +46,12 @@ public class FreightAuto {
 
         linearOp.waitForStart();
 
+        // Sleep
+        linearOp.sleep(10000);
+
         //Insert camera code here
         // for now, assume the duck is in the middle
-        Arm.armPosition armPos = Arm.armPosition.TWO;
+        armPosition armPos = armPosition.TWO;
 
         // Move the arm to the appropriate height
         arm.moveToPosition(armPos, 0.7);
