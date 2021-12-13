@@ -8,11 +8,16 @@ import org.opencv.core.Point;
 
 public class ColorSensor {
     CameraColorSensor camSensor;
-    final Point[] DEFAULT_POINTS = {new Point(109, 98), new Point(181, 98), new Point(253, 98)};
+    LinearOpMode linearOpMode;
+    final Point[] DEFAULT_POINTS = {new Point(0, 98), new Point(181, 98), new Point(253, 98)};
     final int DEFAULT_WIDTH = 60;
     final int DEFAULT_HEIGHT = 60;
     public ColorSensor(String cameraName, HardwareMap hardwareMap, LinearOpMode linearOpMode){
         camSensor = new CameraColorSensor(cameraName, hardwareMap, linearOpMode);
+        this.linearOpMode = linearOpMode;
+        while (!camSensor.isCameraInitialized()) {
+            linearOpMode.sleep(100);
+        }
         camSensor.UsingWebcam = true;
         camSensor.RegionTopLeft[0] = DEFAULT_POINTS[0];
         camSensor.RegionTopLeft[1] = DEFAULT_POINTS[1];
@@ -22,6 +27,10 @@ public class ColorSensor {
     }
     public ColorSensor(String cameraName, HardwareMap hardwareMap, LinearOpMode linearOpMode, int width, int height, Point region1, Point region2, Point region3){
         camSensor = new CameraColorSensor(cameraName, hardwareMap, linearOpMode);
+        this.linearOpMode = linearOpMode;
+        while (!camSensor.isCameraInitialized()) {
+            linearOpMode.sleep(100);
+        }
         camSensor.UsingWebcam = true;
         camSensor.RegionTopLeft[0] = region1;
         camSensor.RegionTopLeft[1] = region2;
@@ -31,6 +40,10 @@ public class ColorSensor {
     }
     public ColorSensor(String cameraName, HardwareMap hardwareMap, LinearOpMode linearOpMode, Point region1, Point region2, Point region3){
         camSensor = new CameraColorSensor(cameraName, hardwareMap, linearOpMode);
+        this.linearOpMode = linearOpMode;
+        while (!camSensor.isCameraInitialized()) {
+            linearOpMode.sleep(100);
+        }
         camSensor.UsingWebcam = true;
         camSensor.RegionTopLeft[0] = region1;
         camSensor.RegionTopLeft[1] = region2;
@@ -40,6 +53,10 @@ public class ColorSensor {
     }
     public ColorSensor(String cameraName, HardwareMap hardwareMap, LinearOpMode linearOpMode, int width, int height){
         camSensor = new CameraColorSensor(cameraName, hardwareMap, linearOpMode);
+        this.linearOpMode = linearOpMode;
+        while (!camSensor.isCameraInitialized()) {
+            linearOpMode.sleep(100);
+        }
         camSensor.UsingWebcam = true;
         camSensor.RegionTopLeft[0] = DEFAULT_POINTS[0];
         camSensor.RegionTopLeft[1] = DEFAULT_POINTS[1];
@@ -48,6 +65,9 @@ public class ColorSensor {
         camSensor.RegionHeight = height;
     }
     public Color_Enum getColorAtRegion(int regionNumber){
+        while (!camSensor.isCameraInitialized()) {
+            linearOpMode.sleep(100);
+        }
         Color_Enum color;
         if (camSensor.isRegionGreen(regionNumber)) color = Color_Enum.Color_Green;
         else if (camSensor.isRegionYellow(regionNumber)) color = Color_Enum.Color_Yellow;

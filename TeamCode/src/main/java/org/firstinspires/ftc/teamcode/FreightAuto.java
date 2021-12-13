@@ -86,7 +86,7 @@ public class FreightAuto {
         int distanceFromDepot;
         if (allianceSide == AllianceSide.RED && alliancePosition == AlliancePosition.RIGHT
         || allianceSide == AllianceSide.BLUE && alliancePosition == AlliancePosition.LEFT ){
-            rotationTowardsDepot = 136;
+            rotationTowardsDepot = 150;
             distanceFromDepot = 10;
         } else {
             rotationTowardsDepot = 62;

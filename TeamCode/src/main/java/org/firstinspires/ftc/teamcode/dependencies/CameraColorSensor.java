@@ -82,7 +82,7 @@ public class CameraColorSensor {
         this.linearOpMode = linearOpMode;
         this.telemetry = linearOpMode.telemetry;
 
-        RegionTopLeft[0] = new Point(109, 98);
+        RegionTopLeft[0] = new Point(0, 98);
         RegionTopLeft[1] = new Point(181, 98);
         RegionTopLeft[2] = new Point(253, 98);
 
@@ -131,7 +131,17 @@ public class CameraColorSensor {
             }
         });
     }
+    public boolean isCameraInitialized() {
+        boolean returnValue = false;
+        List<EnumMap<Color_Enum, ColorData>> colorData = getColorData();
 
+        // after the first frame is processed, each region will have data
+        if (colorData.size() >= NumRegions) {
+            returnValue = true;
+        }
+
+        return (returnValue);
+    }
     public boolean isRegionBlue(int region) {
         List<EnumMap<Color_Enum, ColorData>> colorData = getColorData();
         return (colorData.size() > 0 && Objects.requireNonNull(colorData.get(region).get(Color_Enum.Color_Blue)).color == Color_Enum.Color_Blue);

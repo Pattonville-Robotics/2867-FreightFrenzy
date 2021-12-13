@@ -61,7 +61,7 @@ public class ThirdToLastResortBlue extends LinearOpMode {
 
         arm.moveToPosition(Arm.armPosition.NEUTRAL, 0.7);
         encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 81.5);
-        encoder.moveInches(35);
+        encoder.moveInches(37);
         encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 47);
     }
 
