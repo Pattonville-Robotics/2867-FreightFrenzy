@@ -1,3 +1,32 @@
+12/13/21:
+1. This exception about 1 second after INIT is pressed:
+
+OpenCvCamera: java.lang.NullPointerException: Attempt to read from field 'double[] org.opencv.core.Scalar.val' on a null object reference
+
+is caused by the Imgproc.rectangle call in CameraColorSensor.java:
+            // draw debug data on the screen
+            Mat output = input;
+            for (DebugData data : debugList)
+            {
+                Imgproc.rectangle(output, data.upperLeft, data.lowerRight, data.color, data.width);
+            }
+I don't know why (probably data.color not initialized), but a try/catch around Imgproc.rectangle should stop it.
+
+2. Region location/size: I changed RegionTopLeft[0] in my code to (0, 98) and it moved to the left side. So it should work in yours.
+
+3. For safety, you should check for a valid region before checking the color, for example:
+    public boolean isRegionBlue(int region) {
+        boolean returnValue = false;
+        List<EnumMap<Color_Enum, ColorData>> colorData = getColorData();
+
+        if (region < colorData.size ()) {
+            returnValue = (colorData.get(region).get(Color_Enum.Color_Blue).color == Color_Enum.Color_Blue);
+        }
+        return returnValue;
+    }
+
+
+
 12/7/21:
 
 LastResort.java is probably crashing (null pointer) because it instantiates a colorSensor. It can be deleted since it is not
