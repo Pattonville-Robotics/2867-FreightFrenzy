@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class Arm {
     private final DcMotor armMotor;
     private final CRServo handServo;
-    private final static double SERVO_POWER = 1;
+    private final static double SERVO_POWER = 1.0;
     public enum armPosition{
         ONE, TWO, THREE, NEUTRAL
     }
@@ -29,11 +29,11 @@ public class Arm {
                 break;
             }
             case TWO:{
-                moveToPosition(-165, power);
+                moveToPosition(-160, power);
                 break;
             }
             case THREE:{
-                moveToPosition(-250, power);
+                moveToPosition(-240, power);
                 break;
             }
             case NEUTRAL:{

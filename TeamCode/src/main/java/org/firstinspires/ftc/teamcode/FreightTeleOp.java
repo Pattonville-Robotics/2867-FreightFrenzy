@@ -45,14 +45,13 @@ public class FreightTeleOp extends OpMode {
 
     public void loop() {
         telemetry.clearAll();
-        maxSpeed = 1.0;
         double leftInput = gamepad1.right_stick_x;
         double rightInput = gamepad1.left_stick_y;
 
 
         double leftSpd = leftInput + rightInput;
         double rightSpd = leftInput - rightInput;
-        // Normal motor speed
+        // Old motor speed
 //        if((Math.abs(leftSpd)==1)&&(Math.abs(rightSpd)==1)) {
 //            left.setPower(leftSpd);
 //            right.setPower(rightSpd);
@@ -61,26 +60,26 @@ public class FreightTeleOp extends OpMode {
 //            right.setPower(rightSpd * 0.5);
 //        }
 
+        // Slow if right bumper pushed
         if(gamepad1.right_bumper){
-            maxSpeed=0.5;
+            maxSpeed = 0.5;
+        } else {
+            maxSpeed = 1.0;
         }
-        // Quadratic motor speed
-        /*
 
         // Speed cap
-        left.setPower(Math.min(leftSpd * Math.abs(leftSpd), maxSpeed));
-        right.setPower(Math.min(rightSpd * Math.abs(rightSpd), maxSpeed));
+//        left.setPower(Math.min(leftSpd * Math.abs(leftSpd), maxSpeed));
+//        right.setPower(Math.min(rightSpd * Math.abs(rightSpd), maxSpeed));
 
-         */
         // direct scale
-        left.setPower(leftSpd * Math.abs(leftSpd)*maxSpeed);
-        right.setPower(rightSpd * Math.abs(rightSpd)*maxSpeed);
+        left.setPower(leftSpd * Math.abs(leftSpd) * maxSpeed);
+        right.setPower(rightSpd * Math.abs(rightSpd) * maxSpeed);
 
         if(gamepad1.dpad_up){
-            spinny.setPower(0.15);
+            spinny.setPower(0.22);
         }
         else if(gamepad1.dpad_down){
-            spinny.setPower(-0.15);
+            spinny.setPower(-0.22);
         }
         else{
             spinny.setPower(0);
@@ -95,7 +94,6 @@ public class FreightTeleOp extends OpMode {
         }else if(gamepad1.b){
             arm.moveToPosition(armPosition.THREE, 0.7);
         }
-
 
         if(gamepad1.left_trigger>0){
             arm.startIntake();
