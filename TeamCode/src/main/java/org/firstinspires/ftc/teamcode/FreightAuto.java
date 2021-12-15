@@ -69,7 +69,7 @@ public class FreightAuto {
         } else {
             towardsHub = rotationalDirection.COUNTERCLOCKWISE;
         }
-        encoder.rotateDegrees(towardsHub, 36, 0.3);
+        encoder.rotateDegrees(towardsHub, 33, 0.3);
         encoder.moveInches(24);
 
         // Spit out the block

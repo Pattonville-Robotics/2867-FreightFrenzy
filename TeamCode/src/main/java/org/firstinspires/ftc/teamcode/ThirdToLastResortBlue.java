@@ -59,10 +59,12 @@ public class ThirdToLastResortBlue extends LinearOpMode {
         // Move back to start and turn 95 deg
         encoder.moveInches(DcMotorSimple.Direction.REVERSE, 24, 0.7);
 
-        arm.moveToPosition(Arm.armPosition.NEUTRAL, 0.7);
+        arm.moveToPosition(-15, 0.7);
         encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 81.5);
         encoder.moveInches(37);
+        arm.moveToPosition(Arm.armPosition.NEUTRAL, 0.7);
         encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 47);
+
     }
 
 }
