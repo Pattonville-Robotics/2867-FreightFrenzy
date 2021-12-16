@@ -63,10 +63,10 @@ public class StoragePark {
         encoder.moveInches(DcMotorSimple.Direction.REVERSE, 24, 0.5);
         arm.moveToPosition(Arm.armPosition.ONE, 0.5);
 
-        rotationalDirection towards = allianceSide == AllianceSide.RED ? rotationalDirection.CLOCKWISE : rotationalDirection.COUNTERCLOCKWISE;
-        encoder.rotateDegrees(rotationalDirection.COUNTERCLOCKWISE, 67, 0.5);
+        rotationalDirection towardsStorage = allianceSide == AllianceSide.RED ? rotationalDirection.CLOCKWISE : rotationalDirection.COUNTERCLOCKWISE;
+        encoder.rotateDegrees(towardsStorage, 67, 0.5);
         encoder.moveInches(34, 0.5);
-        encoder.rotateDegrees(rotationalDirection.COUNTERCLOCKWISE, 47, 0.5);
+        encoder.rotateDegrees(towardsStorage, 47, 0.5);
     }
 
 }
