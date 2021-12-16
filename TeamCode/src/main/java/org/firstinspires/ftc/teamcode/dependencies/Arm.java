@@ -29,7 +29,7 @@ public class Arm {
                 break;
             }
             case TWO:{
-                moveToPosition(-140, power);
+                moveToPosition(-160, power);
                 break;
             }
             case THREE:{

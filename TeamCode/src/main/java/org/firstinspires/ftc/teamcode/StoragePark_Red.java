@@ -18,8 +18,8 @@ import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
 
-@Autonomous(name="ThirdToLastResortRed", group="Autonomous")
-public class ThirdToLastResortRed extends LinearOpMode {
+@Autonomous(name="StoragePark_Red", group="Autonomous")
+public class StoragePark_Red extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         StoragePark.run(this, AllianceSide.RED);
