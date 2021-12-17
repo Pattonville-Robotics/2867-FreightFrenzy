@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-// This file contains the code these 4 files run with different allianceSides and alliancePositions:
+// This file contains the run method these 4 files call with different allianceSides and alliancePositions:
 // FreightAuto_RedLeft
 // FreightAuto_RedRight
 // FreightAuto_BlueLeft

@@ -1,12 +1,13 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.useless_files_that_no_one_likes;
 
-// This contains the same code as FreightAuto (12/7/21) but uses the saem autonomous structure as
+// This contains the same code as FreightAuto (12/7/21) but uses the same autonomous structure as
 // the other ones we've made without the wacky freightauto run() stuff.
-// If the new freightAuto stuff doesn't work the
+// If the new freightAuto stuff doesn't work then use this which
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -21,6 +22,7 @@ import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
 @Autonomous(name="FreightAutoNoCameraOrPlacement", group="Autonomous")
+@Disabled
 public class FreightAutoNoCameraOrPlacement extends LinearOpMode {
     private DcMotor leftDrive = null;
     private Arm arm;

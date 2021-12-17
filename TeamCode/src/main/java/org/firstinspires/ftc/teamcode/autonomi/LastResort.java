@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomi;
 
 //USE THIS IF THE CAMERA STUFF DOESN'T WORK/
 //ROBOT CHARGES STRAIGHT AHEAD LEEEEEEROYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY JENKINSSSSSSSSSS

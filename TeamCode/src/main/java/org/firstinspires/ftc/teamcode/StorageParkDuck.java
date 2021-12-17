@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-// Drop the block in da hub, go to ducks and spin one duck, and then park in storage
+// Drop the block in da hub, go to ducks and spin one duck, and then park in storage.
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -39,6 +39,10 @@ public class StorageParkDuck {
 
         linearOp.waitForStart();
 
+        // some variables to simplify stuff
+        boolean isRedSide = allianceSide == AllianceSide.RED;
+
+        // Use camera frame to determine arm position
         Arm.armPosition armPos;
         if (colorSensor.isRegionGreen(2)){
             armPos = Arm.armPosition.THREE;
@@ -48,33 +52,38 @@ public class StorageParkDuck {
             armPos = Arm.armPosition.ONE;
         }
 
+        // Move forward slightly before turning and bring arm up
         arm.moveToPosition(armPos, 0.55);
         encoder.moveInches(5, 0.5);
 
-        rotationalDirection towardsHub = allianceSide == AllianceSide.RED ? rotationalDirection.CLOCKWISE : rotationalDirection.COUNTERCLOCKWISE;
+        // Turn towards the shipping hub and move to it
+        rotationalDirection towardsHub = isRedSide ? rotationalDirection.CLOCKWISE : rotationalDirection.COUNTERCLOCKWISE;
         encoder.rotateDegrees(towardsHub, 40.5, 0.55);
         encoder.moveInches(DcMotorSimple.Direction.FORWARD, 26, 0.725);
 
+        // Spit out the block
         arm.startOuttake();
         linearOp.sleep(4000);
         arm.stopHand();
 
-        // Turn and back up into hub
+        // Back up slightly, turn towards carousel and back up into it (slow downs when near it)
         encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6, 0.55);
         arm.moveToPosition(Arm.armPosition.ONE, 0.5);
-        encoder.rotateDegrees(towardsHub, allianceSide == AllianceSide.RED ? 43 : 31, 0.3);
+        encoder.rotateDegrees(towardsHub, isRedSide ? 42.5 : 31, 0.3);
         encoder.moveInches(DcMotorSimple.Direction.REVERSE, 29.75, 0.55);
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6.5, 0.3);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6.25, 0.3);
 
-        linearOp.sleep(500);
-        spinny.setPower(allianceSide == AllianceSide.RED ? -0.2 : 0.2);
+        // Spin the carousel
+        linearOp.sleep(250);
+        spinny.setPower(isRedSide ? -0.2 : 0.2);
         linearOp.sleep(3750);
         spinny.setPower(0);
-        linearOp.sleep(500);
+        linearOp.sleep(250);
 
+        // Move forward, turn towards the storage unit (or whatever its called) and park in it
         encoder.moveInches(5, 0.4);
-        rotationalDirection towardsStorage = allianceSide == AllianceSide.RED ? rotationalDirection.COUNTERCLOCKWISE : rotationalDirection.CLOCKWISE;
-        encoder.rotateDegrees(towardsStorage, allianceSide == AllianceSide.RED ? 57.5 : 43, 0.5);
+        rotationalDirection towardsStorage = isRedSide ? rotationalDirection.COUNTERCLOCKWISE : rotationalDirection.CLOCKWISE;
+        encoder.rotateDegrees(towardsStorage, isRedSide ? 63 : 43, 0.5);
         encoder.moveInches(22.5, 0.5);
         arm.moveToPosition(Arm.armPosition.NEUTRAL, 0.5);
     }

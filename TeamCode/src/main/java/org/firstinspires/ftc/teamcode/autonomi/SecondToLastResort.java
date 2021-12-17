@@ -1,8 +1,6 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomi;
 
-//USE THIS IF THE CAMERA STUFF DOESN'T WORK/
-//ROBOT CHARGES STRAIGHT AHEAD LEEEEEEROYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY JENKINSSSSSSSSSS
-//-Justin
+// Drives forward and drops the block in the second level, thats it.
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -13,18 +11,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
-import org.firstinspires.ftc.teamcode.dependencies.ColorSensor;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
-import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
 
-@Autonomous(name="PickupMiddleBlock", group="Autonomous")
-public class PickupMiddleBlock extends LinearOpMode {
+@Autonomous(name="SecondToLastResort", group="Autonomous")
+public class SecondToLastResort extends LinearOpMode {
 
     private DcMotor leftDrive = null;
     private Arm arm;
-    private ColorSensor colorSensor;
+    //private ColorSensor colorSensor;
     private DcMotor rightDrive = null;
     private BNO055IMU imu;
     private TwoWheelEncoder encoder;
@@ -36,7 +32,7 @@ public class PickupMiddleBlock extends LinearOpMode {
         leftDrive = hardwareMap.get(DcMotor.class, "left");
         rightDrive = hardwareMap.get(DcMotor.class, "right");
         arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
-        colorSensor = new ColorSensor("Webcam", hardwareMap, this);
+        //colorSensor = new ColorSensor("Webcam", hardwareMap, this);
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -51,31 +47,14 @@ public class PickupMiddleBlock extends LinearOpMode {
         encoder = new TwoWheelEncoder(leftDrive, rightDrive, imu, CommonParameters.FREIGHT_ROBOT, this);
 
         waitForStart();
-
-        // Charge forward while spinning the hand
-        encoder.moveInches(25, 0.7);
-
-        // Move the arm up
+        //code go here
         arm.moveToPosition(Arm.armPosition.TWO, 0.7);
-        wait(2000);
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 23, 0.7);
 
-        // Turn towards the shipping hub and move to it
-        encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 90, 0.7);
-        encoder.moveInches(16, 0.5);
-
-        // Spit out the block
         arm.startOuttake();
-        wait(2000);
+        sleep(4000);
         arm.stopHand();
 
-        //(Attempt to) move to the garage
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 4, 0.5);
-        encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 90, 0.7);
-        encoder.moveInches(12, 0.7);
-        encoder.rotateDegrees(rotationalDirection.COUNTERCLOCKWISE, 69, 0.7);
-        encoder.moveInches(27, 0.7);
-        encoder.rotateDegrees(rotationalDirection.COUNTERCLOCKWISE, 21, 0.5);
-        encoder.moveInches(38, 0.7);
     }
 
 }

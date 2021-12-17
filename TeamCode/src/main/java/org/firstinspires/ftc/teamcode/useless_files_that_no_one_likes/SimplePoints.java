@@ -1,10 +1,11 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.useless_files_that_no_one_likes;
 
-//AutoCameraPoints - Justin's horrible attempt at camera detection in autonomous
+//Easy Points - written by Justin, we are literally just moving forwards
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,9 +15,9 @@ import org.firstinspires.ftc.teamcode.dependencies.ColorSensor;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 
-
-@Autonomous(name="AutoCameraPoints", group="Autonomous")
-public class AutoCameraPoints extends LinearOpMode {
+@Autonomous(name="SimplePoints", group="Autonomous")
+@Disabled
+public class SimplePoints extends LinearOpMode {
 
     private DcMotor leftDrive = null;
     private Arm arm;
@@ -48,28 +49,11 @@ public class AutoCameraPoints extends LinearOpMode {
         waitForStart();
         //code go here
         //encoder.moveInches(Direction.FORWARD, 10, 0.5);
-        if(colorSensor.isRegionYellow(0)){ //square left
-            //insert code to go to thing and pick it up
-            arm.moveToPosition(Arm.armPosition.ONE, 0.7);
-            //insert code to release
+        while(this.opModeIsActive()){
+            telemetry.clearAll();
+            telemetry.addData("Red: ", colorSensor.isRegionRed(0));
+            telemetry.update();
         }
-        else if(colorSensor.isRegionYellow(1)) { //square center
-            //insert code to go to thing and pick it up
-            arm.moveToPosition(Arm.armPosition.TWO, 0.7);
-            //insert code to release
-        }
-        else{ //this means it must be square right
-            //insert code to go to thing and pick it up
-            arm.moveToPosition(Arm.armPosition.THREE, 0.7);
-            //insert code to release
-        }
-
-
-//        while(this.opModeIsActive()){
-//            telemetry.clearAll();
-//            telemetry.addData("Red: ", colorSensor.isRedPresent());
-//            telemetry.update();
-//        }
 
     }
 

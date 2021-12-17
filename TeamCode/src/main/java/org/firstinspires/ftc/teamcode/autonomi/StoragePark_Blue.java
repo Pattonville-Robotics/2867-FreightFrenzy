@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomi;
 
 // Drives forward and drops the block, thats it.
 
@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.StoragePark;
 import org.firstinspires.ftc.teamcode.dependencies.AllianceSide;
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
 import org.firstinspires.ftc.teamcode.dependencies.ColorSensor;
