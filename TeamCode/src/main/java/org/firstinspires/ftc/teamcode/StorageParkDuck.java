@@ -48,33 +48,34 @@ public class StorageParkDuck {
             armPos = Arm.armPosition.ONE;
         }
 
-        arm.moveToPosition(armPos, 0.7);
+        arm.moveToPosition(armPos, 0.55);
         encoder.moveInches(5, 0.5);
 
         rotationalDirection towardsHub = allianceSide == AllianceSide.RED ? rotationalDirection.CLOCKWISE : rotationalDirection.COUNTERCLOCKWISE;
-        encoder.rotateDegrees(towardsHub, 33, 0.7);
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 26, 0.7);
+        encoder.rotateDegrees(towardsHub, 40.5, 0.55);
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 26, 0.725);
 
         arm.startOuttake();
         linearOp.sleep(4000);
         arm.stopHand();
 
         // Turn and back up into hub
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6, 0.7);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6, 0.55);
         arm.moveToPosition(Arm.armPosition.ONE, 0.5);
-        encoder.rotateDegrees(towardsHub, 33, 0.3);
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 39, 0.7);
+        encoder.rotateDegrees(towardsHub, allianceSide == AllianceSide.RED ? 43 : 31, 0.3);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 29.75, 0.55);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6.5, 0.3);
 
         linearOp.sleep(500);
         spinny.setPower(allianceSide == AllianceSide.RED ? -0.2 : 0.2);
-        linearOp.sleep(3000);
+        linearOp.sleep(3750);
         spinny.setPower(0);
         linearOp.sleep(500);
 
-        encoder.moveInches(4, 0.4);
+        encoder.moveInches(5, 0.4);
         rotationalDirection towardsStorage = allianceSide == AllianceSide.RED ? rotationalDirection.COUNTERCLOCKWISE : rotationalDirection.CLOCKWISE;
-        encoder.rotateDegrees(towardsStorage, 56, 0.5);
-        encoder.moveInches(23, 0.5);
+        encoder.rotateDegrees(towardsStorage, allianceSide == AllianceSide.RED ? 57.5 : 43, 0.5);
+        encoder.moveInches(22.5, 0.5);
         arm.moveToPosition(Arm.armPosition.NEUTRAL, 0.5);
     }
 
