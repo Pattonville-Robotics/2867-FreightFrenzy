@@ -1,6 +1,8 @@
 
 package org.firstinspires.ftc.teamcode.dependencies;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -68,8 +70,10 @@ public class CameraColorSensor {
 
     // these can be configured at run time
     public static boolean UsingWebcam = true;  // default to phone internal camera
-    public static int SquareSize = 5;           // pixel size of edge of squares for checking
-    public static Point[] RegionTopLeft = new Point[NumRegions];
+    public static int SquareSize = 5;           // p
+    // ixel size of edge of squares for checking
+    //public static Point[] RegionTopLeft = new Point[NumRegions];
+    public static Point[] RegionTopLeft = {new Point(0, 98),new Point(181, 98),new Point(253, 98)};
     public static int RegionWidth = 60;
     public static int RegionHeight = 80;
     public static int MinSaturation = 100;
@@ -103,6 +107,7 @@ public class CameraColorSensor {
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
+                camera.stopStreaming();
                 if (UsingWebcam) {
                     camera.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
                 } else {
@@ -384,8 +389,11 @@ public class CameraColorSensor {
                 Point regionBottomRight = new Point(
                         RegionTopLeft[region].x + RegionWidth,
                         RegionTopLeft[region].y + RegionHeight);
+                Rect rectangle = new Rect(regionTopLeft, regionBottomRight);
+                Log.d("rectangleValues", rectangle.toString());
 
-                regionMat = input.submat(new Rect(regionTopLeft, regionBottomRight));
+
+                regionMat = input.submat(rectangle);
 
                 // search in squares for highest scoring one
                 for (int row = 0; row < regionMat.rows() - SquareSize; row += SquareSize) {

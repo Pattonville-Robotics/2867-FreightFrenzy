@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.dependencies.CameraColorSensor.Color_Enum;
 import org.opencv.core.Point;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 public class ColorSensor {
     CameraColorSensor camSensor;
@@ -18,6 +19,7 @@ public class ColorSensor {
         while (!camSensor.isCameraInitialized()) {
             linearOpMode.sleep(100);
         }
+
         camSensor.UsingWebcam = true;
         camSensor.RegionTopLeft[0] = DEFAULT_POINTS[0];
         camSensor.RegionTopLeft[1] = DEFAULT_POINTS[1];
