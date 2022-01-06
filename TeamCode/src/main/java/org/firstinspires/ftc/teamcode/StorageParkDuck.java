@@ -39,6 +39,8 @@ public class StorageParkDuck {
 
         linearOp.waitForStart();
 
+//        float initialAngle = imu.getAngularOrientation().firstAngle;
+
         // some variables to simplify stuff
         boolean isRedSide = allianceSide == AllianceSide.RED;
 
@@ -58,8 +60,8 @@ public class StorageParkDuck {
 
         // Turn towards the shipping hub and move to it
         rotationalDirection towardsHub = isRedSide ? rotationalDirection.CLOCKWISE : rotationalDirection.COUNTERCLOCKWISE;
-        encoder.rotateDegrees(towardsHub, 40.5, 0.55);
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 26, 0.725);
+        encoder.rotateDegrees(towardsHub, 39.5, 0.35);
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 25, 0.725);
 
         // Spit out the block
         arm.startOuttake();
@@ -69,9 +71,13 @@ public class StorageParkDuck {
         // Back up slightly, turn towards carousel and back up into it (slow downs when near it)
         encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6, 0.55);
         arm.moveToPosition(Arm.armPosition.ONE, 0.5);
-        encoder.rotateDegrees(towardsHub, isRedSide ? 42.5 : 31, 0.3);
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 29.75, 0.55);
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6.25, 0.3);
+        encoder.rotateDegrees(towardsHub, isRedSide ? 43.5 : 26, 0.3);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE,
+                isRedSide ? 30 : 34.5,
+                0.55);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE,
+                5.25,
+                0.3);
 
         // Spin the carousel
         linearOp.sleep(250);
@@ -80,12 +86,16 @@ public class StorageParkDuck {
         spinny.setPower(0);
         linearOp.sleep(250);
 
-        // Move forward, turn towards the storage unit (or whatever its called) and park in it
+        // Move forward, turn towards the storage unit (or whatever its called).
         encoder.moveInches(5, 0.4);
         rotationalDirection towardsStorage = isRedSide ? rotationalDirection.COUNTERCLOCKWISE : rotationalDirection.CLOCKWISE;
-        encoder.rotateDegrees(towardsStorage, isRedSide ? 63 : 43, 0.5);
-        encoder.moveInches(22.5, 0.5);
+        encoder.rotateDegrees(towardsStorage, isRedSide ? 65 : 61, 0.5);
+        encoder.moveInches(21.75, 0.5);
         arm.moveToPosition(Arm.armPosition.NEUTRAL, 0.5);
+
+        // Once lined up vertically, turn 90 degrees and back up, for greater chance of being fully within
+        encoder.rotateDegrees(towardsHub, 90);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 4.25, 0.2);
     }
 
 }
