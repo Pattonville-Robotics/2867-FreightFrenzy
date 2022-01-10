@@ -69,13 +69,14 @@ public class CameraColorSensor {
     final static int NumRegions = 3;
 
     // these can be configured at run time
-    public static boolean UsingWebcam = true;  // default to phone internal camera
+    public boolean UsingWebcam = true;  // default to phone internal camera
     public static int SquareSize = 5;           // p
     // ixel size of edge of squares for checking
     //public static Point[] RegionTopLeft = new Point[NumRegions];
-    public static Point[] RegionTopLeft = {new Point(0, 98),new Point(181, 98),new Point(253, 98)};
-    public static int RegionWidth = 60;
-    public static int RegionHeight = 80;
+    public int RegionWidth = 60;
+    public int RegionHeight = 80;
+    //public Region[] regions;
+    public Point[] RegionTopLeft = {new Point(0, 98),new Point(181, 98), new Point(253, 98)};
     public static int MinSaturation = 100;
     public static int MinBrightness = 75;
     public static double MaxStdDev = 10;
@@ -87,10 +88,6 @@ public class CameraColorSensor {
         this.linearOpMode = linearOpMode;
         this.telemetry = linearOpMode.telemetry;
 
-        RegionTopLeft[0] = new Point(0, 98);
-        RegionTopLeft[1] = new Point(181, 98);
-        RegionTopLeft[2] = new Point(253, 98);
-
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 
         if (UsingWebcam) {
@@ -101,13 +98,12 @@ public class CameraColorSensor {
             camera.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
         }
 
-        pipeline = new DeterminationPipeline();
+        pipeline = new DeterminationPipeline(this);
         camera.setPipeline(pipeline);
 
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-                camera.stopStreaming();
                 if (UsingWebcam) {
                     camera.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
                 } else {
@@ -274,13 +270,15 @@ public class CameraColorSensor {
 
         private List<TelemetryData> telemetryData = new ArrayList<TelemetryData>();
         private SynchronizedTelemetryList synchronizedTelemetryData = new SynchronizedTelemetryList();
+        public CameraColorSensor parent;
 
-        public DeterminationPipeline() {
+        public DeterminationPipeline(CameraColorSensor parent) {
             colorScalars.put(Color_Enum.Color_None, new Scalar(0, 0, 0));
             colorScalars.put(Color_Enum.Color_Blue, new Scalar(0, 0, 255));
             colorScalars.put(Color_Enum.Color_Green, new Scalar(0, 255, 0));
             colorScalars.put(Color_Enum.Color_Red, new Scalar(255, 0, 0));
             colorScalars.put(Color_Enum.Color_Yellow, new Scalar(255, 255, 0));
+            this.parent=parent;
         }
 
         /*
@@ -384,14 +382,13 @@ public class CameraColorSensor {
 
             if (region < NumRegions) {
                 Point regionTopLeft = new Point(
-                        RegionTopLeft[region].x,
-                        RegionTopLeft[region].y);
+                        parent.RegionTopLeft[region].x,
+                        parent.RegionTopLeft[region].y);
                 Point regionBottomRight = new Point(
-                        RegionTopLeft[region].x + RegionWidth,
-                        RegionTopLeft[region].y + RegionHeight);
+                        parent.RegionTopLeft[region].x + parent.RegionWidth,
+                        parent.RegionTopLeft[region].y + parent.RegionHeight);
                 Rect rectangle = new Rect(regionTopLeft, regionBottomRight);
                 Log.d("rectangleValues", rectangle.toString());
-
 
                 regionMat = input.submat(rectangle);
 
@@ -400,8 +397,8 @@ public class CameraColorSensor {
                     for (int column = 0; column < regionMat.cols() - SquareSize; column += SquareSize) {
                         Mat square = regionMat.submat(row, row + SquareSize, column, column + SquareSize);
 
-                        int row2 = row + (int) RegionTopLeft[region].y;
-                        int col2 = column + (int) RegionTopLeft[region].x;
+                        int row2 = row + (int) parent.RegionTopLeft[region].y;
+                        int col2 = column + (int) parent.RegionTopLeft[region].x;
                         Point upperLeft = new Point(col2, row2);
                         Point lowerRight = new Point(col2 + SquareSize, row2 + SquareSize);
 
@@ -492,10 +489,10 @@ public class CameraColorSensor {
                     color = colorScalars.get(Color_Enum.Color_Blue);
                 }
 
-                Point regionBottomRight = new Point(RegionTopLeft[region].x + RegionWidth,
-                        RegionTopLeft[region].y + RegionHeight);
+                Point regionBottomRight = new Point(parent.RegionTopLeft[region].x + parent.RegionWidth,
+                        parent.RegionTopLeft[region].y + parent.RegionHeight);
 
-                debugList.add(new DebugData(color, RegionTopLeft[region], regionBottomRight, 2));
+                debugList.add(new DebugData(color, parent.RegionTopLeft[region], regionBottomRight, 2));
             }
 
             synchronizedColorData.setColorData(region_colorData);
