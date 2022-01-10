@@ -12,14 +12,13 @@ public class ColorSensor {
     LinearOpMode linearOpMode;
     final Point[] DEFAULT_POINTS = {new Point(1, 98), new Point(100, 40), new Point(239, 40)};
     final int DEFAULT_WIDTH = 80;
-    final int DEFAULT_HEIGHT = 80;
+    final int DEFAULT_HEIGHT = 90;
     public ColorSensor(String cameraName, HardwareMap hardwareMap, LinearOpMode linearOpMode){
         camSensor = new CameraColorSensor(cameraName, hardwareMap, linearOpMode);
         this.linearOpMode = linearOpMode;
         while (!camSensor.isCameraInitialized()) {
             linearOpMode.sleep(100);
         }
-
         camSensor.UsingWebcam = true;
         camSensor.RegionTopLeft[0] = DEFAULT_POINTS[0];
         camSensor.RegionTopLeft[1] = DEFAULT_POINTS[1];
