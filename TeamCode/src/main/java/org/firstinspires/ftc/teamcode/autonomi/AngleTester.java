@@ -50,7 +50,7 @@ public class AngleTester extends LinearOpMode {
         // Run for clockwise and counterclockwise.
         for (int rotationI = 0; rotationI < 2; rotationI++){
             // Turn 10 times with different angles, measuring resulting angle and amount of offset,
-            rotationalDirection direction = rotationI==0 ? rotationalDirection.CLOCKWISE : rotationalDirection.COUNTERCLOCKWISE
+            rotationalDirection direction = rotationI==0 ? rotationalDirection.CLOCKWISE : rotationalDirection.COUNTERCLOCKWISE;
             for (int i=0; i<10; i++){
                 double start = imu.getAngularOrientation().firstAngle;
                 double angle = 20 + i*10;
