@@ -60,7 +60,7 @@ public class StorageParkDuck {
         // Turn towards the shipping hub and move to it
         rotationalDirection towardsHub = isRedSide ? rotationalDirection.CLOCKWISE : rotationalDirection.COUNTERCLOCKWISE;
         encoder.rotateDegrees(towardsHub, isRedSide ? 40.5 : 33, 0.35); // TODO: use blue angle in comp
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 25, 0.725);
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 25.25, 0.725);
 
         // Spit out the block
         arm.startOuttake();
@@ -68,11 +68,11 @@ public class StorageParkDuck {
         arm.stopHand();
 
         // Back up slightly, turn towards carousel and back up into it (slow downs when near it)
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6, 0.55);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6.25, 0.55);
         arm.moveToPosition(Arm.armPosition.ONE, 0.5);
-        encoder.rotateDegrees(towardsHub, isRedSide ? 46 : 29.5, 0.3);
+        encoder.rotateDegrees(towardsHub, isRedSide ? 42.25 : 29.5, 0.3);
         encoder.moveInches(DcMotorSimple.Direction.REVERSE,
-                isRedSide ? 25.5 : 34.75,
+                isRedSide ? 30.2 : 34.75,
                 0.55);
         encoder.moveInches(DcMotorSimple.Direction.REVERSE,
                 5.5,
@@ -93,11 +93,11 @@ public class StorageParkDuck {
         arm.moveToPosition(Arm.armPosition.NEUTRAL, 0.5);
 
         // Once lined up vertically, turn 90 degrees and back up, for greater chance of being fully within
-//        encoder.rotateDegrees(towardsHub, 90);
-//        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 12, 0.2);
+        encoder.rotateDegrees(towardsHub, 90);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 11.25, 0.2);
 
         // Expiremental code: Rotate to relative angle to starting angle
-        encoder.rotateToAngle(isRedSide ? -90 : 90);
+//        encoder.rotateToAngle(isRedSide ? -90 : 90);
     }
 
 }

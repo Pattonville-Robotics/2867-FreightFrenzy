@@ -59,7 +59,7 @@ public class FreightAuto {
         }
 
         // Move the arm to the appropriate height
-        arm.moveToPosition(armPos, 0.7);
+        arm.moveToPosition(armPos, 0.35);
         encoder.moveInches(6);
 
         // Move to the hub (This will run while the arm is moving to save time)
@@ -69,8 +69,8 @@ public class FreightAuto {
         } else {
             towardsHub = rotationalDirection.COUNTERCLOCKWISE;
         }
-        encoder.rotateDegrees(towardsHub, 33, 0.3);
-        encoder.moveInches(24);
+        encoder.rotateDegrees(towardsHub, 34.75, 0.3);
+        encoder.moveInches(25);
 
         // Spit out the block
         arm.startOuttake();
@@ -78,7 +78,7 @@ public class FreightAuto {
         arm.stopHand();
 
         // Move into the depot
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 25, 0.7);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 26, 0.7);
         rotationalDirection towardsDepot;
         rotationalDirection awayFromDepot;
         if (allianceSide == AllianceSide.RED){
@@ -94,11 +94,13 @@ public class FreightAuto {
         int distanceFromDepot;
         if (allianceSide == AllianceSide.RED && alliancePosition == AlliancePosition.RIGHT
         || allianceSide == AllianceSide.BLUE && alliancePosition == AlliancePosition.LEFT ){
-            rotationTowardsDepot = 150;
+            // CLoser to depot
+            rotationTowardsDepot = 151;
             rotationAwayFromDepot = 30;
             distanceFromDepot = 10;
         } else {
-            rotationTowardsDepot = 58;
+            // Further from depot
+            rotationTowardsDepot = 70;
             rotationAwayFromDepot = 18;
             distanceFromDepot = 47;
         }
@@ -107,6 +109,8 @@ public class FreightAuto {
         encoder.moveInches(distanceFromDepot);
         encoder.rotateDegrees(awayFromDepot, rotationAwayFromDepot);
         encoder.moveInches(30);
+
+        arm.moveToPosition(armPosition.NEUTRAL, 0.4);
 
     }
 

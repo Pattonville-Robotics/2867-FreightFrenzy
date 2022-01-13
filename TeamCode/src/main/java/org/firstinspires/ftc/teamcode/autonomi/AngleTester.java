@@ -26,7 +26,7 @@ public class AngleTester extends LinearOpMode {
         DcMotor leftDrive = hardwareMap.get(DcMotor.class, "left");
         // private ColorSensor colorSensor;
         DcMotor rightDrive = hardwareMap.get(DcMotor.class, "right");
-        // Arm arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
+         Arm arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
         // colorSensor = new ColorSensor("Webcam", hardwareMap, this);
 
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -49,21 +49,23 @@ public class AngleTester extends LinearOpMode {
         // ඞ
         telemetry.speak("vine boom sound effect");
 
+        arm.moveToPosition(Arm.armPosition.ONE, 0.3);
+
         // Run for clockwise and counterclockwise.
         for (int rotationI = 0; rotationI < 2; rotationI++){
-            // Turn 10 times with different angles, measuring resulting angle and amount of offset,
+            // Turn 10 times with different angles, measuring resulting angle and amount of offset
             rotationalDirection direction = rotationI==0 ? rotationalDirection.CLOCKWISE : rotationalDirection.COUNTERCLOCKWISE;
             for (int i=0; i<10; i++){
                 double start = imu.getAngularOrientation().firstAngle;
-                double angle = 10 + i*10;
+                double angle = 15 + i*15;
                 encoder.rotateDegrees(direction, angle);
                 sleep(1069);
                 double end = imu.getAngularOrientation().firstAngle;
 
-                double error = angle - (end-start);
+                double error = rotationI==0 ? angle + (end-start) : angle - (end-start);
                 telemetry.clearAll();
+                telemetry.addData("Current angle: ", imu.getAngularOrientation().firstAngle);
                 telemetry.addData("Direction: ", rotationI==0 ? "Clockwise" : "Counterclockwise");
-                telemetry.addData("Current angle: ", end);
                 telemetry.addData("Expected: ", angle);
                 telemetry.addData("Actual: ", (end-start));
                 telemetry.addData("Error: ", error);
@@ -89,8 +91,9 @@ public class AngleTester extends LinearOpMode {
         telemetry.addData("Counterclockwise avg error: ", counterclockwiseTotal/10);
         telemetry.addData("Combined avg error: ", total/20);
         telemetry.update();
-    }
 
+        sleep(15000);
+    }
 }
 
 
