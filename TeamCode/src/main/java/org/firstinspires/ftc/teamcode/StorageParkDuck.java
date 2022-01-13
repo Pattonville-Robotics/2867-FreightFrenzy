@@ -39,10 +39,9 @@ public class StorageParkDuck {
 
         linearOp.waitForStart();
 
-//        float initialAngle = imu.getAngularOrientation().firstAngle;
-
         // some variables to simplify stuff
         boolean isRedSide = allianceSide == AllianceSide.RED;
+        encoder.storeInitialAngle();
 
         // Use camera frame to determine arm position
         Arm.armPosition armPos;
@@ -94,8 +93,11 @@ public class StorageParkDuck {
         arm.moveToPosition(Arm.armPosition.NEUTRAL, 0.5);
 
         // Once lined up vertically, turn 90 degrees and back up, for greater chance of being fully within
-        encoder.rotateDegrees(towardsHub, 90);
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 12, 0.2);
+//        encoder.rotateDegrees(towardsHub, 90);
+//        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 12, 0.2);
+
+        // Expiremental code: Rotate to relative angle to starting angle
+        encoder.rotateToAngle(isRedSide ? -90 : 90);
     }
 
 }

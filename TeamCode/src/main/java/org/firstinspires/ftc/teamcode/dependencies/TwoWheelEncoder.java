@@ -27,6 +27,8 @@ public class TwoWheelEncoder {
 
     private final LinearOpMode linearOpMode;
 
+    /** initial firstAngle of the robot, saved on autonomous start via storeInitialAngle **/
+    private double initialAngle;
 
     public TwoWheelEncoder(DcMotor leftDriveMotor, DcMotor rightDriveMotor, BNO055IMU imu, RobotParameters robotParameters, LinearOpMode linearOpMode){
         this.ROBOTPARAMETERS = robotParameters;
@@ -36,6 +38,21 @@ public class TwoWheelEncoder {
         this.imu = imu;
     }
 
+    /** Utility method to add/subtract two angles without making angle negative. **/
+    public static double angleFix(double angle){
+        while (angle < 0){
+            angle += 360;
+        }
+        while (angle > 360){
+            angle -= 360;
+        }
+        return angle;
+    }
+
+    /** Stores initial angle. To be run at the start of autonomous. **/
+    public void storeInitialAngle(){
+        initialAngle = imu.getAngularOrientation().firstAngle;
+    }
 
     /**
      * NOT REVERSIBLE WITH <code>degreesToInches</code>!
@@ -148,12 +165,51 @@ public class TwoWheelEncoder {
             Thread.yield();
             linearOpMode.telemetry.update();
         }
+
+
         stop();
         sleep(100);
     }
 
     public void rotateDegrees(rotationalDirection direction, double degrees){
         rotateDegrees(direction, degrees, 0.4);
+    }
+
+
+
+    /** Rotate to an angle relative to the passed angle (clockwise). Negative angles are allowed.
+     * storeInitalAngle() must have been called at autonomous start to work properly if initialDegrees is not passed
+     * If a relative angle is passed it will rotate relative to that instead of initialAngle. **/
+    public void rotateToAngle(rotationalDirection direction, double initialDegrees, double relativeDegrees, double power){
+        double relativeToCurrentAngle;
+
+        rotationalMeasure intendedAngle = new rotationalMeasure(initialDegrees-relativeDegrees);
+
+        if(direction == rotationalDirection.CLOCKWISE) {
+            moveFreely(power, power);
+        }else {
+            moveFreely(-power, -power);
+        }
+
+        while(
+                !(Math.abs(imu.getAngularOrientation().firstAngle-intendedAngle.get())<(DEGREE_OF_ERROR*power))&&
+                        (linearOpMode.opModeIsActive())
+        ){
+            Thread.yield();
+            linearOpMode.telemetry.update();
+        }
+    }
+    public void rotateToAngle(double initialDegrees, double relativeDegrees, double power){
+        //TODO: determine direction automatically by whether the clockwise or counterclockwise angle is lower
+        rotationalDirection direction = rotationalDirection.CLOCKWISE;
+
+        rotateToAngle(direction, initialDegrees, relativeDegrees, power);
+    }
+    public void rotateToAngle(double relativeDegrees, double power){
+        rotateToAngle(initialAngle, relativeDegrees, power);
+    }
+    public void rotateToAngle(double relativeDegrees){
+        rotateToAngle(initialAngle, relativeDegrees, 0.4);
     }
 
     public boolean motorsBusy(){
