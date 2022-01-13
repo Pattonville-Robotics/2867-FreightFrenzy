@@ -46,6 +46,8 @@ public class AngleTester extends LinearOpMode {
         ArrayList<Double> clockwiseErrors = new ArrayList<>();
         ArrayList<Double> counterclockwiseErrors = new ArrayList<>();
 
+        // ඞ
+        telemetry.speak("vine boom sound effect");
 
         // Run for clockwise and counterclockwise.
         for (int rotationI = 0; rotationI < 2; rotationI++){
@@ -53,14 +55,14 @@ public class AngleTester extends LinearOpMode {
             rotationalDirection direction = rotationI==0 ? rotationalDirection.CLOCKWISE : rotationalDirection.COUNTERCLOCKWISE;
             for (int i=0; i<10; i++){
                 double start = imu.getAngularOrientation().firstAngle;
-                double angle = 20 + i*10;
+                double angle = 10 + i*10;
                 encoder.rotateDegrees(direction, angle);
-                sleep(2000);
+                sleep(1069);
                 double end = imu.getAngularOrientation().firstAngle;
 
                 double error = angle - (end-start);
                 telemetry.clearAll();
-                telemetry.addLine(String.format("Direction: %s, ", direction));
+                telemetry.addData("Direction: ", rotationI==0 ? "Clockwise" : "Counterclockwise");
                 telemetry.addData("Current angle: ", end);
                 telemetry.addData("Expected: ", angle);
                 telemetry.addData("Actual: ", (end-start));
@@ -81,12 +83,12 @@ public class AngleTester extends LinearOpMode {
         double counterclockwiseTotal = 0; for (double d : counterclockwiseErrors){ counterclockwiseTotal += d; }
 
         telemetry.clearAll();
-        telemetry.addData("Average error: ", total/20);
         telemetry.addLine(clockwiseErrors.toString());
         telemetry.addData("Clockwise avg error: ", clockwiseTotal/10);
         telemetry.addLine(counterclockwiseErrors.toString());
-        telemetry.addData("Counterclockwise error: ", counterclockwiseTotal/10);
-
+        telemetry.addData("Counterclockwise avg error: ", counterclockwiseTotal/10);
+        telemetry.addData("Combined avg error: ", total/20);
+        telemetry.update();
     }
 
 }
