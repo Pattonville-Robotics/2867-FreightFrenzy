@@ -102,6 +102,7 @@ public class FreightTeleOp extends OpMode {
         }else{
             arm.stopHand();
         }
+
         telemetry.addData("A: ", gamepad1.a);
         telemetry.addData("B: ", gamepad1.b);
         telemetry.addData("X: ", gamepad1.x);
