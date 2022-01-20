@@ -6,12 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.teamcode.dependencies.RobotParameters;
-import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
-import org.firstinspires.ftc.teamcode.dependencies.rotationalMeasure;
 
-
-public class TwoWheelEncoder {
+public class BetterTwoWheelEncoder {
 
 
     public static final int TARGET_REACHED_THRESHOLD = 10;
@@ -30,7 +26,7 @@ public class TwoWheelEncoder {
     /** initial firstAngle of the robot, saved on autonomous start via storeInitialAngle **/
     private double initialAngle;
 
-    public TwoWheelEncoder(DcMotor leftDriveMotor, DcMotor rightDriveMotor, BNO055IMU imu, RobotParameters robotParameters, LinearOpMode linearOpMode){
+    public BetterTwoWheelEncoder(DcMotor leftDriveMotor, DcMotor rightDriveMotor, BNO055IMU imu, RobotParameters robotParameters, LinearOpMode linearOpMode){
         this.ROBOTPARAMETERS = robotParameters;
         this.leftDriveMotor = leftDriveMotor;
         this.rightDriveMotor = rightDriveMotor;
@@ -146,7 +142,8 @@ public class TwoWheelEncoder {
     *
     * @param direction the direction to turn in. Uses rotationalDirection instead of DcSimpleMotor.Direction.
     * @param degrees the number of degrees to turn the robot.
-     * @param power the power to turn the wheels at. Keep it below 0.6.
+     * @param power the power to turn the wheels at.
+     *              Keep it below 0.6.
      */
     public void rotateDegrees(rotationalDirection direction, double degrees, double power){
         double startAngle = imu.getAngularOrientation().firstAngle;

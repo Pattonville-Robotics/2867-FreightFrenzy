@@ -47,7 +47,6 @@ public class StoragePark {
         } else {
             armPos = Arm.armPosition.ONE;
         }
-        
 
         arm.moveToPosition(armPos, 0.7);
         encoder.moveInches(5, 0.3);
