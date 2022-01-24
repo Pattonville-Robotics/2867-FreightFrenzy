@@ -4,9 +4,10 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
-public class Arm {
+public abstract class Arm {
     private final DcMotor armMotor;
-    public enum armPosition{
+
+    public enum armPosition {
         ONE, TWO, THREE, NEUTRAL
     }
 
@@ -65,4 +66,11 @@ public class Arm {
     public DcMotor getArmMotor() {
         return this.armMotor;
     }
+
+    // MUST BE IMPLEMENTED IN CHILD CLASSES (literally 1984)
+    public abstract void startIntake();
+
+    public abstract void startOuttake();
+
+    public abstract void stopHand();
 }

@@ -19,4 +19,15 @@ public class ClawArm extends Arm {
     public void close(){
         clawServo.setPosition(CLOSED_POSITION);
     }
+
+
+    public void startIntake(){
+        close();
+    }
+
+    public void startOuttake(){
+        open();
+    }
+
+    public void stopHand(){};
 }

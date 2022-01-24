@@ -7,22 +7,24 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
 import org.firstinspires.ftc.teamcode.dependencies.Arm.armPosition;
+import org.firstinspires.ftc.teamcode.dependencies.ClawArm;
 import org.firstinspires.ftc.teamcode.dependencies.ScoopArm;
 
 @TeleOp(name="Freight TeleOp", group="TeleOp")
 
-public class FreightTeleOp extends OpMode {
+public class FreightTeleOpClaw extends OpMode {
     DcMotor left;
     DcMotor right;
     DcMotor spinny;
-    Arm arm;
+    ClawArm arm;
     BNO055IMU imu;
 
     public void init() {
@@ -30,7 +32,7 @@ public class FreightTeleOp extends OpMode {
         right = hardwareMap.dcMotor.get("right");
         spinny = hardwareMap.dcMotor.get("spinny");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-        arm = new ScoopArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
+        arm = new ClawArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(Servo.class, "scoop"));
 
         // IMU, used for orientation
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -97,11 +99,9 @@ public class FreightTeleOp extends OpMode {
         }
 
         if(gamepad1.left_trigger>0){
-            arm.startIntake();
+            arm.open();
         }else if(gamepad1.right_trigger>0){
-            arm.startOuttake();
-        }else{
-            arm.stopHand();
+            arm.close();
         }
 
         telemetry.addData("A: ", gamepad1.a);
