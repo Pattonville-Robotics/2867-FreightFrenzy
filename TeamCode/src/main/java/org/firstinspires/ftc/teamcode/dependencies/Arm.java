@@ -6,15 +6,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class Arm {
     private final DcMotor armMotor;
-    private final CRServo handServo;
-    private final static double SERVO_POWER = 1.0;
     public enum armPosition{
         ONE, TWO, THREE, NEUTRAL
     }
 
-    public Arm(DcMotor armMotor, CRServo handServo) {
+    public Arm(DcMotor armMotor) {
         this.armMotor = armMotor;
-        this.handServo = handServo;
         this.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         if (armMotor.getMode() != DcMotor.RunMode.RUN_TO_POSITION){
             armMotor.setTargetPosition(0);
@@ -61,23 +58,11 @@ public class Arm {
     public void setArmPower(double power){
         this.armMotor.setPower(power);
     }
-    public void startIntake(){
-        this.handServo.setPower(-SERVO_POWER);
-    }
-    public void startOuttake(){
-        this.handServo.setPower(SERVO_POWER);
-    }
-    public void stopHand(){
-        this.handServo.setPower(0);
-    }
     public void stopArm(){
         this.armMotor.setPower(0);
     }
 
     public DcMotor getArmMotor() {
         return this.armMotor;
-    }
-    public CRServo getHandServo(){
-        return this.handServo;
     }
 }

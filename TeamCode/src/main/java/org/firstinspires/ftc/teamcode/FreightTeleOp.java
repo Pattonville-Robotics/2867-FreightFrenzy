@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
 import org.firstinspires.ftc.teamcode.dependencies.Arm.armPosition;
+import org.firstinspires.ftc.teamcode.dependencies.ScoopArm;
 
 @TeleOp(name="Freight TeleOp", group="TeleOp")
 
@@ -21,7 +22,7 @@ public class FreightTeleOp extends OpMode {
     DcMotor left;
     DcMotor right;
     DcMotor spinny;
-    Arm arm;
+    ScoopArm arm;
     BNO055IMU imu;
 
     public void init() {
@@ -29,7 +30,7 @@ public class FreightTeleOp extends OpMode {
         right = hardwareMap.dcMotor.get("right");
         spinny = hardwareMap.dcMotor.get("spinny");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-        arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
+        arm = new ScoopArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
 
         // IMU, used for orientation
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
