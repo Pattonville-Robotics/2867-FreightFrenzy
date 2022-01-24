@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ClawArm extends Arm {
     private final Servo clawServo;
     private final static double OPEN_POSITION = 0;
-    private final static double CLOSED_POSITION = 0.5;
+    private final static double CLOSED_POSITION = 0.2;
 
     public ClawArm(DcMotor armMotor, Servo clawServo) {
         super(armMotor);

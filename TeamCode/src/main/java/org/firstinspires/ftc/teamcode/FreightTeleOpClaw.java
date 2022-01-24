@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.dependencies.Arm.armPosition;
 import org.firstinspires.ftc.teamcode.dependencies.ClawArm;
 import org.firstinspires.ftc.teamcode.dependencies.ScoopArm;
 
-@TeleOp(name="Freight TeleOp", group="TeleOp")
+@TeleOp(name="Freight TeleOp Claw", group="TeleOp")
 
 public class FreightTeleOpClaw extends OpMode {
     DcMotor left;
