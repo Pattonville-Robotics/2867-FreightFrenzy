@@ -32,7 +32,7 @@ public class FreightTeleOpClaw extends OpMode {
         right = hardwareMap.dcMotor.get("right");
         spinny = hardwareMap.dcMotor.get("spinny");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-        arm = new ClawArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(Servo.class, "scoop"));
+        arm = new ClawArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(Servo.class, "claw"));
 
         // IMU, used for orientation
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
