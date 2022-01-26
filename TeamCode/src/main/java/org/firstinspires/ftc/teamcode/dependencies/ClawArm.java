@@ -29,7 +29,10 @@ public class ClawArm extends Arm {
                 break;
             }
             case NEUTRAL: {
-                moveToPosition(-15, power);
+                // claw can rest slightly above the ground because the claw does not need to be directly on the
+                // ground to pick up the block like the scoop did, and it prevents the claw from slamming
+                // into the ground
+                moveToPosition(-10, power);
                 break;
             }
         }
