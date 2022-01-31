@@ -71,15 +71,13 @@ public class FreightAuto {
             towardsHub = rotationalDirection.COUNTERCLOCKWISE;
         }
         encoder.rotateDegrees(towardsHub, 34.75, 0.3);
-        encoder.moveInches(25);
+        encoder.moveInches(23);
 
         // Spit out the block
         arm.startOuttake();
         linearOp.sleep(4000);
         arm.stopHand();
 
-        // Move into the depot
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 26, 0.7);
         rotationalDirection towardsDepot;
         rotationalDirection awayFromDepot;
         if (allianceSide == AllianceSide.RED){
@@ -89,27 +87,32 @@ public class FreightAuto {
             towardsDepot = rotationalDirection.COUNTERCLOCKWISE;
             awayFromDepot = rotationalDirection.CLOCKWISE;
         }
-
-        int rotationTowardsDepot;
-        int rotationAwayFromDepot;
+        int rotation1;
+        int rotation2;
         int distanceFromDepot;
         if (allianceSide == AllianceSide.RED && alliancePosition == AlliancePosition.RIGHT
         || allianceSide == AllianceSide.BLUE && alliancePosition == AlliancePosition.LEFT ){
             // CLoser to depot
-            rotationTowardsDepot = 151;
-            rotationAwayFromDepot = 30;
-            distanceFromDepot = 10;
+            rotation1 = 33;
+            rotation2 = 30;
+            distanceFromDepot = 16;
         } else {
             // Further from depot
-            rotationTowardsDepot = 70;
-            rotationAwayFromDepot = 18;
+            rotation1 = 70;
+            rotation2 = 18;
             distanceFromDepot = 47;
         }
 
-        encoder.rotateDegrees(towardsDepot, rotationTowardsDepot);
+        // move back halfway, turn 90 degrees and move the rest of the way
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 12, 0.5);
+        encoder.rotateDegrees(towardsDepot, 180, 0.5);
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 15, 0.5);
+
+        //turn towards garage opening and move towards it, then turn towards inside of garage and move into it
+        encoder.rotateDegrees(awayFromDepot, rotation1);
         encoder.moveInches(distanceFromDepot);
-        encoder.rotateDegrees(awayFromDepot, rotationAwayFromDepot);
-        encoder.moveInches(30);
+        encoder.rotateDegrees(awayFromDepot, rotation2);
+        encoder.moveInches(20);
 
         arm.moveToPosition(armPosition.NEUTRAL, 0.4);
 

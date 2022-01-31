@@ -23,15 +23,15 @@ public abstract class Arm {
     public void moveToPosition(armPosition pos, double power){
         switch (pos){
             case ONE:{
-                moveToPosition(-100, power);
+                moveToPosition(-75, power);
                 break;
             }
             case TWO:{
-                moveToPosition(-160, power);
+                moveToPosition(-140, power);
                 break;
             }
             case THREE:{
-                moveToPosition(-236, power);
+                moveToPosition(-233, power);
                 break;
             }
             case NEUTRAL:{

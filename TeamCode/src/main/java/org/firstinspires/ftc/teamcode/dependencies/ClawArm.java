@@ -13,7 +13,7 @@ public class ClawArm extends Arm {
         this.clawServo = clawServo;
         clawServo.setPosition(OPEN_POSITION);
     }
-
+    @Override
     public void moveToPosition(armPosition pos, double power) {
         switch (pos) {
             case ONE: {
@@ -29,7 +29,7 @@ public class ClawArm extends Arm {
                 break;
             }
             case NEUTRAL: {
-                // claw can rest slightly above the ground because the claw does not need to be directly on the
+                // claw rests slightly above the ground because the claw does not need to be directly on the
                 // ground to pick up the block like the scoop did, and it prevents the claw from slamming
                 // into the ground
                 moveToPosition(-10, power);

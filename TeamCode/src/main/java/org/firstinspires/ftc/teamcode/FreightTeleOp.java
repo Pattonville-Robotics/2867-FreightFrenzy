@@ -63,7 +63,7 @@ public class FreightTeleOp extends OpMode {
 
         // Slow if right bumper pushed
         if(gamepad1.right_bumper){
-            maxSpeed = 0.5;
+            maxSpeed = 0.2;
         } else {
             maxSpeed = 1.0;
         }
