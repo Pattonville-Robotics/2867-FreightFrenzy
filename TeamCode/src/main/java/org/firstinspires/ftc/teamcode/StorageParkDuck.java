@@ -56,12 +56,12 @@ public class StorageParkDuck {
 
         // Move forward slightly before turning and bring arm up
         arm.moveToPosition(armPos, 0.55);
-        encoder.moveInches(5, 0.5);
+        encoder.moveInches(5, 0.6);
 
         // Turn towards the shipping hub and move to it
         rotationalDirection towardsHub = isRedSide ? rotationalDirection.CLOCKWISE : rotationalDirection.COUNTERCLOCKWISE;
         encoder.rotateDegrees(towardsHub, 33.5, 0.35); // TODO: use blue angle in comp
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 23, 0.5);
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 23, 0.55);
 
         // Spit out the block
         arm.startOuttake();
@@ -69,12 +69,12 @@ public class StorageParkDuck {
         arm.stopHand();
 
         // Back up slightly, turn towards carousel and back up into it (slow downs when near it)
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6.25, 0.55);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6.25, 0.65);
         arm.moveToPosition(Arm.armPosition.ONE, 0.5);
-        encoder.rotateDegrees(towardsHub, isRedSide ? 39 : 29.5, 0.3);
+        encoder.rotateDegrees(towardsHub, isRedSide ? 39 : 29.5, 0.4);
         encoder.moveInches(DcMotorSimple.Direction.REVERSE,
                 isRedSide ? 30.2 : 30,
-                0.6);
+                0.7);
         encoder.moveInches(DcMotorSimple.Direction.REVERSE,
                 7,
                 0.3);
@@ -87,7 +87,7 @@ public class StorageParkDuck {
         // Spin the carousel
         linearOp.sleep(200);
         spinny.setPower(isRedSide ? -0.2 : 0.2);
-        linearOp.sleep(3800);
+        linearOp.sleep(3200);
         spinny.setPower(0);
         linearOp.sleep(200);
 
@@ -97,15 +97,15 @@ public class StorageParkDuck {
         }
 
         // Move forward, turn towards the storage unit (or whatever its called).
-        encoder.moveInches(8, 0.4);
+        encoder.moveInches(8, 0.5);
         rotationalDirection towardsStorage = isRedSide ? rotationalDirection.COUNTERCLOCKWISE : rotationalDirection.CLOCKWISE;
-        encoder.rotateDegrees(towardsStorage, isRedSide ? 65 : 54.5, 0.5);
-        encoder.moveInches(19.84, 0.5);
-        arm.moveToPosition(Arm.armPosition.NEUTRAL, 0.5);
+        encoder.rotateDegrees(towardsStorage, isRedSide ? 65 : 58.5, 0.6);
+        encoder.moveInches(19.84, 0.6);
+        arm.moveToPosition(Arm.armPosition.NEUTRAL, 0.6);
 
         // Once lined up vertically, turn 90 degrees and back up, for greater chance of being fully within
         encoder.rotateDegrees(towardsHub, 90);
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 11.25, 0.2);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 13, 0.35);
     }
 
 }
