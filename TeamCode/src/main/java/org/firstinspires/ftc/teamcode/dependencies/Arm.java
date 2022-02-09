@@ -8,7 +8,12 @@ public abstract class Arm {
     private final DcMotor armMotor;
 
     public enum armPosition {
-        ONE, TWO, THREE, NEUTRAL
+        ONE(-75), TWO(-140), THREE(-233), NEUTRAL(0);
+
+        public final int ticks;
+        armPosition(int i) {
+            this.ticks = i;
+        }
     }
 
     public Arm(DcMotor armMotor) {
@@ -21,24 +26,7 @@ public abstract class Arm {
     }
 
     public void moveToPosition(armPosition pos, double power){
-        switch (pos){
-            case ONE:{
-                moveToPosition(-75, power);
-                break;
-            }
-            case TWO:{
-                moveToPosition(-140, power);
-                break;
-            }
-            case THREE:{
-                moveToPosition(-233, power);
-                break;
-            }
-            case NEUTRAL:{
-                moveToPosition(0, power);
-                break;
-            }
-        }
+        moveToPosition(pos.ticks, power);
     }
 
     public void moveToPosition(int ticks, double power){

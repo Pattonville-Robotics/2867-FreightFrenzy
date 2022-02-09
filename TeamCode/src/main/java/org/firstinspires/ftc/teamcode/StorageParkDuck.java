@@ -60,8 +60,8 @@ public class StorageParkDuck {
 
         // Turn towards the shipping hub and move to it
         rotationalDirection towardsHub = isRedSide ? rotationalDirection.CLOCKWISE : rotationalDirection.COUNTERCLOCKWISE;
-        encoder.rotateDegrees(towardsHub, 33.5, 0.35); // TODO: use blue angle in comp
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 23, 0.55);
+        encoder.rotateDegrees(towardsHub, 33.75, 0.35);
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 23.25, 0.55);
 
         // Spit out the block
         arm.startOuttake();
@@ -69,15 +69,15 @@ public class StorageParkDuck {
         arm.stopHand();
 
         // Back up slightly, turn towards carousel and back up into it (slow downs when near it)
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6.25, 0.65);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6, 0.65);
         arm.moveToPosition(Arm.armPosition.ONE, 0.5);
-        encoder.rotateDegrees(towardsHub, isRedSide ? 39 : 29.5, 0.4);
+        encoder.rotateDegrees(towardsHub, isRedSide ? 39.5 : 29.5, 0.4);
         encoder.moveInches(DcMotorSimple.Direction.REVERSE,
-                isRedSide ? 30.2 : 30,
-                0.7);
+                isRedSide ? 27.5 : 30,
+                0.725);
         encoder.moveInches(DcMotorSimple.Direction.REVERSE,
-                7,
-                0.3);
+                9.25,
+                0.25);
 
         // (Blue only) Spin towards the carousel and spin back afterwards
         if (!isRedSide){
@@ -99,7 +99,7 @@ public class StorageParkDuck {
         // Move forward, turn towards the storage unit (or whatever its called).
         encoder.moveInches(8, 0.5);
         rotationalDirection towardsStorage = isRedSide ? rotationalDirection.COUNTERCLOCKWISE : rotationalDirection.CLOCKWISE;
-        encoder.rotateDegrees(towardsStorage, isRedSide ? 65 : 58.5, 0.6);
+        encoder.rotateDegrees(towardsStorage, isRedSide ? 54 : 58.5, 0.6);
         encoder.moveInches(19.84, 0.6);
         arm.moveToPosition(Arm.armPosition.NEUTRAL, 0.6);
 
