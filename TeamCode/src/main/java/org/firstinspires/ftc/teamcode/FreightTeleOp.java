@@ -15,7 +15,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
 import org.firstinspires.ftc.teamcode.dependencies.Arm.armPosition;
 import org.firstinspires.ftc.teamcode.dependencies.ClawArm;
-import org.firstinspires.ftc.teamcode.dependencies.ScoopArm;
 
 @TeleOp(name="Freight TeleOp", group="TeleOp")
 

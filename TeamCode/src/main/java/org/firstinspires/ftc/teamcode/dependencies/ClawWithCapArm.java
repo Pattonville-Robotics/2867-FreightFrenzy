@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode.dependencies;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-public class ScoopArm extends Arm {
+public class ClawWithCapArm extends Arm {
     private final CRServo handServo;
     private final static double SERVO_POWER = 1.0;
 
-    public ScoopArm(DcMotor armMotor, CRServo handServo) {
+    public ClawWithCapArm(DcMotor armMotor, CRServo handServo) {
         super(armMotor);
         this.handServo = handServo;
     }

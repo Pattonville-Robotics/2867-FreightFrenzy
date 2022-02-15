@@ -8,7 +8,8 @@ public abstract class Arm {
     private final DcMotor armMotor;
 
     public enum armPosition {
-        ONE(-75), TWO(-140), THREE(-233), NEUTRAL(0);
+        ONE(-75), TWO(-140), THREE(-233), NEUTRAL(0),
+        BACK_ONE(0), BACK_TWO(0), BACK_THREE(0), BACK_NEUTRAL(0);
 
         public final int ticks;
         armPosition(int i) {

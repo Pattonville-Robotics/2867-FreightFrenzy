@@ -6,17 +6,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
-import org.firstinspires.ftc.teamcode.dependencies.ColorSensor;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
-import org.firstinspires.ftc.teamcode.dependencies.ScoopArm;
+import org.firstinspires.ftc.teamcode.dependencies.ClawWithCapArm;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Autonomous(name="AngleTester", group="Autonomous")
 public class AngleTester extends LinearOpMode {
@@ -27,7 +24,7 @@ public class AngleTester extends LinearOpMode {
         DcMotor leftDrive = hardwareMap.get(DcMotor.class, "left");
         // private ColorSensor colorSensor;
         DcMotor rightDrive = hardwareMap.get(DcMotor.class, "right");
-         ScoopArm arm = new ScoopArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
+         ClawWithCapArm arm = new ClawWithCapArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
         // colorSensor = new ColorSensor("Webcam", hardwareMap, this);
 
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");

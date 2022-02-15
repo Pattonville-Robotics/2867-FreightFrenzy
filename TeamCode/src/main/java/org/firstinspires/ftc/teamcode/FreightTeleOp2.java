@@ -12,9 +12,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.dependencies.Arm;
 import org.firstinspires.ftc.teamcode.dependencies.Arm.armPosition;
-import org.firstinspires.ftc.teamcode.dependencies.ScoopArm;
+import org.firstinspires.ftc.teamcode.dependencies.ClawWithCapArm;
 
 @TeleOp(name="Freight TeleOp 2 Player", group="TeleOp")
 
@@ -22,7 +21,7 @@ public class FreightTeleOp2 extends OpMode {
     DcMotor left;
     DcMotor right;
     DcMotor spinny;
-    ScoopArm arm;
+    ClawWithCapArm arm;
     BNO055IMU imu;
 
     public void init() {
@@ -30,7 +29,7 @@ public class FreightTeleOp2 extends OpMode {
         right = hardwareMap.dcMotor.get("right");
         spinny = hardwareMap.dcMotor.get("spinny");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-        arm = new ScoopArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
+        arm = new ClawWithCapArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
 
         // IMU, used for orientation
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -57,6 +56,7 @@ public class FreightTeleOp2 extends OpMode {
         double leftSpd = leftInput + rightInput;
         double rightSpd = leftInput - rightInput;
 
+        // ==== GAMEPAD 1 (Alex)
         // Slow if right bumper pushed
         if(gamepad1.right_bumper){
             maxSpeed = 0.2;
@@ -71,6 +71,11 @@ public class FreightTeleOp2 extends OpMode {
         // direct scale
         left.setPower(leftSpd * Math.abs(leftSpd) * maxSpeed);
         right.setPower(rightSpd * Math.abs(rightSpd) * maxSpeed);
+
+
+
+
+        // ==== GAMEPAD 2 (Jack)
 
         if(gamepad2.dpad_up){
             spinny.setPower(isFastSpeed() ? -0.6 : -0.22);
@@ -92,14 +97,6 @@ public class FreightTeleOp2 extends OpMode {
             currentArmPosition = armPosition.THREE;
         }
         moveArm();
-
-//        if(gamepad2.left_trigger>0){
-//            arm.startIntake();
-//        }else if(gamepad2.right_trigger>0){
-//            arm.startOuttake();
-//        }else{
-//            arm.stopHand();
-//        }
 
         // Add right trigger to power and subtract left trigger from power (WARNIGN: CURSED)
         arm.setScoopPower(gamepad2.right_trigger - gamepad2.left_trigger);
