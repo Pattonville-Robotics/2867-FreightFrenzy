@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
-import org.firstinspires.ftc.teamcode.dependencies.ClawWithCapArm;
+import org.firstinspires.ftc.teamcode.dependencies.ClawWithWristArm;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 
 
@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 public class SecondToLastResort extends LinearOpMode {
 
     private DcMotor leftDrive = null;
-    private ClawWithCapArm arm;
+    private ClawWithWristArm arm;
     //private ColorSensor colorSensor;
     private DcMotor rightDrive = null;
     private BNO055IMU imu;
@@ -32,7 +32,7 @@ public class SecondToLastResort extends LinearOpMode {
         // Our initialization code should go here
         leftDrive = hardwareMap.get(DcMotor.class, "left");
         rightDrive = hardwareMap.get(DcMotor.class, "right");
-        arm = new ClawWithCapArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
+        arm = new ClawWithWristArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
         //colorSensor = new ColorSensor("Webcam", hardwareMap, this);
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");

@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.dependencies.AllianceSide;
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
 import org.firstinspires.ftc.teamcode.dependencies.ColorSensor;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
-import org.firstinspires.ftc.teamcode.dependencies.ClawWithCapArm;
+import org.firstinspires.ftc.teamcode.dependencies.ClawWithWristArm;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 @Disabled
 public class FreightAutoNoCameraOrPlacement extends LinearOpMode {
     private DcMotor leftDrive = null;
-    private ClawWithCapArm arm;
+    private ClawWithWristArm arm;
     private ColorSensor colorSensor;
     private DcMotor rightDrive = null;
     private BNO055IMU imu;
@@ -41,7 +41,7 @@ public class FreightAutoNoCameraOrPlacement extends LinearOpMode {
         // Our initialization code should go here
         leftDrive = hardwareMap.get(DcMotor.class, "left");
         rightDrive = hardwareMap.get(DcMotor.class, "right");
-        arm = new ClawWithCapArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
+        arm = new ClawWithWristArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
 
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");

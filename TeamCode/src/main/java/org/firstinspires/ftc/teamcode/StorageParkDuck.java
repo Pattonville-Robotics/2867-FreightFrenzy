@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.dependencies.AllianceSide;
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
 import org.firstinspires.ftc.teamcode.dependencies.ColorSensor;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
-import org.firstinspires.ftc.teamcode.dependencies.ClawWithCapArm;
+import org.firstinspires.ftc.teamcode.dependencies.ClawWithWristArm;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
@@ -24,7 +24,10 @@ public class StorageParkDuck {
         DcMotor leftDrive = hardwareMap.get(DcMotor.class, "left");
         DcMotor rightDrive = hardwareMap.get(DcMotor.class, "right");
         DcMotor spinny = hardwareMap.dcMotor.get("spinny");
-        Arm arm = new ClawWithCapArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
+        Arm arm = new ClawWithWristArm(
+                hardwareMap.get(DcMotor.class, "arm"),
+                hardwareMap.get(CRServo.class, "scoop"),
+                hardwareMap.get(CRServo.class, "wrist"));
         ColorSensor colorSensor = new ColorSensor("Webcam", hardwareMap, linearOp);
 
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
@@ -42,7 +45,7 @@ public class StorageParkDuck {
 
         // some variables to simplify stuff
         boolean isRedSide = allianceSide == AllianceSide.RED;
-        encoder.storeInitialAngle();
+//        encoder.storeInitialAngle();
 
         // Use camera frame to determine arm position
         Arm.armPosition armPos;

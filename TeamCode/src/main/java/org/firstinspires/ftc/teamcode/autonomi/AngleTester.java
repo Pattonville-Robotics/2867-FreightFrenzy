@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
-import org.firstinspires.ftc.teamcode.dependencies.ClawWithCapArm;
+import org.firstinspires.ftc.teamcode.dependencies.ClawWithWristArm;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
@@ -24,7 +24,7 @@ public class AngleTester extends LinearOpMode {
         DcMotor leftDrive = hardwareMap.get(DcMotor.class, "left");
         // private ColorSensor colorSensor;
         DcMotor rightDrive = hardwareMap.get(DcMotor.class, "right");
-         ClawWithCapArm arm = new ClawWithCapArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
+         ClawWithWristArm arm = new ClawWithWristArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
         // colorSensor = new ColorSensor("Webcam", hardwareMap, this);
 
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");

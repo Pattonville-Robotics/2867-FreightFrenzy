@@ -11,11 +11,13 @@ public class ClawRun extends OpMode {
     Servo wrist;
     CRServo claw;
     DcMotor arm;
+
     public void init(){
         wrist = hardwareMap.get(Servo.class, "wrist");
         claw = hardwareMap.get(CRServo.class, "claw");
         arm = hardwareMap.get(DcMotor.class, "arm");
     }
+
     public void loop() {
         telemetry.clearAll();
         wrist.setPosition(Math.abs(gamepad1.left_stick_y));
