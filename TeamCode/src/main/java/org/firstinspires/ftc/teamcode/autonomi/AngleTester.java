@@ -47,7 +47,7 @@ public class AngleTester extends LinearOpMode {
         // ඞ
         telemetry.speak("vine boom sound effect");
 
-        arm.moveToPosition(Arm.armPosition.ONE, 0.3);
+        arm.moveToPosition(Arm.ArmPosition.ONE, 0.3);
 
         // Run for clockwise and counterclockwise.
         for (int rotationI = 0; rotationI < 2; rotationI++){

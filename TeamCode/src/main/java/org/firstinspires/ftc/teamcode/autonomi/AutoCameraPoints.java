@@ -51,17 +51,17 @@ public class AutoCameraPoints extends LinearOpMode {
         //encoder.moveInches(Direction.FORWARD, 10, 0.5);
         if(colorSensor.isRegionYellow(0)){ //square left
             //insert code to go to thing and pick it up
-            arm.moveToPosition(Arm.armPosition.ONE, 0.7);
+            arm.moveToPosition(Arm.ArmPosition.ONE, 0.7);
             //insert code to release
         }
         else if(colorSensor.isRegionYellow(1)) { //square center
             //insert code to go to thing and pick it up
-            arm.moveToPosition(Arm.armPosition.TWO, 0.7);
+            arm.moveToPosition(Arm.ArmPosition.TWO, 0.7);
             //insert code to release
         }
         else{ //this means it must be square right
             //insert code to go to thing and pick it up
-            arm.moveToPosition(Arm.armPosition.THREE, 0.7);
+            arm.moveToPosition(Arm.ArmPosition.THREE, 0.7);
             //insert code to release
         }
 

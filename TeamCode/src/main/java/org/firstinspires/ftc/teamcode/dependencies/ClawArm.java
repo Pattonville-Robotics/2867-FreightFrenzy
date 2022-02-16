@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.dependencies;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
 public class ClawArm extends Arm {
     private final CRServo clawServo;
@@ -13,7 +12,7 @@ public class ClawArm extends Arm {
         this.clawServo = clawServo;
     }
     @Override
-    public void moveToPosition(armPosition pos, double power) {
+    public void moveToPosition(ArmPosition pos, double power) {
         switch (pos) {
             case ONE: {
                 moveToPosition(100, power);

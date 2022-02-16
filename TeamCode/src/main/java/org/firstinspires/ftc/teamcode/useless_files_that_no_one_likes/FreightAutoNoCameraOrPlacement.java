@@ -60,7 +60,7 @@ public class FreightAutoNoCameraOrPlacement extends LinearOpMode {
 
         //Insert camera code here
         // for now, assume the duck is in the middle
-        Arm.armPosition armPos = Arm.armPosition.TWO;
+        Arm.ArmPosition armPos = Arm.ArmPosition.TWO;
 
         // Move the arm to the appropriate height
         arm.moveToPosition(armPos, 0.7);
@@ -82,7 +82,7 @@ public class FreightAutoNoCameraOrPlacement extends LinearOpMode {
         encoder.moveInches(19);
 
         // Spit out the block
-        arm.startOuttake();
+        arm.openHand();
         sleep(4000);
         arm.stopHand();
 

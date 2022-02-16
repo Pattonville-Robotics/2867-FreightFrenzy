@@ -49,10 +49,10 @@ public class SecondToLastResort extends LinearOpMode {
 
         waitForStart();
         //code go here
-        arm.moveToPosition(Arm.armPosition.TWO, 0.7);
+        arm.moveToPosition(Arm.ArmPosition.TWO, 0.7);
         encoder.moveInches(DcMotorSimple.Direction.FORWARD, 23, 0.7);
 
-        arm.startOuttake();
+        arm.openHand();
         sleep(4000);
         arm.stopHand();
 

@@ -1,9 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
-// hey guys justin here i just added the
-// very based spinny code ("DcMotor spinny;")
-// -justin, creator of the very based spinny code
-//                     (December 6th, 2:48 PM)
+// A two-player teleop.
+// Player 1 controls only driving,
+// while player 2 controls the arm, claw, wrist and carousel spinner.
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -11,9 +10,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.dependencies.Arm.armPosition;
+import org.firstinspires.ftc.teamcode.dependencies.Arm.ArmPosition;
 import org.firstinspires.ftc.teamcode.dependencies.ClawWithWristArm;
 
 @TeleOp(name="Freight TeleOp 2 Player", group="TeleOp")
@@ -44,64 +42,73 @@ public class FreightTeleOp2 extends OpMode {
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         imu.initialize(parameters);
 
-        currentArmPosition = armPosition.NEUTRAL;
+        currentArmPosition = ArmPosition.NEUTRAL;
     }
 
     long timeSinceCycleStart;
     double maxSpeed = 1.0;
 
-    armPosition currentArmPosition;
+    ArmPosition currentArmPosition;
 
     public void loop() {
         telemetry.clearAll();
 
         // ==== GAMEPAD 1 - Driving (Alex)
-
         // Store power from joystick values
         double leftInput = gamepad1.right_stick_x;
         double rightInput = gamepad1.left_stick_y;
-
         double leftSpd = leftInput + rightInput;
         double rightSpd = leftInput - rightInput;
 
-        // Slow if right bumper pushed
-        if(gamepad1.right_bumper){
-            maxSpeed = 0.2;
+        // Slow if bumpers pushed
+        if(gamepad1.right_bumper && gamepad1.left_bumper){
+            maxSpeed = 0.125; // L+R  = 12.5% speed
+        } else if (gamepad1.right_bumper) {
+            maxSpeed = 0.25; // R    = 25% speed
+        } else if (gamepad1.left_bumper) {
+            maxSpeed = 0.5; // L    = 50% speed
         } else {
-            maxSpeed = 1.0;
+            maxSpeed = 1.0; // None = 100% speed
         }
 
-        // Set power quadratically and scale with maxSpeed
+        // Set drive power quadratically and scale with maxSpeed
         left.setPower(leftSpd * Math.abs(leftSpd) * maxSpeed);
         right.setPower(rightSpd * Math.abs(rightSpd) * maxSpeed);
 
 
-
         // ==== GAMEPAD 2 - Arm (Jack)
+        // If left bumper is held while a button is pressed, the arm is moved to its backwards variant
+        boolean backArm = gamepad2.left_bumper;
 
-        // Set arm base level if a button is pushed, bumpers will make it move to the backward positions
-        boolean backArm = gamepad2.left_bumper || gamepad2.right_bumper;
+        // Move to appropriate location based on button pressed and left bumper state
         if(gamepad2.a){
-            currentArmPosition = backArm ? armPosition.BACK_NEUTRAL : armPosition.NEUTRAL;
+            currentArmPosition = backArm ? ArmPosition.BACK_NEUTRAL : ArmPosition.NEUTRAL;
         }else if(gamepad2.x){
-            currentArmPosition = backArm ? armPosition.BACK_ONE : armPosition.ONE;
+            currentArmPosition = backArm ? ArmPosition.BACK_ONE : ArmPosition.ONE;
         }else if(gamepad2.y){
-            currentArmPosition = backArm ? armPosition.BACK_TWO : armPosition.TWO;
+            currentArmPosition = backArm ? ArmPosition.BACK_TWO : ArmPosition.TWO;
         }else if(gamepad2.b){
-            currentArmPosition = backArm ? armPosition.BACK_THREE : armPosition.THREE;
+            currentArmPosition = backArm ? ArmPosition.BACK_THREE : ArmPosition.THREE;
+        }else if (gamepad2.left_stick_button || gamepad2.right_stick_button){
+            currentArmPosition = ArmPosition.CAP;
         }
 
-        // Get armpos ticks and tune up/down based on left joystick's Y value
-        arm.moveToPosition(currentArmPosition.ticks + (int)(gamepad2.left_stick_y * 15), 0.7);
+        // Tuned up/down based on left joystick's Y value
+        arm.moveToPosition(currentArmPosition.ticks + (int)(gamepad2.left_stick_y * 30), 0.7);
 
 
-        // Claw - Add right trigger to power and subtract left trigger from power (WARNIGN: CURSED)
-        arm.setClawPower(gamepad2.right_trigger - gamepad2.left_trigger);
+        // Claw - Right trigger to close hand, left trigger to open hand.
+        arm.setHandPower(gamepad2.right_trigger - gamepad2.left_trigger);
 
-        // Wrist - Move with right Y
+
+        // Wrist - Move with right joystick up&down
         arm.setWristPower(Math.abs(gamepad2.right_stick_y));
 
-        // Spinny moment
+
+        // Spinny - When not being held, time start is set to current time millis.
+        // When the button is held, the timer is not reset and allowed to run.
+        // Whenever the current time exceeds the timer start value plus a certain amount,
+        // the wheel will spin fast to boost the duck off the carousel against the metal bar.
         if(gamepad2.dpad_up){
             spinny.setPower(isFastSpeed() ? -0.6 : -0.22);
         }
@@ -119,9 +126,8 @@ public class FreightTeleOp2 extends OpMode {
         telemetry.addData("left_trigger: ", gamepad2.left_trigger);
         telemetry.addData("right_trigger: ", gamepad2.right_trigger);
         telemetry.addData("arm position: ", arm.getArmMotor().getCurrentPosition());
-        telemetry.addData("hand power: ", arm.getHandServo().getPower());
+        telemetry.addData("hand power: ", arm.getClaw().getPower());
         telemetry.addData("wrist power: ", arm.getWrist().getPower());
-        //telemetry.addData("cycleRunning: ", ducksSpinning);
         telemetry.update();
     }
 

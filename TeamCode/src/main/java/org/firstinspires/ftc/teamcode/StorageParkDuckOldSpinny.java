@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 // Drop the block in da hub, go to ducks and spin one duck, and then park in storage.
+// Uses the old spinny location so this one wont work anymore use StorageParkDuck instead.
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -12,13 +13,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.dependencies.AllianceSide;
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
+import org.firstinspires.ftc.teamcode.dependencies.ClawWithWristArm;
 import org.firstinspires.ftc.teamcode.dependencies.ColorSensor;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
-import org.firstinspires.ftc.teamcode.dependencies.ClawWithWristArm;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
-public class StorageParkDuck {
+public class StorageParkDuckOldSpinny {
     public static void run(LinearOpMode linearOp, AllianceSide allianceSide) {
         HardwareMap hardwareMap = linearOp.hardwareMap;
         DcMotor leftDrive = hardwareMap.get(DcMotor.class, "left");
@@ -74,17 +75,17 @@ public class StorageParkDuck {
         // Back up slightly, turn towards carousel and back up into it (slow downs when near it)
         encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6, 0.65);
         arm.moveToPosition(Arm.ArmPosition.ONE, 0.5);
-        encoder.rotateDegrees(towardsHub, isRedSide ? 29.5 : 39.5, 0.4);
+        encoder.rotateDegrees(towardsHub, isRedSide ? 39.5 : 29.5, 0.4);
         encoder.moveInches(DcMotorSimple.Direction.REVERSE,
-                isRedSide ? 30 : 27.5,
+                isRedSide ? 27.5 : 30,
                 0.725);
         encoder.moveInches(DcMotorSimple.Direction.REVERSE,
                 9.25,
                 0.25);
 
-        // (Red only) Spin towards the carousel and spin back afterwards
-        if (isRedSide){
-            encoder.rotateDegrees(rotationalDirection.COUNTERCLOCKWISE, 25);
+        // (Blue only) Spin towards the carousel and spin back afterwards
+        if (!isRedSide){
+            encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 25);
         }
 
         // Spin the carousel
@@ -94,21 +95,21 @@ public class StorageParkDuck {
         spinny.setPower(0);
         linearOp.sleep(200);
 
-        // (Red only) Undo blue rotation from earlier
-        if (isRedSide){
-            encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 25);
+        // (Blue only) Undo blue rotation from earlier
+        if (!isRedSide){
+            encoder.rotateDegrees(rotationalDirection.COUNTERCLOCKWISE, 25);
         }
 
         // Move forward, turn towards the storage unit (or whatever its called).
         encoder.moveInches(8, 0.5);
         rotationalDirection towardsStorage = isRedSide ? rotationalDirection.COUNTERCLOCKWISE : rotationalDirection.CLOCKWISE;
-        encoder.rotateDegrees(towardsStorage, isRedSide ? 58.5 : 54, 0.6);
+        encoder.rotateDegrees(towardsStorage, isRedSide ? 54 : 58.5, 0.6);
         encoder.moveInches(19.84, 0.6);
         arm.moveToPosition(Arm.ArmPosition.NEUTRAL, 0.6);
 
-        // Once lined up vertically, turn 90 degrees and back up
+        // Once lined up vertically, turn 90 degrees and back up, for greater chance of being fully within
         encoder.rotateDegrees(towardsHub, 90);
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 11, 0.35);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 13, 0.35);
     }
 
 }

@@ -39,13 +39,13 @@ public class StoragePark {
 
         linearOp.waitForStart();
 
-        Arm.armPosition armPos;
+        Arm.ArmPosition armPos;
         if (colorSensor.isRegionGreen(2)){
-            armPos = Arm.armPosition.THREE;
+            armPos = Arm.ArmPosition.THREE;
         } else if (colorSensor.isRegionGreen(1)){
-            armPos = Arm.armPosition.TWO;
+            armPos = Arm.ArmPosition.TWO;
         } else {
-            armPos = Arm.armPosition.ONE;
+            armPos = Arm.ArmPosition.ONE;
         }
 
         arm.moveToPosition(armPos, 0.7);
@@ -61,7 +61,7 @@ public class StoragePark {
 
         // Move back to start and turn
         encoder.moveInches(DcMotorSimple.Direction.REVERSE, 24, 0.5);
-        arm.moveToPosition(Arm.armPosition.ONE, 0.5);
+        arm.moveToPosition(Arm.ArmPosition.ONE, 0.5);
 
         rotationalDirection towardsStorage = allianceSide == AllianceSide.RED ? rotationalDirection.COUNTERCLOCKWISE : rotationalDirection.CLOCKWISE;
         encoder.rotateDegrees(towardsStorage, 67, 0.5);

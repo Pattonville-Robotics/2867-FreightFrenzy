@@ -2,40 +2,69 @@ package org.firstinspires.ftc.teamcode.dependencies;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
+
+// Claw with Wrist Arm - an arm that has a claw attached to it, of which a wrist is also attached
+// which can bend the hand backward and allow it to drop items behind it when the arm is extended
+// all the way backwards. Useful for delivering blocks backwards and for capping.
 
 public class ClawWithWristArm extends Arm {
-    private final CRServo handServo;
+    private final CRServo claw;
     private final CRServo wrist;
-    private final static double SERVO_POWER = 1.0;
 
-    public ClawWithWristArm(DcMotor armMotor, CRServo handServo, CRServo wrist) {
+    private final static double HAND_POWER = 1.0;
+    private final static double WRIST_POWER = 0.5;
+
+    public ClawWithWristArm(DcMotor armMotor, CRServo claw, CRServo wrist) {
         super(armMotor);
-        this.handServo = handServo;
+        this.claw = claw;
         this.wrist = wrist;
     }
-    public void startIntake(){
-        this.handServo.setPower(-SERVO_POWER);
+
+
+    // == Hand
+    public void closeHand(){
+        this.claw.setPower(-HAND_POWER);
     }
 
-    public void startOuttake(){
-        this.handServo.setPower(SERVO_POWER);
+    public void openHand(){
+        this.claw.setPower(HAND_POWER);
     }
 
     public void stopHand(){
-        this.handServo.setPower(0);
+        this.claw.setPower(0);
     }
 
-    public void setClawPower(double power){
-        this.handServo.setPower(power);
+    public void setHandPower(double power){
+        this.claw.setPower(power);
+    }
+
+    // Required implementations, needed for general Arm instances
+    public void startIntake() { closeHand(); }
+
+    public void startOuttake() { openHand(); }
+
+
+    // === Wrist
+    public void moveWristBack(){
+        this.wrist.setPower(-WRIST_POWER);
+    }
+
+    public void moveWristForward(){
+        this.wrist.setPower(WRIST_POWER);
+    }
+
+    public void stopWrist(){
+        this.wrist.setPower(0);
     }
 
     public void setWristPower(double power){
         wrist.setPower(power);
     }
 
-    public CRServo getHandServo(){
-        return this.handServo;
+
+    // == Accessors
+    public CRServo getClaw(){
+        return this.claw;
     }
 
     public CRServo getWrist() {

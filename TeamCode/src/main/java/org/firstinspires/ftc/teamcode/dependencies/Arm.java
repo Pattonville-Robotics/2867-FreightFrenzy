@@ -1,18 +1,21 @@
 package org.firstinspires.ftc.teamcode.dependencies;
 
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+// Abstract class for an arm that has a hand attached to it.
+// As of right now the only extension of this class that is really used is ClawWithWristArm
+// but that may change in the future.
 
 public abstract class Arm {
     private final DcMotor armMotor;
 
-    public enum armPosition {
-        ONE(-75), TWO(-140), THREE(-240), NEUTRAL(0),
-        BACK_ONE(0), BACK_TWO(0), BACK_THREE(0), BACK_NEUTRAL(0);
+    public enum ArmPosition {
+        NEUTRAL(0), ONE(-75), TWO(-140), THREE(-240),
+        BACK_NEUTRAL(0), BACK_ONE(-75), BACK_TWO(-140), BACK_THREE(-240),
+        CAP(-300);
 
         public final int ticks;
-        armPosition(int i) {
+        ArmPosition(int i) {
             this.ticks = i;
         }
     }
@@ -26,7 +29,7 @@ public abstract class Arm {
         }
     }
 
-    public void moveToPosition(armPosition pos, double power){
+    public void moveToPosition(ArmPosition pos, double power){
         moveToPosition(pos.ticks, power);
     }
 
@@ -56,7 +59,8 @@ public abstract class Arm {
         return this.armMotor;
     }
 
-    // MUST BE IMPLEMENTED IN CHILD CLASSES (literally 1984)
+    // MUST BE IMPLEMENTED IN CHILD CLASSES, AN ARM MUST HAVE A HAND THAT CAN
+    // INTAKE, OUTTAKE, AND STOP INTAKING / OUTTAKING (literally 1984)
     public abstract void startIntake();
 
     public abstract void startOuttake();
