@@ -23,7 +23,10 @@ public class StoragePark {
         HardwareMap hardwareMap = linearOp.hardwareMap;
         DcMotor leftDrive = hardwareMap.get(DcMotor.class, "left");
         DcMotor rightDrive = hardwareMap.get(DcMotor.class, "right");
-        Arm arm = new ClawWithWristArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
+        Arm arm = new ClawWithWristArm(
+                hardwareMap.get(DcMotor.class, "arm"),
+                hardwareMap.get(CRServo.class, "scoop"),
+                hardwareMap.get(CRServo.class, "wrist"));
         ColorSensor colorSensor = new ColorSensor("Webcam", hardwareMap, linearOp);
 
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
