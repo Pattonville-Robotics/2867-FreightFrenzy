@@ -32,7 +32,10 @@ public class SecondToLastResort extends LinearOpMode {
         // Our initialization code should go here
         leftDrive = hardwareMap.get(DcMotor.class, "left");
         rightDrive = hardwareMap.get(DcMotor.class, "right");
-        arm = new ClawWithWristArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
+        arm = new ClawWithWristArm(
+                hardwareMap.get(DcMotor.class, "arm"),
+                hardwareMap.get(CRServo.class, "scoop"),
+                hardwareMap.get(CRServo.class, "wrist"));
         //colorSensor = new ColorSensor("Webcam", hardwareMap, this);
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");

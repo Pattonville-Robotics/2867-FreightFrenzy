@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode.autonomi;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -16,6 +17,7 @@ import org.firstinspires.ftc.teamcode.dependencies.ClawWithWristArm;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 
 
+@Disabled
 @Autonomous(name="AutoCameraPoints", group="Autonomous")
 public class AutoCameraPoints extends LinearOpMode {
 
@@ -26,13 +28,17 @@ public class AutoCameraPoints extends LinearOpMode {
     private BNO055IMU imu;
     private TwoWheelEncoder encoder;
 
+
     @Override
     public void runOpMode() throws InterruptedException {
         // Declare any local / helper variables here
         // Our initialization code should go here
         leftDrive = hardwareMap.get(DcMotor.class, "left");
         rightDrive = hardwareMap.get(DcMotor.class, "right");
-        arm = new ClawWithWristArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
+        arm = new ClawWithWristArm(
+                hardwareMap.get(DcMotor.class, "arm"),
+                hardwareMap.get(CRServo.class, "scoop"),
+                hardwareMap.get(CRServo.class, "wrist"));
         colorSensor = new ColorSensor("Webcam", hardwareMap, this);
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();

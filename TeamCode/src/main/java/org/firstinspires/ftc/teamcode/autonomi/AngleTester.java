@@ -24,7 +24,10 @@ public class AngleTester extends LinearOpMode {
         DcMotor leftDrive = hardwareMap.get(DcMotor.class, "left");
         // private ColorSensor colorSensor;
         DcMotor rightDrive = hardwareMap.get(DcMotor.class, "right");
-         ClawWithWristArm arm = new ClawWithWristArm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "scoop"));
+        Arm arm = new ClawWithWristArm(
+                 hardwareMap.get(DcMotor.class, "arm"),
+                 hardwareMap.get(CRServo.class, "scoop"),
+                 hardwareMap.get(CRServo.class, "wrist"));
         // colorSensor = new ColorSensor("Webcam", hardwareMap, this);
 
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
