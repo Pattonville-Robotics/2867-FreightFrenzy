@@ -12,7 +12,7 @@ public class ClawWithWristArm extends Arm {
     private final CRServo wrist;
 
     private final static double HAND_POWER = 1.0;
-    private final static double WRIST_POWER = 0.5;
+    private final static double WRIST_POWER = 0.7;
 
     public ClawWithWristArm(DcMotor armMotor, CRServo claw, CRServo wrist) {
         super(armMotor);

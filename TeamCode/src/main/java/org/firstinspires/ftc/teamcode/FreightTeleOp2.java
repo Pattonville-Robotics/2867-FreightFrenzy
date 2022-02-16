@@ -60,12 +60,17 @@ public class FreightTeleOp2 extends OpMode {
         double leftSpd = leftInput + rightInput;
         double rightSpd = leftInput - rightInput;
 
-        // Slow if bumpers pushed
-        if(gamepad1.right_bumper && gamepad1.left_bumper){
+        // Use bumpers and/or triggers to decrease movement speed
+        // Left bumper/trigger decrease speed to 50%
+        // Right bumper/trigger decrease speed to 25%
+        // WHen both are held at once, decrease speed to 12.5%
+        boolean slowLeft = gamepad1.left_bumper || gamepad1.left_trigger>0;
+        boolean slowRight = gamepad1.right_bumper || gamepad1.right_trigger>0;
+        if(slowRight && slowLeft){
             maxSpeed = 0.125; // L+R  = 12.5% speed
-        } else if (gamepad1.right_bumper) {
+        } else if (slowRight) {
             maxSpeed = 0.25; // R    = 25% speed
-        } else if (gamepad1.left_bumper) {
+        } else if (slowLeft) {
             maxSpeed = 0.5; // L    = 50% speed
         } else {
             maxSpeed = 1.0; // None = 100% speed
