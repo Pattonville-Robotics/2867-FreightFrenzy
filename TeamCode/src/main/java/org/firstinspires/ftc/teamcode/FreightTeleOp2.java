@@ -101,14 +101,11 @@ public class FreightTeleOp2 extends OpMode {
         // Tuned up/down based on left joystick's Y value
         arm.moveToPosition(currentArmPosition.ticks + (int)(gamepad2.left_stick_y * 30), 0.7);
 
-
-        // Claw - Right trigger to close hand, left trigger to open hand.
+        // Claw - Right trigger to close hand, left trigger to open hand. Works analogously
         arm.setHandPower(gamepad2.right_trigger - gamepad2.left_trigger);
-
 
         // Wrist - Move with right joystick up&down
         arm.setWristPower(Math.abs(gamepad2.right_stick_y));
-
 
         // Spinny - When not being held, time start is set to current time millis.
         // When the button is held, the timer is not reset and allowed to run.

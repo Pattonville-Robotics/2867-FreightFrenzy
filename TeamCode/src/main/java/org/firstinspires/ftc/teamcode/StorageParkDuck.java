@@ -94,7 +94,7 @@ public class StorageParkDuck {
         spinny.setPower(0);
         linearOp.sleep(200);
 
-        // (Red only) Undo blue rotation from earlier
+        // (Red only) Undo red rotation from earlier
         if (isRedSide){
             encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 25);
         }
