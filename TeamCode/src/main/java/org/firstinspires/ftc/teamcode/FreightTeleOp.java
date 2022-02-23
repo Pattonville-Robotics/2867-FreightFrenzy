@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.dependencies.Arm.ArmPosition;
 import org.firstinspires.ftc.teamcode.dependencies.ClawWithWristArm;
@@ -31,7 +32,7 @@ public class FreightTeleOp extends OpMode {
         arm = new ClawWithWristArm(
                 hardwareMap.get(DcMotor.class, "arm"),
                 hardwareMap.get(CRServo.class, "scoop"),
-                hardwareMap.get(CRServo.class, "wrist"));
+                hardwareMap.get(Servo.class, "wrist"));
 
         // IMU, used for orientation
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -75,13 +76,15 @@ public class FreightTeleOp extends OpMode {
 
         // arm
         if(gamepad1.a){
-            arm.moveToPosition(ArmPosition.NEUTRAL, 0.7);
+            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_NEUTRAL : ArmPosition.NEUTRAL, 0.3);
         }else if(gamepad1.x){
-            arm.moveToPosition(ArmPosition.ONE, 0.7);
+            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_ONE : ArmPosition.ONE, 0.3);
         }else if(gamepad1.y){
-            arm.moveToPosition(ArmPosition.TWO, 0.7);
+            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_TWO : ArmPosition.TWO, 0.3);
         }else if(gamepad1.b){
-            arm.moveToPosition(ArmPosition.THREE, 0.7);
+            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_THREE : ArmPosition.THREE, 0.3);
+        }else if(gamepad1.right_stick_button){
+            arm.moveToPosition(ArmPosition.CAP, 0.3);
         }
 
         // hand
@@ -95,11 +98,11 @@ public class FreightTeleOp extends OpMode {
 
         // wrist
         if(gamepad1.dpad_left){
-            arm.moveWristBack();
+            arm.wristUp();
         }else if(gamepad1.dpad_right){
-            arm.moveWristForward();
-        } else {
-            arm.stopWrist();
+            arm.wristDown();
+        }else if(gamepad1.start){
+            arm.wristCap();
         }
 
         // spinny

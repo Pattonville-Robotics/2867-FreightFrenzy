@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.dependencies.AlliancePosition;
 import org.firstinspires.ftc.teamcode.dependencies.AllianceSide;
@@ -35,7 +36,7 @@ public class WarehousePark {
         Arm arm = new ClawWithWristArm(
                 hardwareMap.get(DcMotor.class, "arm"),
                 hardwareMap.get(CRServo.class, "scoop"),
-                hardwareMap.get(CRServo.class, "wrist"));
+                hardwareMap.get(Servo.class, "wrist"));
         ColorSensor colorSensor = new ColorSensor("Webcam", hardwareMap, linearOp);
 
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");

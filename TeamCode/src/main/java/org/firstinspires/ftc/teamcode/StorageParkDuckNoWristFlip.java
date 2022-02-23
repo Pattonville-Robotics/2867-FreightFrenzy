@@ -13,24 +13,23 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.dependencies.AllianceSide;
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
+import org.firstinspires.ftc.teamcode.dependencies.ClawWithWristArm;
 import org.firstinspires.ftc.teamcode.dependencies.ColorSensor;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
-import org.firstinspires.ftc.teamcode.dependencies.ClawWithWristArm;
 import org.firstinspires.ftc.teamcode.dependencies.TwoWheelEncoder;
 import org.firstinspires.ftc.teamcode.dependencies.rotationalDirection;
 
-public class StorageParkDuck {
+public class StorageParkDuckNoWristFlip {
     public static void run(LinearOpMode linearOp, AllianceSide allianceSide) {
         HardwareMap hardwareMap = linearOp.hardwareMap;
         DcMotor leftDrive = hardwareMap.get(DcMotor.class, "left");
         DcMotor rightDrive = hardwareMap.get(DcMotor.class, "right");
         DcMotor spinny = hardwareMap.dcMotor.get("spinny");
-        ClawWithWristArm arm = new ClawWithWristArm(
+        Arm arm = new ClawWithWristArm(
                 hardwareMap.get(DcMotor.class, "arm"),
                 hardwareMap.get(CRServo.class, "scoop"),
                 hardwareMap.get(Servo.class, "wrist"));
-
-//        ColorSensor colorSensor = new ColorSensor("Webcam", hardwareMap, linearOp);
+        ColorSensor colorSensor = new ColorSensor("Webcam", hardwareMap, linearOp);
 
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -43,7 +42,7 @@ public class StorageParkDuck {
 
 
         TwoWheelEncoder encoder = new TwoWheelEncoder(leftDrive, rightDrive, imu, CommonParameters.FREIGHT_ROBOT, linearOp);
-//        linearOp.waitForStart();
+        linearOp.waitForStart();
 
         // some variables to simplify stuff
         boolean isRedSide = allianceSide == AllianceSide.RED;
@@ -51,19 +50,17 @@ public class StorageParkDuck {
 
         // Use camera frame to determine arm position
         Arm.ArmPosition armPos;
-//        if (colorSensor.isRegionGreen(2)){
-//            armPos = Arm.ArmPosition.THREE;
-//        } else if (colorSensor.isRegionGreen(1)){
-//            armPos = Arm.ArmPosition.TWO;
-//        } else {
-//            armPos = Arm.ArmPosition.ONE;
-//        }
-        armPos = Arm.ArmPosition.THREE;
+        if (colorSensor.isRegionGreen(2)){
+            armPos = Arm.ArmPosition.THREE;
+        } else if (colorSensor.isRegionGreen(1)){
+            armPos = Arm.ArmPosition.TWO;
+        } else {
+            armPos = Arm.ArmPosition.ONE;
+        }
 
         // Move forward slightly before turning and bring arm up
         arm.moveToPosition(armPos, 0.55);
         encoder.moveInches(5, 0.6);
-        arm.wristDown();
 
         // Turn towards the shipping hub and move to it
         rotationalDirection towardsHub = isRedSide ? rotationalDirection.CLOCKWISE : rotationalDirection.COUNTERCLOCKWISE;
@@ -109,7 +106,6 @@ public class StorageParkDuck {
         encoder.rotateDegrees(towardsStorage, isRedSide ? 58.5 : 54, 0.6);
         encoder.moveInches(19.84, 0.6);
         arm.moveToPosition(Arm.ArmPosition.NEUTRAL, 0.6);
-        arm.wristUp();
 
         // Once lined up vertically, turn 90 degrees and back up
         encoder.rotateDegrees(towardsHub, 90);

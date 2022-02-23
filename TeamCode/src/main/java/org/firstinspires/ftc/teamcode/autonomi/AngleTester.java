@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.dependencies.Arm;
 import org.firstinspires.ftc.teamcode.dependencies.CommonParameters;
@@ -27,7 +28,7 @@ public class AngleTester extends LinearOpMode {
         Arm arm = new ClawWithWristArm(
                  hardwareMap.get(DcMotor.class, "arm"),
                  hardwareMap.get(CRServo.class, "scoop"),
-                 hardwareMap.get(CRServo.class, "wrist"));
+                 hardwareMap.get(Servo.class, "wrist"));
         // colorSensor = new ColorSensor("Webcam", hardwareMap, this);
 
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");

@@ -10,9 +10,9 @@ public abstract class Arm {
     private final DcMotor armMotor;
 
     public enum ArmPosition {
-        NEUTRAL(0), ONE(-75), TWO(-140), THREE(-240),
-        BACK_NEUTRAL(0), BACK_ONE(-75), BACK_TWO(-140), BACK_THREE(-240),
-        CAP(-300);
+        NEUTRAL(0), ONE(70), TWO(133), THREE(233),
+        BACK_NEUTRAL(750), BACK_ONE(680), BACK_TWO(617), BACK_THREE(517),
+        CAP(465);
 
         public final int ticks;
         ArmPosition(int i) {

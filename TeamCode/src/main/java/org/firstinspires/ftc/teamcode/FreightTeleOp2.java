@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.dependencies.Arm.ArmPosition;
 import org.firstinspires.ftc.teamcode.dependencies.ClawWithWristArm;
@@ -31,7 +32,7 @@ public class FreightTeleOp2 extends OpMode {
         arm = new ClawWithWristArm(
                 hardwareMap.get(DcMotor.class, "arm"),
                 hardwareMap.get(CRServo.class, "scoop"),
-                hardwareMap.get(CRServo.class, "wrist"));
+                hardwareMap.get(Servo.class, "wrist"));
 
         // IMU, used for orientation
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -105,7 +106,13 @@ public class FreightTeleOp2 extends OpMode {
         arm.setHandPower(gamepad2.right_trigger - gamepad2.left_trigger);
 
         // Wrist - Move with right joystick up&down
-        arm.setWristPower(Math.abs(gamepad2.right_stick_y));
+        if (gamepad2.right_stick_y > 0.5){
+            arm.wristUp();
+        } else if (gamepad2.right_stick_y < 0.5) {
+            arm.wristDown();
+        } else if (Math.abs(gamepad2.right_stick_x) > 0.5){
+            arm.wristCap();
+        }
 
         // Spinny - When not being held, time start is set to current time millis.
         // When the button is held, the timer is not reset and allowed to run.
@@ -129,7 +136,7 @@ public class FreightTeleOp2 extends OpMode {
         telemetry.addData("right_trigger: ", gamepad2.right_trigger);
         telemetry.addData("arm position: ", arm.getArmMotor().getCurrentPosition());
         telemetry.addData("hand power: ", arm.getClaw().getPower());
-        telemetry.addData("wrist power: ", arm.getWrist().getPower());
+        telemetry.addData("wrist position: ", arm.getWrist().getPosition());
         telemetry.update();
     }
 

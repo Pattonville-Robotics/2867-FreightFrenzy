@@ -2,20 +2,19 @@ package org.firstinspires.ftc.teamcode.dependencies;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
 // Claw with Wrist Arm - an arm that has a claw attached to it, of which a wrist is also attached
 // which can bend the hand backward and allow it to drop items behind it when the arm is extended
 // all the way backwards. Useful for delivering blocks backwards and for capping.
 
-public class ClawWithWristArm extends Arm {
+public class ClawWithWristContServoArm extends Arm {
     private final CRServo claw;
-    private final Servo wrist;
+    private final CRServo wrist;
 
     private final static double HAND_POWER = 1.0;
     private final static double WRIST_POWER = 0.7;
 
-    public ClawWithWristArm(DcMotor armMotor, CRServo claw, Servo wrist) {
+    public ClawWithWristContServoArm(DcMotor armMotor, CRServo claw, CRServo wrist) {
         super(armMotor);
         this.claw = claw;
         this.wrist = wrist;
@@ -46,14 +45,20 @@ public class ClawWithWristArm extends Arm {
 
 
     // === Wrist
-    public void wristDown(){
-        wrist.setPosition(0.7);
+    public void moveWristBack(){
+        this.wrist.setPower(-WRIST_POWER);
     }
-    public void wristCap(){
-        wrist.setPosition(0.4);
+
+    public void moveWristForward(){
+        this.wrist.setPower(WRIST_POWER);
     }
-    public void wristUp(){
-        wrist.setPosition(0.0);
+
+    public void stopWrist(){
+        this.wrist.setPower(0);
+    }
+
+    public void setWristPower(double power){
+        wrist.setPower(power);
     }
 
 
@@ -62,7 +67,7 @@ public class ClawWithWristArm extends Arm {
         return this.claw;
     }
 
-    public Servo getWrist() {
+    public CRServo getWrist() {
         return wrist;
     }
 }
