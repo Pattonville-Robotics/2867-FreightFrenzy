@@ -13,7 +13,6 @@ public class ClawWithWristArm extends Arm {
     private final Servo wrist;
 
     private final static double HAND_POWER = 1.0;
-    private final static double WRIST_POWER = 0.7;
 
     public ClawWithWristArm(DcMotor armMotor, CRServo claw, Servo wrist) {
         super(armMotor);
@@ -50,7 +49,7 @@ public class ClawWithWristArm extends Arm {
         wrist.setPosition(0.7);
     }
     public void wristCap(){
-        wrist.setPosition(0.4);
+        wrist.setPosition(0.35);
     }
     public void wristUp(){
         wrist.setPosition(0.0);
