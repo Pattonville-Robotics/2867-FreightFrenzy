@@ -10,8 +10,10 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.dependencies.Arm.ArmPosition;
 import org.firstinspires.ftc.teamcode.dependencies.ClawWithWristArm;
 
@@ -23,10 +25,12 @@ public class FreightTeleOp extends OpMode {
     DcMotor spinny;
     ClawWithWristArm arm;
     BNO055IMU imu;
+    DistanceSensor dist;
 
     public static double ARM_POWER = 0.3;
 
     public void init() {
+        dist = hardwareMap.get(DistanceSensor.class, "distance");
         left = hardwareMap.dcMotor.get("left");
         right = hardwareMap.dcMotor.get("right");
         spinny = hardwareMap.dcMotor.get("spinny");
@@ -125,6 +129,7 @@ public class FreightTeleOp extends OpMode {
         telemetry.addData("arm position: ", arm.getArmMotor().getCurrentPosition());
         telemetry.addData("hand power: ", arm.getClaw().getPower());
         telemetry.addData("wrist position: ", arm.getWrist().getPosition());
+        telemetry.addData("distance: ", dist.getDistance(DistanceUnit.INCH));
         telemetry.update();
     }
 }

@@ -71,9 +71,8 @@ public class StorageParkDuck {
         encoder.moveInches(DcMotorSimple.Direction.FORWARD, 23.25, 0.55);
 
         // Spit out the block
-        arm.startOuttake();
-        linearOp.sleep(3600);
-        arm.stopHand();
+        linearOp.sleep(2000);
+        arm.openHand();
 
         // Back up slightly, turn towards carousel and back up into it (slow downs when near it)
         encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6, 0.65);
