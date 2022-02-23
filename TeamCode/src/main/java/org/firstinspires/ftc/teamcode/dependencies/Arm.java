@@ -11,8 +11,8 @@ public abstract class Arm {
 
     public enum ArmPosition {
         NEUTRAL(0), ONE(70), TWO(133), THREE(233),
-        BACK_NEUTRAL(750), BACK_ONE(680), BACK_TWO(617), BACK_THREE(517),
-        CAP(465);
+        BACK_NEUTRAL(720), BACK_ONE(650), BACK_TWO(587), BACK_THREE(487),
+        CAP(445);
 
         public final int ticks;
         ArmPosition(int i) {
@@ -48,6 +48,7 @@ public abstract class Arm {
 
          */
     }
+
     public void setArmPower(double power){
         this.armMotor.setPower(power);
     }

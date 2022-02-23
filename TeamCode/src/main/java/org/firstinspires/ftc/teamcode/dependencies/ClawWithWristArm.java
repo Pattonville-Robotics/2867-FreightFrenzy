@@ -24,15 +24,15 @@ public class ClawWithWristArm extends Arm {
 
     // == Hand
     public void closeHand(){
-        this.claw.setPower(-HAND_POWER);
+        claw.setPower(-HAND_POWER);
     }
 
     public void openHand(){
-        this.claw.setPower(HAND_POWER);
+        claw.setPower(HAND_POWER);
     }
 
     public void stopHand(){
-        this.claw.setPower(0);
+        claw.setPower(0);
     }
 
     public void setHandPower(double power){

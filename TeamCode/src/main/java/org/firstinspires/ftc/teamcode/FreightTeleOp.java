@@ -24,6 +24,8 @@ public class FreightTeleOp extends OpMode {
     ClawWithWristArm arm;
     BNO055IMU imu;
 
+    public static double ARM_POWER = 0.3;
+
     public void init() {
         left = hardwareMap.dcMotor.get("left");
         right = hardwareMap.dcMotor.get("right");
@@ -76,25 +78,26 @@ public class FreightTeleOp extends OpMode {
 
         // arm
         if(gamepad1.a){
-            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_NEUTRAL : ArmPosition.NEUTRAL, 0.3);
+            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_NEUTRAL : ArmPosition.NEUTRAL, 0.7);
         }else if(gamepad1.x){
-            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_ONE : ArmPosition.ONE, 0.3);
+            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_ONE : ArmPosition.ONE, 0.7);
         }else if(gamepad1.y){
-            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_TWO : ArmPosition.TWO, 0.3);
+            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_TWO : ArmPosition.TWO, 0.7);
         }else if(gamepad1.b){
-            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_THREE : ArmPosition.THREE, 0.3);
-        }else if(gamepad1.right_stick_button){
-            arm.moveToPosition(ArmPosition.CAP, 0.3);
+            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_THREE : ArmPosition.THREE, 0.7);
+        }else if(gamepad1.right_stick_button || gamepad1.start){
+            arm.moveToPosition(ArmPosition.CAP, 0.7);
         }
 
         // hand
-        if(gamepad1.left_trigger>0){
-            arm.closeHand();
-        }else if(gamepad1.right_trigger>0){
-            arm.openHand();
-        }else{
-            arm.stopHand();
-        }
+//        if(gamepad1.left_trigger>0){
+//            arm.closeHand();
+//        }else if(gamepad1.right_trigger>0){
+//            arm.openHand();
+//        }else{
+//            arm.stopHand();
+//        }
+        arm.setHandPower(gamepad1.left_trigger - gamepad1.right_trigger);
 
         // wrist
         if(gamepad1.dpad_left){
@@ -117,13 +120,11 @@ public class FreightTeleOp extends OpMode {
         }
 
         // telemetry
-        telemetry.addData("A: ", gamepad1.a);
-        telemetry.addData("B: ", gamepad1.b);
-        telemetry.addData("X: ", gamepad1.x);
-        telemetry.addData("Y: ", gamepad1.y);
         telemetry.addData("left_trigger: ", gamepad1.left_trigger);
         telemetry.addData("right_trigger: ", gamepad1.right_trigger);
-        telemetry.addData("encoderPos: ", arm.getArmMotor().getCurrentPosition());
+        telemetry.addData("arm position: ", arm.getArmMotor().getCurrentPosition());
+        telemetry.addData("hand power: ", arm.getClaw().getPower());
+        telemetry.addData("wrist position: ", arm.getWrist().getPosition());
         telemetry.update();
     }
 }

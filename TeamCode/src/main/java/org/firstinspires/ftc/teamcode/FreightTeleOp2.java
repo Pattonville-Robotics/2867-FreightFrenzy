@@ -83,8 +83,8 @@ public class FreightTeleOp2 extends OpMode {
 
 
         // ==== GAMEPAD 2 - Arm (Jack)
-        // If left bumper is held while a button is pressed, the arm is moved to its backwards variant
-        boolean backArm = gamepad2.left_bumper;
+        // If a bumper or back button is held while a button is pressed, the arm is moved to its backwards variant
+        boolean backArm = gamepad2.left_bumper || gamepad2.right_bumper || gamepad2.back;
 
         // Move to appropriate location based on button pressed and left bumper state
         if(gamepad2.a){
@@ -95,22 +95,24 @@ public class FreightTeleOp2 extends OpMode {
             currentArmPosition = backArm ? ArmPosition.BACK_TWO : ArmPosition.TWO;
         }else if(gamepad2.b){
             currentArmPosition = backArm ? ArmPosition.BACK_THREE : ArmPosition.THREE;
-        }else if (gamepad2.left_stick_button || gamepad2.right_stick_button){
+        }else if (gamepad2.left_stick_button || gamepad2.right_stick_button || gamepad2.start){
             currentArmPosition = ArmPosition.CAP;
         }
 
-        // Tuned up/down based on left joystick's Y value
-        arm.moveToPosition(currentArmPosition.ticks + (int)(gamepad2.left_stick_y * 30), 0.7);
+        // Left stick's X can tune the arm slightly up and down from its desired tick location.
+        // Left stick's Y decreases the power of the arm, to prevent it from overshooting.
+        arm.moveToPosition(currentArmPosition.ticks + (int)(gamepad2.left_stick_y * 30),
+                0.7 * (1 - gamepad2.left_stick_x*0.8));
 
         // Claw - Right trigger to close hand, left trigger to open hand. Works analogously
-        arm.setHandPower(gamepad2.right_trigger - gamepad2.left_trigger);
+        arm.setHandPower(gamepad2.left_trigger - gamepad2.right_trigger);
 
-        // Wrist - Move with right joystick up&down
-        if (gamepad2.right_stick_y > 0.5){
+        // Wrist - Move with right joystick. Up Up to flip wrist up, down to flip wrist down, side to go to cap position
+        if (gamepad2.right_stick_y > 0.6){
             arm.wristUp();
-        } else if (gamepad2.right_stick_y < 0.5) {
+        } else if (gamepad2.right_stick_y < 0.6) {
             arm.wristDown();
-        } else if (Math.abs(gamepad2.right_stick_x) > 0.5){
+        } else if (Math.abs(gamepad2.right_stick_x) > 0.6){
             arm.wristCap();
         }
 
@@ -131,7 +133,7 @@ public class FreightTeleOp2 extends OpMode {
 
         // == Telemetry
         telemetry.addLine(String.format("A: %s, B: %s, X: %s, Y: %s",
-                gamepad1.a, gamepad2.b, gamepad2.x, gamepad2.y));
+                gamepad2.a, gamepad2.b, gamepad2.x, gamepad2.y));
         telemetry.addData("left_trigger: ", gamepad2.left_trigger);
         telemetry.addData("right_trigger: ", gamepad2.right_trigger);
         telemetry.addData("arm position: ", arm.getArmMotor().getCurrentPosition());
