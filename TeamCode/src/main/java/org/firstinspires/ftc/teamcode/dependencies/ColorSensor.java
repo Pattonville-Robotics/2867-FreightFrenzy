@@ -10,7 +10,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 public class ColorSensor {
     CameraColorSensor camSensor;
     LinearOpMode linearOpMode;
-    final Point[] DEFAULT_POINTS = {new Point(1, 98), new Point(100, 40), new Point(239, 40)};
+    final Point[] DEFAULT_POINTS = {new Point(1, 30), new Point(155, 30), new Point(239, 98)};
     final int DEFAULT_WIDTH = 80;
     final int DEFAULT_HEIGHT = 90;
     public ColorSensor(String cameraName, HardwareMap hardwareMap, LinearOpMode linearOpMode){

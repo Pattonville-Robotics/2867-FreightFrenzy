@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.dependencies.Arm.ArmPosition;
 import org.firstinspires.ftc.teamcode.dependencies.ClawWithWristArm;
 
-@TeleOp(name="Freight TeleOp 2 Player", group="TeleOp")
+@TeleOp(name="Freight TeleOps 2 Player", group="TeleOp")
 
 public class FreightTeleOp2 extends OpMode {
     DcMotor left;
@@ -83,6 +83,16 @@ public class FreightTeleOp2 extends OpMode {
 
 
         // ==== GAMEPAD 2 - Arm (Jack)
+        // DPAD UP/DOWN - Spin Carousel
+        // LEFT STICK UP/DOWN - Wrist Up/Down
+        // LEFT STICK LEFT/RIGHT - Wrist Cap Position
+        // A/B/C/D - Neutral -> Three Arm Levels
+        // ANY BUMPER - Hold to Enable Back arm levels.
+        // LEFT STICK UP/DOWN - Tune arm Up/Down.
+        // LEFT STICK LEFT/RIGHT - Tunes Arm Power.
+
+
+
         // If a bumper or back button is held while a button is pressed, the arm is moved to its backwards variant
         boolean backArm = gamepad2.left_bumper || gamepad2.right_bumper || gamepad2.back;
 

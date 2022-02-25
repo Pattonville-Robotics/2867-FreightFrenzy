@@ -30,7 +30,7 @@ public class StorageParkDuck {
                 hardwareMap.get(CRServo.class, "scoop"),
                 hardwareMap.get(Servo.class, "wrist"));
 
-//        ColorSensor colorSensor = new ColorSensor("Webcam", hardwareMap, linearOp);
+        ColorSensor colorSensor = new ColorSensor("Webcam", hardwareMap, linearOp);
 
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -43,7 +43,8 @@ public class StorageParkDuck {
 
 
         TwoWheelEncoder encoder = new TwoWheelEncoder(leftDrive, rightDrive, imu, CommonParameters.FREIGHT_ROBOT, linearOp);
-//        linearOp.waitForStart();
+        linearOp.waitForStart();
+        arm.closeHand();
 
         // some variables to simplify stuff
         boolean isRedSide = allianceSide == AllianceSide.RED;
@@ -51,14 +52,14 @@ public class StorageParkDuck {
 
         // Use camera frame to determine arm position
         Arm.ArmPosition armPos;
-//        if (colorSensor.isRegionGreen(2)){
-//            armPos = Arm.ArmPosition.THREE;
-//        } else if (colorSensor.isRegionGreen(1)){
-//            armPos = Arm.ArmPosition.TWO;
-//        } else {
-//            armPos = Arm.ArmPosition.ONE;
-//        }
-        armPos = Arm.ArmPosition.THREE;
+        if (colorSensor.isRegionGreen(0)){
+            armPos = Arm.ArmPosition.ONE;
+        } else if (colorSensor.isRegionGreen(1)){
+            armPos = Arm.ArmPosition.TWO;
+        } else {
+            armPos = Arm.ArmPosition.THREE;
+        }
+        //armPos = Arm.ArmPosition.THREE;
 
         // Move forward slightly before turning and bring arm up
         arm.moveToPosition(armPos, 0.55);
@@ -71,8 +72,9 @@ public class StorageParkDuck {
         encoder.moveInches(DcMotorSimple.Direction.FORWARD, 23.25, 0.55);
 
         // Spit out the block
-        linearOp.sleep(2000);
+
         arm.openHand();
+        linearOp.sleep(1000);
 
         // Back up slightly, turn towards carousel and back up into it (slow downs when near it)
         encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6, 0.65);
@@ -109,6 +111,7 @@ public class StorageParkDuck {
         encoder.moveInches(19.84, 0.6);
         arm.moveToPosition(Arm.ArmPosition.NEUTRAL, 0.6);
         arm.wristUp();
+        arm.stopHand();
 
         // Once lined up vertically, turn 90 degrees and back up
         encoder.rotateDegrees(towardsHub, 90);
