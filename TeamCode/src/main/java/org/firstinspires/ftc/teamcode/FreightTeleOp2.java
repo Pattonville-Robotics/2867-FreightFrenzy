@@ -153,6 +153,6 @@ public class FreightTeleOp2 extends OpMode {
     }
 
     private boolean isFastSpeed(){
-        return System.currentTimeMillis() > timeSinceCycleStart+1800 || gamepad1.left_bumper;
+        return System.currentTimeMillis() > timeSinceCycleStart+1300 || gamepad1.left_bumper;
     }
 }

@@ -9,10 +9,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public abstract class Arm {
     private final DcMotor armMotor;
 
+
     public enum ArmPosition {
-        NEUTRAL(0), ONE(70), TWO(133), THREE(233),
-        BACK_NEUTRAL(590), BACK_ONE(555), BACK_TWO(530), BACK_THREE(487),
-        CAP(445);
+        NEUTRAL(0), ONE(70), TWO(133), THREE(210),
+        BACK_NEUTRAL(620), BACK_ONE(575), BACK_TWO(550), BACK_THREE(487),
+        CAP(435);
 
         public final int ticks;
         ArmPosition(int i) {
@@ -20,6 +21,7 @@ public abstract class Arm {
         }
     }
 
+    public int currentPosition;
     public Arm(DcMotor armMotor) {
         this.armMotor = armMotor;
         this.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -27,6 +29,7 @@ public abstract class Arm {
             armMotor.setTargetPosition(0);
             armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
+        this.currentPosition = 0;
     }
 
     public void moveToPosition(ArmPosition pos, double power){
@@ -39,7 +42,8 @@ public abstract class Arm {
             armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
         armMotor.setTargetPosition(ticks);
-        armMotor.setPower(power);
+        armMotor.setPower(Math.abs(ticks-currentPosition)>200 ? power*0.6 : power);
+        currentPosition = ticks;
         /*
         while(armMotor.isBusy()&&(Math.abs(armMotor.getTargetPosition()-armMotor.getCurrentPosition())>10)){
             Thread.yield();
@@ -51,6 +55,7 @@ public abstract class Arm {
 
     public void setArmPower(double power){
         this.armMotor.setPower(power);
+        this.currentPosition = this.armMotor.getCurrentPosition();
     }
     public void stopArm(){
         this.armMotor.setPower(0);

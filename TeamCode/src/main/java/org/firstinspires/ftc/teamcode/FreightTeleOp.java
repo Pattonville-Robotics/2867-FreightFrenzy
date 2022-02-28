@@ -82,13 +82,13 @@ public class FreightTeleOp extends OpMode {
 
         // arm
         if(gamepad1.a){
-            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_NEUTRAL : ArmPosition.NEUTRAL, 0.7);
+            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_NEUTRAL : ArmPosition.NEUTRAL, 0.5);
         }else if(gamepad1.x){
-            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_ONE : ArmPosition.ONE, 0.7);
+            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_ONE : ArmPosition.ONE, 0.5);
         }else if(gamepad1.y){
-            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_TWO : ArmPosition.TWO, 0.7);
+            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_TWO : ArmPosition.TWO, 0.5);
         }else if(gamepad1.b){
-            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_THREE : ArmPosition.THREE, 0.7);
+            arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_THREE : ArmPosition.THREE, 0.5);
         }else if(gamepad1.right_stick_button || gamepad1.start){
             arm.moveToPosition(ArmPosition.CAP, 0.7);
         }

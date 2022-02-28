@@ -54,7 +54,7 @@ public class StorageParkDuck {
         Arm.ArmPosition armPos;
         if (colorSensor.isRegionGreen(0)){
             armPos = Arm.ArmPosition.ONE;
-        } else if (colorSensor.isRegionGreen(1)){
+        } else if (colorSensor.isRegionGreen(2)){
             armPos = Arm.ArmPosition.TWO;
         } else {
             armPos = Arm.ArmPosition.THREE;
@@ -69,7 +69,7 @@ public class StorageParkDuck {
         // Turn towards the shipping hub and move to it
         rotationalDirection towardsHub = isRedSide ? rotationalDirection.CLOCKWISE : rotationalDirection.COUNTERCLOCKWISE;
         encoder.rotateDegrees(towardsHub, 33.75, 0.35);
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 23.25, 0.55);
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 22.25, 0.55);
 
         // Spit out the block
 
@@ -79,35 +79,38 @@ public class StorageParkDuck {
         // Back up slightly, turn towards carousel and back up into it (slow downs when near it)
         encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6, 0.65);
         arm.moveToPosition(Arm.ArmPosition.ONE, 0.5);
-        encoder.rotateDegrees(towardsHub, isRedSide ? 29.5 : 39.5, 0.4);
+        arm.closeHand();
+        arm.wristUp();
+        encoder.rotateDegrees(towardsHub, isRedSide ? 33.5 : 39.5, 0.4);
         encoder.moveInches(DcMotorSimple.Direction.REVERSE,
                 isRedSide ? 30 : 27.5,
                 0.725);
         encoder.moveInches(DcMotorSimple.Direction.REVERSE,
-                9.25,
+                6.25,
                 0.25);
 
         // (Red only) Spin towards the carousel and spin back afterwards
+        /*
         if (isRedSide){
             encoder.rotateDegrees(rotationalDirection.COUNTERCLOCKWISE, 25);
         }
-
+        */
         // Spin the carousel
         linearOp.sleep(200);
         spinny.setPower(isRedSide ? -0.2 : 0.2);
         linearOp.sleep(3200);
         spinny.setPower(0);
         linearOp.sleep(200);
-
+        /*
         // (Red only) Undo red rotation from earlier
         if (isRedSide){
             encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 25);
         }
-
+        */
         // Move forward, turn towards the storage unit (or whatever its called).
         encoder.moveInches(8, 0.5);
         rotationalDirection towardsStorage = isRedSide ? rotationalDirection.COUNTERCLOCKWISE : rotationalDirection.CLOCKWISE;
-        encoder.rotateDegrees(towardsStorage, isRedSide ? 58.5 : 54, 0.6);
+        encoder.rotateDegrees(towardsStorage, isRedSide ? 60.5 : 54, 0.6);
         encoder.moveInches(19.84, 0.6);
         arm.moveToPosition(Arm.ArmPosition.NEUTRAL, 0.6);
         arm.wristUp();

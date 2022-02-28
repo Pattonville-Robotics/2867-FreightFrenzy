@@ -46,7 +46,11 @@ public class ClawWithWristArm extends Arm {
 
     // === Wrist
     public void wristDown(){
-        wrist.setPosition(0.7);
+        if((ArmPosition.CAP.ticks>this.currentPosition)&&(this.currentPosition>=ArmPosition.TWO.ticks)){
+            wrist.setPosition(1);
+        }else {
+            wrist.setPosition(0.7);
+        }
     }
     public void wristCap(){
         wrist.setPosition(0.35);
