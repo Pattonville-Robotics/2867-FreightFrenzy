@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+// NOTE: this file used to be FreightAuto but was renamed to be more concisely named
 // This file contains the run method these 4 files call with different allianceSides and alliancePositions:
-// FreightAuto_RedLeft
-// FreightAuto_RedRight
-// FreightAuto_BlueLeft
-// FreightAuto_BlueRight
+// WarehousePark_RedLeft
+// WarehousePark_RedRight
+// WarehousePark_BlueLeft
+// WarehousePark_BlueRight
 // - jack
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -33,7 +34,7 @@ public class WarehousePark {
         HardwareMap hardwareMap = linearOp.hardwareMap;
         DcMotor leftDrive = hardwareMap.get(DcMotor.class, "left");
         DcMotor rightDrive = hardwareMap.get(DcMotor.class, "right");
-        Arm arm = new ClawWithWristArm(
+        ClawWithWristArm arm = new ClawWithWristArm(
                 hardwareMap.get(DcMotor.class, "arm"),
                 hardwareMap.get(CRServo.class, "scoop"),
                 hardwareMap.get(Servo.class, "wrist"));
@@ -65,6 +66,7 @@ public class WarehousePark {
 
         // Move the arm to the appropriate height
         arm.moveToPosition(armPos, 0.35);
+        arm.wristDown();
         encoder.moveInches(6);
 
         // Move to the hub (This will run while the arm is moving to save time)
@@ -117,6 +119,7 @@ public class WarehousePark {
         encoder.moveInches(distanceFromDepot);
         encoder.rotateDegrees(awayFromDepot, rotation2);
         encoder.moveInches(20);
+
 
         arm.moveToPosition(ArmPosition.NEUTRAL, 0.4);
 

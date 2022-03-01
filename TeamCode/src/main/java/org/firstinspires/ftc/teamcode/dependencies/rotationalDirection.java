@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.dependencies;
 
 public enum rotationalDirection {
-    CLOCKWISE, COUNTERCLOCKWISE
+    CLOCKWISE, COUNTERCLOCKWISE;
+
+    public rotationalDirection other(){
+        return (this==rotationalDirection.CLOCKWISE) ? COUNTERCLOCKWISE : CLOCKWISE;
+    }
 }

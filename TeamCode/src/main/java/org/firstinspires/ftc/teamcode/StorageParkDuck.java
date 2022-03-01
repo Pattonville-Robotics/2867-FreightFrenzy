@@ -68,26 +68,31 @@ public class StorageParkDuck {
 
         // Turn towards the shipping hub and move to it
         rotationalDirection towardsHub = isRedSide ? rotationalDirection.CLOCKWISE : rotationalDirection.COUNTERCLOCKWISE;
-        encoder.rotateDegrees(towardsHub, 33.75, 0.35);
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 22.25, 0.55);
+        encoder.rotateDegrees(towardsHub, 45.75, 0.35);
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 20, 0.55);
+        encoder.rotateDegrees(towardsHub.other(), 22, 0.35);
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, armPos==Arm.ArmPosition.THREE ? 3.25 : 1.25, 0.55);
 
         // Spit out the block
 
-        arm.openHand();
+        arm.stopHand();
         linearOp.sleep(1000);
-
+        if(armPos== Arm.ArmPosition.THREE) {
+            encoder.moveInches(DcMotorSimple.Direction.REVERSE, 2, 0.55);
+        }
         // Back up slightly, turn towards carousel and back up into it (slow downs when near it)
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 6, 0.65);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 4, 0.65);
+        encoder.rotateDegrees(towardsHub, 22, 0.35);
         arm.moveToPosition(Arm.ArmPosition.ONE, 0.5);
-        arm.closeHand();
+        linearOp.telemetry.speak("among us");
+        linearOp.telemetry.update();
+        //arm.closeHand();
         arm.wristUp();
-        encoder.rotateDegrees(towardsHub, isRedSide ? 33.5 : 39.5, 0.4);
+        encoder.rotateDegrees(towardsHub, isRedSide ? 29.75 : 39.5, 0.4);
         encoder.moveInches(DcMotorSimple.Direction.REVERSE,
-                isRedSide ? 30 : 27.5,
+                isRedSide ? 35 : 27.5,
                 0.725);
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE,
-                6.25,
-                0.25);
+        //encoder.moveInches(DcMotorSimple.Direction.REVERSE,2.25,0.25);
 
         // (Red only) Spin towards the carousel and spin back afterwards
         /*
