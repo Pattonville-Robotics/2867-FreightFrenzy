@@ -8,14 +8,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 // which can bend the hand backward and allow it to drop items behind it when the arm is extended
 // all the way backwards. Useful for delivering blocks backwards and for capping.
 
-public class ClawWithWristArm extends Arm {
-    private final CRServo claw;
+public class ClawWristServoClawArm extends Arm {
+    private final Servo claw;
     private final Servo wrist;
-    private double clawDesiredPower;
 
-    private final static double HAND_POWER = 1.0;
+    private final static double WIDE_POS = 0.0;
+    private final static double OPEN_POS = 0.5;
+    private final static double CLOSE_POS = 1.0;
 
-    public ClawWithWristArm(DcMotor armMotor, CRServo claw, Servo wrist) {
+    public ClawWristServoClawArm(DcMotor armMotor, Servo claw, Servo wrist) {
         super(armMotor);
         this.claw = claw;
         this.wrist = wrist;
@@ -24,19 +25,11 @@ public class ClawWithWristArm extends Arm {
 
     // == Hand
     public void closeHand(){
-        claw.setPower(HAND_POWER);
+        claw.setPosition(CLOSE_POS);
     }
 
     public void openHand(){
-        claw.setPower(-HAND_POWER);
-    }
-
-    public void stopHand(){
-        claw.setPower(0);
-    }
-
-    public void setHandPower(double power){
-        this.claw.setPower(power);
+        claw.setPosition(OPEN_POS);
     }
 
     // Required implementations, needed for general Arm instances
@@ -44,12 +37,14 @@ public class ClawWithWristArm extends Arm {
 
     public void startOuttake() { openHand(); }
 
+    public void stopHand() { openHand(); }
+
 
     // === Wrist
     public void wristDown(){
-        if(ArmPosition.CAP.ticks > this.currentPosition && this.currentPosition >= ArmPosition.TWO.ticks){
+        if((ArmPosition.CAP.ticks > this.currentPosition) && (this.currentPosition >= ArmPosition.TWO.ticks)){
             wrist.setPosition(1);
-        }else {
+        } else {
             wrist.setPosition(0.7);
         }
     }
@@ -62,7 +57,7 @@ public class ClawWithWristArm extends Arm {
 
 
     // == Accessors
-    public CRServo getClaw(){
+    public Servo getClaw(){
         return this.claw;
     }
 

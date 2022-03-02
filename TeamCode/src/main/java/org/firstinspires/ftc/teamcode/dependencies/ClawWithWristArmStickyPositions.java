@@ -2,19 +2,21 @@ package org.firstinspires.ftc.teamcode.dependencies;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 // Claw with Wrist Arm - an arm that has a claw attached to it, of which a wrist is also attached
 // which can bend the hand backward and allow it to drop items behind it when the arm is extended
 // all the way backwards. Useful for delivering blocks backwards and for capping.
 
-public class ClawWithWristContServoArm extends Arm {
+public class ClawWithWristArmStickyPositions extends Arm {
     private final CRServo claw;
-    private final CRServo wrist;
+    private final Servo wrist;
+    private double clawDesiredPosition;
+    private double wristDesiredPosition;
 
     private final static double HAND_POWER = 1.0;
-    private final static double WRIST_POWER = 0.7;
 
-    public ClawWithWristContServoArm(DcMotor armMotor, CRServo claw, CRServo wrist) {
+    public ClawWithWristArmStickyPositions(DcMotor armMotor, CRServo claw, Servo wrist) {
         super(armMotor);
         this.claw = claw;
         this.wrist = wrist;
@@ -23,15 +25,15 @@ public class ClawWithWristContServoArm extends Arm {
 
     // == Hand
     public void closeHand(){
-        this.claw.setPower(-HAND_POWER);
+        clawDesiredPosition = HAND_POWER;
     }
 
     public void openHand(){
-        this.claw.setPower(HAND_POWER);
+        clawDesiredPosition = 0;
     }
 
     public void stopHand(){
-        this.claw.setPower(0);
+        clawDesiredPosition = 0;
     }
 
     public void setHandPower(double power){
@@ -45,20 +47,24 @@ public class ClawWithWristContServoArm extends Arm {
 
 
     // === Wrist
-    public void moveWristBack(){
-        this.wrist.setPower(-WRIST_POWER);
+    public void wristDown(){
+        if(ArmPosition.BACK_THREE.ticks > this.currentPosition && this.currentPosition >= ArmPosition.TWO.ticks){
+            wristDesiredPosition = 1;
+        }else {
+            wristDesiredPosition = 0.7;
+        }
+    }
+    public void wristCap(){
+        wristDesiredPosition = 0.35;
+    }
+    public void wristUp(){
+        wristDesiredPosition = 0;
     }
 
-    public void moveWristForward(){
-        this.wrist.setPower(WRIST_POWER);
-    }
-
-    public void stopWrist(){
-        this.wrist.setPower(0);
-    }
-
-    public void setWristPower(double power){
-        wrist.setPower(power);
+    // Should be called every frame to update positions.
+    public void updateServos(){
+        claw.setPower(clawDesiredPosition);
+        wrist.setPosition(wristDesiredPosition);
     }
 
 
@@ -67,7 +73,7 @@ public class ClawWithWristContServoArm extends Arm {
         return this.claw;
     }
 
-    public CRServo getWrist() {
+    public Servo getWrist() {
         return wrist;
     }
 }

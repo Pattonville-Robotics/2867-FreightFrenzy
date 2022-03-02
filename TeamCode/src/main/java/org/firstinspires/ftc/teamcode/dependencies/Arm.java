@@ -42,7 +42,8 @@ public abstract class Arm {
             armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
         armMotor.setTargetPosition(ticks);
-        armMotor.setPower(Math.abs(ticks-currentPosition)>200 ? power*0.6 : power);
+//        armMotor.setPower(Math.abs(ticks-currentPosition)>200 ? power*0.6 : power);
+        armMotor.setPower(power);
         currentPosition = ticks;
         /*
         while(armMotor.isBusy()&&(Math.abs(armMotor.getTargetPosition()-armMotor.getCurrentPosition())>10)){

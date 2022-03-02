@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.dependencies.Arm.ArmPosition;
 import org.firstinspires.ftc.teamcode.dependencies.ClawWithWristArm;
+import org.firstinspires.ftc.teamcode.dependencies.ClawWithWristArmStickyPositions;
 
 @TeleOp(name="Freight TeleOps 2 Player", group="TeleOp")
 
@@ -21,7 +22,7 @@ public class FreightTeleOp2 extends OpMode {
     DcMotor left;
     DcMotor right;
     DcMotor spinny;
-    ClawWithWristArm arm;
+    ClawWithWristArmStickyPositions arm;
     BNO055IMU imu;
 
     public void init() {
@@ -29,7 +30,7 @@ public class FreightTeleOp2 extends OpMode {
         right = hardwareMap.dcMotor.get("right");
         spinny = hardwareMap.dcMotor.get("spinny");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-        arm = new ClawWithWristArm(
+        arm = new ClawWithWristArmStickyPositions(
                 hardwareMap.get(DcMotor.class, "arm"),
                 hardwareMap.get(CRServo.class, "scoop"),
                 hardwareMap.get(Servo.class, "wrist"));
@@ -112,7 +113,7 @@ public class FreightTeleOp2 extends OpMode {
         // Left stick's X can tune the arm slightly up and down from its desired tick location.
         // Left stick's Y decreases the power of the arm, to prevent it from overshooting.
         arm.moveToPosition(currentArmPosition.ticks + (int)(gamepad2.left_stick_y * 30),
-                0.7 * (1 - gamepad2.left_stick_x*0.8));
+                0.7 * (1 - Math.abs(gamepad2.left_stick_x)*0.8));
 
         // Claw - Right trigger to close hand, left trigger to open hand. Works analogously
         arm.setHandPower(gamepad2.left_trigger - gamepad2.right_trigger);
@@ -120,21 +121,25 @@ public class FreightTeleOp2 extends OpMode {
         // Wrist - Move with right joystick. Up Up to flip wrist up, down to flip wrist down, side to go to cap position
         if (gamepad2.right_stick_y > 0.6){
             arm.wristUp();
-        } else if (gamepad2.right_stick_y < 0.6) {
+        } else if (gamepad2.right_stick_y < -0.6) {
             arm.wristDown();
         } else if (Math.abs(gamepad2.right_stick_x) > 0.6){
             arm.wristCap();
         }
+        // ( Only run when using ClawWithWristArmStickyPositions, comment out if not )
+        arm.updateServos();
 
         // Spinny - When not being held, time start is set to current time millis.
         // When the button is held, the timer is not reset and allowed to run.
         // Whenever the current time exceeds the timer start value plus a certain amount,
         // the wheel will spin fast to boost the duck off the carousel against the metal bar.
+        // Blue side
         if(gamepad2.dpad_up){
-            spinny.setPower(isFastSpeed() ? -0.6 : -0.22);
+            spinny.setPower(isFastSpeed() ? -0.44 : -0.22);
         }
+        // Red side
         else if(gamepad2.dpad_down){
-            spinny.setPower(isFastSpeed() ? 0.6 : 0.22);
+            spinny.setPower(isFastSpeed() ? 0.44 : 0.22);
         } else {
             timeSinceCycleStart = System.currentTimeMillis();
             spinny.setPower(0);
@@ -153,6 +158,6 @@ public class FreightTeleOp2 extends OpMode {
     }
 
     private boolean isFastSpeed(){
-        return System.currentTimeMillis() > timeSinceCycleStart+1300 || gamepad1.left_bumper;
+        return System.currentTimeMillis() > timeSinceCycleStart+1250 || gamepad1.left_bumper;
     }
 }
