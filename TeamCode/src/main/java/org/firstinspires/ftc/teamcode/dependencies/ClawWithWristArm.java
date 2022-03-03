@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ClawWithWristArm extends Arm {
     private final CRServo claw;
     private final Servo wrist;
-    private double clawDesiredPower;
+    private double wristPos;
 
     private final static double HAND_POWER = 1.0;
 
@@ -47,10 +47,10 @@ public class ClawWithWristArm extends Arm {
 
     // === Wrist
     public void wristDown(){
-        if(ArmPosition.CAP.ticks > this.currentPosition && this.currentPosition >= ArmPosition.TWO.ticks){
+        if(ArmPosition.BACK_THREE.ticks > this.currentPosition && this.currentPosition >= ArmPosition.TWO.ticks){
             wrist.setPosition(1);
         }else {
-            wrist.setPosition(0.7);
+            wrist.setPosition(0.6);
         }
     }
     public void wristCap(){

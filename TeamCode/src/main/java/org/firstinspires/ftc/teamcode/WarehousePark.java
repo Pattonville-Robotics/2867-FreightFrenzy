@@ -53,20 +53,25 @@ public class WarehousePark {
 
         linearOp.waitForStart();
 
+        // highly essential code
+        linearOp.telemetry.speak("based");
+
         //Insert camera code here
         // for now, assume the duck is in the middle
-        ArmPosition armPos;
-        if (colorSensor.isRegionGreen(2)){
-            armPos = ArmPosition.THREE;
-        } else if (colorSensor.isRegionGreen(1)){
-            armPos = ArmPosition.TWO;
+        Arm.ArmPosition armPos;
+        if (colorSensor.isRegionGreen(0)){
+            armPos = Arm.ArmPosition.ONE;
+        } else if (colorSensor.isRegionGreen(2)){
+            armPos = Arm.ArmPosition.TWO;
         } else {
-            armPos = ArmPosition.ONE;
+            armPos = Arm.ArmPosition.THREE;
         }
 
         // Move the arm to the appropriate height
         arm.moveToPosition(armPos, 0.35);
+        arm.closeHand();
         arm.wristDown();
+        linearOp.sleep(250);
         encoder.moveInches(6);
 
         // Move to the hub (This will run while the arm is moving to save time)
@@ -77,12 +82,11 @@ public class WarehousePark {
             towardsHub = rotationalDirection.COUNTERCLOCKWISE;
         }
         encoder.rotateDegrees(towardsHub, 34.75, 0.3);
-        encoder.moveInches(23);
+        encoder.moveInches(armPos == ArmPosition.THREE ? 23.75 : 20, 0.5);
 
         // Spit out the block
-        arm.startOuttake();
-        linearOp.sleep(4000);
         arm.stopHand();
+        linearOp.sleep(1000);
 
         rotationalDirection towardsDepot;
         rotationalDirection awayFromDepot;
@@ -100,7 +104,7 @@ public class WarehousePark {
         || allianceSide == AllianceSide.BLUE && alliancePosition == AlliancePosition.LEFT ){
             // CLoser to depot
             rotation1 = 33;
-            rotation2 = 30;
+            rotation2 = 40;
             distanceFromDepot = 16;
         } else {
             // Further from depot
@@ -111,8 +115,10 @@ public class WarehousePark {
 
         // move back halfway, turn 90 degrees and move the rest of the way
         encoder.moveInches(DcMotorSimple.Direction.REVERSE, 12, 0.5);
-        encoder.rotateDegrees(towardsDepot, 180, 0.5);
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, 15, 0.5);
+        arm.wristUp();
+        arm.moveToPosition(ArmPosition.NEUTRAL, 0.5);
+        encoder.rotateDegrees(towardsDepot, 190, 0.5);
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, armPos == ArmPosition.THREE ? 15.75 : 12.5, 0.5);
 
         //turn towards garage opening and move towards it, then turn towards inside of garage and move into it
         encoder.rotateDegrees(awayFromDepot, rotation1);

@@ -12,7 +12,7 @@ public abstract class Arm {
 
     public enum ArmPosition {
         NEUTRAL(0), ONE(70), TWO(133), THREE(210),
-        BACK_NEUTRAL(620), BACK_ONE(575), BACK_TWO(550), BACK_THREE(487),
+        BACK_NEUTRAL(670), BACK_ONE(620), BACK_TWO(550), BACK_THREE(487),
         CAP(435);
 
         public final int ticks;

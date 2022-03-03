@@ -61,7 +61,6 @@ public class FreightTeleOp2 extends OpMode {
         double rightInput = gamepad1.left_stick_y;
         double leftSpd = leftInput + rightInput;
         double rightSpd = leftInput - rightInput;
-
         // Use bumpers and/or triggers to decrease movement speed
         // Left bumper/trigger decrease speed to 50%
         // Right bumper/trigger decrease speed to 25%
@@ -133,11 +132,11 @@ public class FreightTeleOp2 extends OpMode {
         // Whenever the current time exceeds the timer start value plus a certain amount,
         // the wheel will spin fast to boost the duck off the carousel against the metal bar.
         // Blue side
-        if(gamepad2.dpad_up){
+        if(gamepad2.dpad_up || gamepad1.dpad_up){
             spinny.setPower(isFastSpeed() ? -0.44 : -0.22);
         }
         // Red side
-        else if(gamepad2.dpad_down){
+        else if(gamepad2.dpad_down || gamepad1.dpad_down){
             spinny.setPower(isFastSpeed() ? 0.44 : 0.22);
         } else {
             timeSinceCycleStart = System.currentTimeMillis();

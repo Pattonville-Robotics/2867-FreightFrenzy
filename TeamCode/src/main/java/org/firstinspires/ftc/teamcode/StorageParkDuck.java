@@ -70,27 +70,29 @@ public class StorageParkDuck {
         rotationalDirection towardsHub = isRedSide ? rotationalDirection.CLOCKWISE : rotationalDirection.COUNTERCLOCKWISE;
         encoder.rotateDegrees(towardsHub, 45.75, 0.35);
         encoder.moveInches(DcMotorSimple.Direction.FORWARD, 20, 0.55);
-        encoder.rotateDegrees(towardsHub.other(), 22, 0.35);
-        encoder.moveInches(DcMotorSimple.Direction.FORWARD, armPos==Arm.ArmPosition.THREE ? 3.25 : 1.25, 0.55);
+        encoder.rotateDegrees(towardsHub.other(), isRedSide ? 22 : 30, 0.35);
+        encoder.moveInches(DcMotorSimple.Direction.FORWARD, armPos==Arm.ArmPosition.THREE ? 5.25 : 2.25, 0.55);
 
         // Spit out the block
 
         arm.stopHand();
         linearOp.sleep(1000);
         if(armPos== Arm.ArmPosition.THREE) {
-            encoder.moveInches(DcMotorSimple.Direction.REVERSE, 2, 0.55);
+            encoder.moveInches(DcMotorSimple.Direction.REVERSE, 4, 0.55);
         }
         // Back up slightly, turn towards carousel and back up into it (slow downs when near it)
         encoder.moveInches(DcMotorSimple.Direction.REVERSE, 4, 0.65);
-        encoder.rotateDegrees(towardsHub, 22, 0.35);
+        encoder.rotateDegrees(towardsHub, isRedSide ? 22 : 30, 0.35);
         arm.moveToPosition(Arm.ArmPosition.ONE, 0.5);
         linearOp.telemetry.speak("among us");
         linearOp.telemetry.update();
         //arm.closeHand();
         arm.wristUp();
-        encoder.rotateDegrees(towardsHub, isRedSide ? 26 : 39.5, 0.4);
+        //39.5
+        encoder.rotateDegrees(towardsHub, isRedSide ? 26 : 28, 0.4);
+        //27.5
         encoder.moveInches(DcMotorSimple.Direction.REVERSE,
-                isRedSide ? 36.5 : 27.5,
+                isRedSide ? 36.5 : 42.5,
                 0.725);
         //encoder.moveInches(DcMotorSimple.Direction.REVERSE,2.25,0.25);
 
@@ -98,6 +100,11 @@ public class StorageParkDuck {
         if (isRedSide){
             encoder.moveFreely(-0.2, -0.2);
 //            encoder.rotateDegrees(rotationalDirection.COUNTERCLOCKWISE, 25);
+            linearOp.sleep(550);
+            encoder.moveFreely(0, 0);
+        }else{
+            encoder.moveFreely(0.2, 0.2);
+//            encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 25);
             linearOp.sleep(550);
             encoder.moveFreely(0, 0);
         }
@@ -113,19 +120,26 @@ public class StorageParkDuck {
 //            encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 25);
             linearOp.sleep(550);
             encoder.moveFreely(0, 0);
+        }else{
+            encoder.moveFreely(-0.2, -0.2);
+//            encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 25);
+            linearOp.sleep(550);
+            encoder.moveFreely(0, 0);
         }
         // Move forward, turn towards the storage unit.
         encoder.moveInches(8, 0.5);
+
         rotationalDirection towardsStorage = isRedSide ? rotationalDirection.COUNTERCLOCKWISE : rotationalDirection.CLOCKWISE;
-        encoder.rotateDegrees(towardsStorage, isRedSide ? 60.5 : 54, 0.6);
-        encoder.moveInches(19.84, 0.6);
-        arm.moveToPosition(Arm.ArmPosition.NEUTRAL, 0.6);
+        encoder.rotateDegrees(towardsStorage, isRedSide ? 90 : 90, 0.6);
+        encoder.moveInches(isRedSide ? 19.84 : 23, 0.6);
+        arm.moveToPosition(Arm.ArmPosition.TWO, 0.6);
         arm.wristUp();
         arm.stopHand();
 
         // Once lined up vertically, turn 90 degrees and back up
         encoder.rotateDegrees(towardsHub, 90);
         encoder.moveInches(DcMotorSimple.Direction.REVERSE, 14, 0.35);
+        arm.moveToPosition(Arm.ArmPosition.NEUTRAL, 0.6);
     }
 
 }
