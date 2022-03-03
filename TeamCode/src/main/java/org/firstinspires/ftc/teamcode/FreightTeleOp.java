@@ -25,12 +25,10 @@ public class FreightTeleOp extends OpMode {
     DcMotor spinny;
     ClawWithWristArm arm;
     BNO055IMU imu;
-    DistanceSensor dist;
 
     public static double ARM_POWER = 0.3;
 
     public void init() {
-        dist = hardwareMap.get(DistanceSensor.class, "distance");
         left = hardwareMap.dcMotor.get("left");
         right = hardwareMap.dcMotor.get("right");
         spinny = hardwareMap.dcMotor.get("spinny");
@@ -90,7 +88,7 @@ public class FreightTeleOp extends OpMode {
         }else if(gamepad1.b){
             arm.moveToPosition(gamepad1.back ? ArmPosition.BACK_THREE : ArmPosition.THREE, 0.5);
         }else if(gamepad1.right_stick_button || gamepad1.start){
-            arm.moveToPosition(ArmPosition.CAP, 0.7);
+            arm.moveToPosition(ArmPosition.CAP, 0.5);
         }
 
         // hand
@@ -129,7 +127,7 @@ public class FreightTeleOp extends OpMode {
         telemetry.addData("arm position: ", arm.getArmMotor().getCurrentPosition());
         telemetry.addData("hand power: ", arm.getClaw().getPower());
         telemetry.addData("wrist position: ", arm.getWrist().getPosition());
-        telemetry.addData("distance: ", dist.getDistance(DistanceUnit.INCH));
+        //telemetry.addData("distance: ", dist.getDistance(DistanceUnit.INCH));
         telemetry.update();
     }
 }

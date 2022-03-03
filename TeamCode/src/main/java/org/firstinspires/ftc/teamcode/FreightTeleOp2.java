@@ -22,7 +22,7 @@ public class FreightTeleOp2 extends OpMode {
     DcMotor left;
     DcMotor right;
     DcMotor spinny;
-    ClawWithWristArmStickyPositions arm;
+    ClawWithWristArm arm;
     BNO055IMU imu;
 
     public void init() {
@@ -30,7 +30,7 @@ public class FreightTeleOp2 extends OpMode {
         right = hardwareMap.dcMotor.get("right");
         spinny = hardwareMap.dcMotor.get("spinny");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-        arm = new ClawWithWristArmStickyPositions(
+        arm = new ClawWithWristArm(
                 hardwareMap.get(DcMotor.class, "arm"),
                 hardwareMap.get(CRServo.class, "scoop"),
                 hardwareMap.get(Servo.class, "wrist"));
@@ -113,21 +113,20 @@ public class FreightTeleOp2 extends OpMode {
         // Left stick's X can tune the arm slightly up and down from its desired tick location.
         // Left stick's Y decreases the power of the arm, to prevent it from overshooting.
         arm.moveToPosition(currentArmPosition.ticks + (int)(gamepad2.left_stick_y * 30),
-                0.7 * (1 - Math.abs(gamepad2.left_stick_x)*0.8));
+                0.7 * (1 - Math.abs(gamepad2.left_stick_x)*0.5));
 
         // Claw - Right trigger to close hand, left trigger to open hand. Works analogously
-        arm.setHandPower(gamepad2.left_trigger - gamepad2.right_trigger);
+        arm.setHandPower(gamepad2.right_trigger - gamepad2.left_trigger);
 
         // Wrist - Move with right joystick. Up Up to flip wrist up, down to flip wrist down, side to go to cap position
-        if (gamepad2.right_stick_y > 0.6){
+        if (gamepad2.right_stick_y < -0.6){
             arm.wristUp();
-        } else if (gamepad2.right_stick_y < -0.6) {
+        } else if (gamepad2.right_stick_y > 0.6) {
             arm.wristDown();
         } else if (Math.abs(gamepad2.right_stick_x) > 0.6){
             arm.wristCap();
         }
         // ( Only run when using ClawWithWristArmStickyPositions, comment out if not )
-        arm.updateServos();
 
         // Spinny - When not being held, time start is set to current time millis.
         // When the button is held, the timer is not reset and allowed to run.
@@ -158,6 +157,7 @@ public class FreightTeleOp2 extends OpMode {
     }
 
     private boolean isFastSpeed(){
-        return System.currentTimeMillis() > timeSinceCycleStart+1250 || gamepad1.left_bumper;
+        return false;
+//        return System.currentTimeMillis() > timeSinceCycleStart+1250 || gamepad1.left_bumper;
     }
 }

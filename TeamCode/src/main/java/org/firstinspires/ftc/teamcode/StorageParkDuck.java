@@ -88,31 +88,33 @@ public class StorageParkDuck {
         linearOp.telemetry.update();
         //arm.closeHand();
         arm.wristUp();
-        encoder.rotateDegrees(towardsHub, isRedSide ? 29.75 : 39.5, 0.4);
+        encoder.rotateDegrees(towardsHub, isRedSide ? 26 : 39.5, 0.4);
         encoder.moveInches(DcMotorSimple.Direction.REVERSE,
-                isRedSide ? 35 : 27.5,
+                isRedSide ? 36.5 : 27.5,
                 0.725);
         //encoder.moveInches(DcMotorSimple.Direction.REVERSE,2.25,0.25);
 
         // (Red only) Spin towards the carousel and spin back afterwards
-        /*
         if (isRedSide){
-            encoder.rotateDegrees(rotationalDirection.COUNTERCLOCKWISE, 25);
+            encoder.moveFreely(-0.2, -0.2);
+//            encoder.rotateDegrees(rotationalDirection.COUNTERCLOCKWISE, 25);
+            linearOp.sleep(550);
+            encoder.moveFreely(0, 0);
         }
-        */
         // Spin the carousel
         linearOp.sleep(200);
         spinny.setPower(isRedSide ? -0.2 : 0.2);
         linearOp.sleep(3200);
         spinny.setPower(0);
         linearOp.sleep(200);
-        /*
         // (Red only) Undo red rotation from earlier
         if (isRedSide){
-            encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 25);
+            encoder.moveFreely(0.2, 0.2);
+//            encoder.rotateDegrees(rotationalDirection.CLOCKWISE, 25);
+            linearOp.sleep(550);
+            encoder.moveFreely(0, 0);
         }
-        */
-        // Move forward, turn towards the storage unit (or whatever its called).
+        // Move forward, turn towards the storage unit.
         encoder.moveInches(8, 0.5);
         rotationalDirection towardsStorage = isRedSide ? rotationalDirection.COUNTERCLOCKWISE : rotationalDirection.CLOCKWISE;
         encoder.rotateDegrees(towardsStorage, isRedSide ? 60.5 : 54, 0.6);
@@ -123,7 +125,7 @@ public class StorageParkDuck {
 
         // Once lined up vertically, turn 90 degrees and back up
         encoder.rotateDegrees(towardsHub, 90);
-        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 11, 0.35);
+        encoder.moveInches(DcMotorSimple.Direction.REVERSE, 14, 0.35);
     }
 
 }
