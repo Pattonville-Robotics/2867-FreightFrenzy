@@ -111,8 +111,8 @@ public class FreightTeleOp2 extends OpMode {
 
         // Left stick's X can tune the arm slightly up and down from its desired tick location.
         // Left stick's Y decreases the power of the arm, to prevent it from overshooting.
-        arm.moveToPosition(currentArmPosition.ticks + (int)(gamepad2.left_stick_y * 30),
-                0.7 * (1 - Math.abs(gamepad2.left_stick_x)*0.5));
+        arm.moveToPosition(currentArmPosition.ticks + (int)(gamepad2.left_stick_y * 50),
+                0.7 * (1 - Math.abs(gamepad2.left_stick_x)));
 
         // Claw - Right trigger to close hand, left trigger to open hand. Works analogously
         arm.setHandPower(gamepad2.right_trigger - gamepad2.left_trigger);
